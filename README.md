@@ -2,6 +2,10 @@
 
 정하경의 Web Projects · AI Video · Event Page 포트폴리오입니다.
 
+- Website: https://hagyeong-portfolio.vercel.app/
+- GitHub (private): https://github.com/hagyomi/hagyeong-portfolio
+- Vercel: https://vercel.com/wjdgkrud0921-3854s-projects/hagyeong-portfolio
+
 ## 로컬 실행
 
 Node.js 20 이상에서 별도 패키지 설치 없이 실행합니다.
