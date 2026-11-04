@@ -1,0 +1,1186 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>정하경 포트폴리오 — From Office to Design</title>
+        <meta
+            name="description"
+            content="사무 업무에서 익힌 정리와 소통의 경험을 UI/UX 디자인과 웹 퍼블리싱으로 연결하는 정하경의 포트폴리오."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="정하경 포트폴리오" />
+        <meta property="og:title" content="정하경 포트폴리오" />
+        <meta
+            property="og:description"
+            content="사무 업무에서 익힌 정리와 소통의 경험을 UI/UX 디자인과 웹 퍼블리싱으로 연결하는 정하경의 포트폴리오."
+        />
+
+        <meta property="og:image" content="images/jihyun-profile.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="정하경 포트폴리오" />
+        <meta
+            name="twitter:description"
+            content="사무 업무에서 익힌 정리와 소통의 경험을 UI/UX 디자인과 웹 퍼블리싱으로 연결하는 정하경의 포트폴리오."
+        />
+        <meta name="twitter:image" content="images/jihyun-profile.png" />
+        <link rel="icon" href="images/chatbot.svg" type="image/svg+xml" />
+        <link rel="stylesheet" href="portfolio-tokens.css" />
+        <link rel="stylesheet" href="style.css?v=20260731-webp-webm" />
+        <link rel="stylesheet" href="student.css?v=20261007" />
+        <link class="" rel="stylesheet" href="reference-alignment.css?v=20261007" />
+        <link rel="stylesheet" href="project-categories.css" />
+        <link rel="stylesheet" href="shortform.css" />
+        <link rel="stylesheet" href="personal-projects.css" />
+        <link rel="stylesheet" href="event-pages.css" />
+        <link rel="stylesheet" href="portfolio.css" />
+    </head>
+    <body>
+        <a class="skip-link" href="#mainContent">본문 바로가기</a>
+
+        <div class="fixed-grid-lines" aria-hidden="true">
+            <div class="fixed-grid-lines__col"></div>
+            <div class="fixed-grid-lines__col"></div>
+            <div class="fixed-grid-lines__col"></div>
+            <div class="fixed-grid-lines__col"></div>
+        </div>
+
+        <div class="scroll-dark-overlay" id="scrollDarkOverlay" aria-hidden="true"></div>
+
+        <header class="header">
+            <div class="header__inner">
+                <a href="#intro" class="logo" aria-label="정하경 포트폴리오 홈"
+                    ><span class="student-logo">HaGyeong Jung</span></a
+                >
+
+                <nav class="nav" id="nav">
+                    <a href="#intro" class="nav__link is-active" data-nav="intro">Intro</a>
+                    <a href="#work" class="nav__link" data-nav="work">Work</a>
+                    <a href="#skill" class="nav__link" data-nav="skill">Skill</a>
+                    <a href="#about" class="nav__link" data-nav="about">Q&amp;A</a>
+                    <a href="#contact" class="nav__link" data-nav="contact">Contact</a>
+                </nav>
+
+                <button
+                    class="hamburger"
+                    id="hamburgerBtn"
+                    aria-label="메뉴 열기"
+                    aria-expanded="false"
+                    aria-controls="mobileNav"
+                >
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+            <nav class="mobile-nav" id="mobileNav">
+                <a href="#intro" class="mobile-nav__link" data-nav="intro">Intro</a>
+                <a href="#work" class="mobile-nav__link" data-nav="work">Work</a>
+                <a href="#skill" class="mobile-nav__link" data-nav="skill">Skill</a>
+                <a href="#about" class="mobile-nav__link" data-nav="about">Q&amp;A</a>
+                <a href="#contact" class="mobile-nav__link" data-nav="contact">Contact</a>
+            </nav>
+        </header>
+
+        <main id="mainContent" tabindex="-1">
+            <section class="hero" id="intro">
+                <div class="hero__stage">
+                    <h1 class="hero__title">
+                        <span class="hero__title-line"
+                            ><span class="hero-word"
+                                ><span style="--word-delay: 0ms">DESIGN</span></span
+                            >
+                            <span class="hero-word"
+                                ><span style="--word-delay: 160ms">IN</span></span
+                            ></span
+                        >
+                        <span class="hero__title-line"
+                            ><span class="hero-word"
+                                ><em style="--word-delay: 320ms">every</em></span
+                            >
+                            <span class="hero-word"
+                                ><span style="--word-delay: 480ms">FORM</span></span
+                            ></span
+                        >
+                    </h1>
+                </div>
+            </section>
+
+            <section class="intro-reasons">
+                <div class="intro-reasons__sticky">
+                    <div class="intro-reasons__stage">
+                        <div class="stay-title intro-reasons__title" aria-hidden="true">
+                            <span class="stay-title-line">DIFFERENT WAYS.</span>
+                            <span class="stay-title-line">ONE <em>PERSPECTIVE.</em></span>
+                        </div>
+
+                        <p class="intro-reasons__subtitle intro-reasons__reveal">
+                            표현은 달라도, <strong>[바라보는 시선]</strong>은 하나.
+                        </p>
+
+                        <div class="intro-reasons__photo intro-reasons__reveal">
+                            <img src="images/jihyun-profile.png" alt="정하경 가상 프로필 이미지" />
+                        </div>
+
+                        <div class="intro-reasons__text intro-reasons__reveal">
+                            <p class="intro-reasons__text-line intro-reasons__text-en">
+                                웹사이트부터 상세페이지, AI 영상까지.<br />서로 다른 매체의 특성을
+                                이해하고, <br />
+                                각각의 목적에 맞는 시각적 경험을 만들어갑니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="work-transition" id="workTransition" data-nav-id="work">
+                <div class="work-transition__sticky">
+                    <div class="work-transition__base">
+                        <div class="work-transition__scroller" id="workTransitionScrollerBase">
+                            <p class="work-transition__title">
+                                <span class="work-transition__title-en">WORK </span
+                                ><span class="work-transition__title-em">selected projects</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="work-transition__wipe" id="workTransitionWipe">
+                        <div class="work-transition__wipe-grid" aria-hidden="true">
+                            <div class="fixed-grid-lines__col"></div>
+                            <div class="fixed-grid-lines__col"></div>
+                            <div class="fixed-grid-lines__col"></div>
+                            <div class="fixed-grid-lines__col"></div>
+                        </div>
+                        <div class="work-transition__scroller" id="workTransitionScrollerWipe">
+                            <p class="work-transition__title">
+                                <span class="work-transition__title-en">WORK </span
+                                ><span class="work-transition__title-em">selected projects</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="project-category" id="work" data-nav-id="work">
+                <nav class="project-category-nav" aria-label="프로젝트 유형">
+                    <a href="#work">01 Web Projects</a><a href="#shortForm">02 AI VIDEO</a
+                    ><a href="#practice">03 Event Page</a>
+                </nav>
+                <div class="project-category__inner">
+                    <p class="project-category__number">01 / 03</p>
+                    <h2>Web Projects</h2>
+                    <p class="project-category__label">메인페이지 리뉴얼</p>
+                    <p class="project-category__description">
+                        브랜드의 특성을 반영한 웹사이트 리뉴얼 디자인부터 반응형 레이아웃과 인터랙션
+                        구현까지, 직접 작업한 결과물을 소개합니다.
+                    </p>
+                </div>
+            </section>
+            <section
+                class="work-detail work-detail--p3 student-work"
+                id="workDetail3"
+                data-nav-id="work"
+                aria-label="Web Projects 소개"
+            >
+                <div class="work-detail__sticky">
+                    <div class="work-detail__track">
+                        <div class="work-detail__glow-wrap" style="width: 300%">
+                            <svg
+                                class="work-detail__glow-curve"
+                                viewBox="0 0 3840 289.216"
+                                preserveAspectRatio="none"
+                                aria-hidden="true"
+                            >
+                                <path d="M0,150 L3840,150"></path>
+                            </svg>
+                        </div>
+                        <div class="work-detail__panel">
+                            <div class="work-detail__stage reference-cover-stage">
+                                <div class="reference-cover-devices">
+                                    <div class="portfolio-macbook">
+                                        <video
+                                            class="portfolio-macbook__screen project-cover-video"
+                                            poster="images/newera/recording-poster.png"
+                                            muted
+                                            loop
+                                            playsinline
+                                            disablepictureinpicture
+                                            disableremoteplayback
+                                            preload="metadata"
+                                            aria-label="뉴에라 웹사이트 실제 스크롤 영상"
+                                        >
+                                            <source
+                                                src="images/newera/site-recording.webm"
+                                                type="video/webm"
+                                            /></video
+                                        ><img
+                                            class="portfolio-macbook__frame"
+                                            src="images/work-light-macbook.webp"
+                                            alt=""
+                                            aria-hidden="true"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="work-detail__info reference-cover-info">
+                                    <div class="work-detail__head">
+                                        <p class="work-detail__eyebrow">
+                                            Web Projects · 웹사이트 리뉴얼 &amp; 브랜드 웹
+                                        </p>
+                                        <h2 class="work-detail__title">
+                                            <span class="work-detail__title-en">NEW ERA</span>
+                                        </h2>
+                                        <div class="work-detail__links">
+                                            <a
+                                                class="work-detail__link"
+                                                href="https://hagyomi.github.io/newear/"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >NEW ERA WEBSITE ↗</a
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="work-detail__body reference-cover-body">
+                                        <div class="work-detail__meta reference-cover-meta">
+                                            <h3>PROJECT BRIEF</h3>
+                                            <p>
+                                                뉴에라의 브랜드 헤리티지와 스트리트 패션 감성을
+                                                중심으로 메인페이지를 새롭게 디자인했습니다.<br />브랜드
+                                                스토리와 제품 콘텐츠를 재구성하고, 스크롤 인터랙션을
+                                                더해 <br />역동적인 브랜드 경험을 구현했습니다.
+                                            </p>
+                                            <h3>PROJECT KEYWORDS</h3>
+                                        </div>
+                                        <div class="work-detail__progress">
+                                            <p class="work-detail__progress-item">
+                                                <strong>WEB RENEWAL</strong>
+                                            </p>
+                                            <p class="work-detail__progress-item">
+                                                <strong>BRAND HERITAGE</strong>
+                                            </p>
+                                            <p class="work-detail__progress-item">
+                                                <strong>INTERACTION</strong>
+                                            </p>
+                                            <p class="work-detail__progress-item">
+                                                <strong>RESPONSIVE WEB</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section
+                class="work-detail work-detail--p3 student-work"
+                id="workTouslesjours"
+                data-nav-id="work"
+                aria-label="뚜레쥬르 웹사이트 리뉴얼 소개"
+            >
+                <div class="work-detail__sticky">
+                    <div class="work-detail__track">
+                        <div class="work-detail__panel">
+                            <div class="work-detail__stage reference-cover-stage">
+                                <div class="reference-cover-devices">
+                                    <div class="portfolio-macbook">
+                                        <video
+                                            class="portfolio-macbook__screen project-cover-video"
+                                            poster="images/touslesjours/recording-poster.png"
+                                            muted
+                                            loop
+                                            playsinline
+                                            disablepictureinpicture
+                                            disableremoteplayback
+                                            preload="metadata"
+                                            aria-label="뚜레쥬르 웹사이트 실제 스크롤 영상"
+                                        >
+                                            <source
+                                                src="images/touslesjours/site-recording.webm"
+                                                type="video/webm"
+                                            /></video
+                                        ><img
+                                            class="portfolio-macbook__frame"
+                                            src="images/work-light-macbook.webp"
+                                            alt=""
+                                            aria-hidden="true"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="work-detail__info reference-cover-info">
+                                    <div class="work-detail__head">
+                                        <p class="work-detail__eyebrow">
+                                            Web Projects · 웹사이트 리뉴얼 &amp; 브랜드 웹
+                                        </p>
+                                        <h2 class="work-detail__title">
+                                            <span class="work-detail__title-en"
+                                                >TOUS les JOURS</span
+                                            >
+                                        </h2>
+                                        <div class="work-detail__links">
+                                            <a
+                                                class="work-detail__link"
+                                                href="https://hagyomi.github.io/Touslesjours/"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                >TOUS LES JOURS WEBSITE ↗</a
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="work-detail__body reference-cover-body">
+                                        <div class="work-detail__meta reference-cover-meta">
+                                            <h3>PROJECT BRIEF</h3>
+                                            <p>
+                                                크림 톤의 컬러와 손그림 그래픽을 활용해 뚜레쥬르만의
+                                                포근한 분위기를 표현했습니다.<br />다양한 베이커리
+                                                제품이 돋보이도록 화면을 구성하고, 자연스러운
+                                                움직임을 더해 보는 즐거움이 있는 메인페이지를
+                                                완성했습니다.
+                                            </p>
+                                            <h3>PROJECT KEYWORDS</h3>
+                                        </div>
+                                        <div class="work-detail__progress">
+                                            <p class="work-detail__progress-item">
+                                                <strong>WEB RENEWAL</strong>
+                                            </p>
+                                            <p class="work-detail__progress-item">
+                                                <strong>WARM & FRIENDLY</strong>
+                                            </p>
+                                            <p class="work-detail__progress-item">
+                                                <strong>HAND-DRAWN GRAPHICS</strong>
+                                            </p>
+                                            <p class="work-detail__progress-item">
+                                                <strong>MOTION DESIGN</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="project-category" data-nav-id="work" aria-label="AI Video 소개">
+                <nav class="project-category-nav" aria-label="프로젝트 유형">
+                    <a href="#work">01 Web Projects</a><a href="#shortForm">02 AI VIDEO</a
+                    ><a href="#practice">03 Event Page</a>
+                </nav>
+                <div class="project-category__inner">
+                    <p class="project-category__number">02 / 03</p>
+                    <h2>AI Video</h2>
+                    <p class="project-category__label">AI 광고 영상 제작</p>
+                    <p class="project-category__description">
+                        브랜드마다 다른 이야기를 AI 영상으로 표현했습니다. 장면별 연출과 프롬프트를
+                        설계하고, 생성된 영상을 편집해 하나의 광고 콘텐츠로 완성했습니다.
+                    </p>
+                </div>
+            </section>
+            <section
+                id="shortForm"
+                class="work-detail student-work short-form-work"
+                data-nav-id="work"
+                aria-label="AI VIDEO 작업 3편"
+            >
+                <div class="work-detail__sticky">
+                    <div class="work-detail__track">
+                        <div class="work-detail__glow-wrap">
+                            <svg
+                                class="work-detail__glow-curve"
+                                viewBox="0 0 5760 289.216"
+                                preserveAspectRatio="none"
+                                aria-hidden="true"
+                            >
+                                <path d="M0,150L5760,150"></path>
+                            </svg>
+                        </div>
+                        <div class="work-detail__panel">
+                            <div class="work-detail__stage shortform-cover">
+                                <div class="shortform-cover-posters">
+                                    <figure>
+                                        <a
+                                            class="ai-video-preview"
+                                            href="#film-pawly"
+                                            aria-label="PAWLY 영상 소개 자세히보기"
+                                        >
+                                            <img
+                                                src="images/ai-video/pawly-preview.png"
+                                                alt="PAWLY 영상 미리보기"
+                                                loading="lazy"
+                                                width="1280"
+                                                height="720"
+                                            />
+                                            <span class="ai-video-preview__label"
+                                                >자세히보기 <span aria-hidden="true">↗</span></span
+                                            >
+                                        </a>
+                                    </figure>
+                                    <figure>
+                                        <a
+                                            class="ai-video-preview"
+                                            href="#film-coffee"
+                                            aria-label="SIPON 영상 소개 자세히보기"
+                                        >
+                                            <img
+                                                src="images/ai-video/coffee-preview.png"
+                                                alt="SIPON 영상 미리보기"
+                                                loading="lazy"
+                                                width="1280"
+                                                height="720"
+                                            />
+                                            <span class="ai-video-preview__label"
+                                                >자세히보기 <span aria-hidden="true">↗</span></span
+                                            >
+                                        </a>
+                                    </figure>
+                                    <figure class="ai-video-featured">
+                                        <a
+                                            class="ai-video-preview"
+                                            href="#film-saekomdalkom"
+                                            aria-label="새콤달콤 영상 소개 자세히보기"
+                                        >
+                                            <img
+                                                src="images/ai-video/saekomdalkom-preview.png"
+                                                alt="새콤달콤 영상 미리보기"
+                                                loading="lazy"
+                                                width="1280"
+                                                height="720"
+                                            />
+                                            <span class="ai-video-preview__label"
+                                                >자세히보기 <span aria-hidden="true">↗</span></span
+                                            >
+                                        </a>
+                                    </figure>
+                                </div>
+                                <div class="shortform-copy">
+                                    <h2>AI Video</h2>
+                                    <p>PAWLY · SIPON · 새콤달콤</p>
+                                    <p class="shortform-body">
+                                        반려동물의 일상부터 커피 한 잔의 여유, 풋풋한 고백의
+                                        순간까지.<br />각기 다른 이야기를 AI 영상으로 표현하고, 세
+                                        편의 광고 영상으로 완성했습니다.
+                                    </p>
+                                    <div class="shortform-tags">
+                                        <span>AI VIDEO</span><span>PROMPT DESIGN</span
+                                        ><span>STORYTELLING</span><span>VIDEO EDITING</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="work-detail__panel">
+                            <section
+                                class="work-scenes__stage shortform-scene ai-video-scene"
+                                id="film-pawly"
+                                data-film="pawly"
+                                aria-label="PAWLY AI 영상"
+                            >
+                                <div class="shortform-player">
+                                    <video
+                                        class="work-scenes__device-media"
+                                        data-ai-video
+                                        poster="images/ai-video/pawly-poster.jpg"
+                                        muted
+                                        loop
+                                        playsinline
+                                        controls
+                                        preload="none"
+                                        aria-label="PAWLY 반려동물 브랜드 필름 47.5초 영상"
+                                    >
+                                        <source src="images/ai-video/pawly.mp4" type="video/mp4" />
+                                        브라우저에서 영상을 재생할 수 없습니다.
+                                        <a href="images/ai-video/pawly.mp4">영상 보기</a>
+                                    </video>
+                                </div>
+                                <div class="shortform-copy">
+                                    <p class="shortform-eyebrow">
+                                        Video 01 / 03 · 가상 반려동물 브랜드 광고
+                                    </p>
+                                    <h3>PAWLY</h3>
+                                    <div class="work-scenes__desc-en">
+                                        <p>우리의 이야기를 담다.</p>
+                                    </div>
+                                    <dl class="shortform-meta">
+                                        <div>
+                                            <dt>OVERVIEW</dt>
+                                            <dd>
+                                                특별한 사건이 없어도 반려동물과 함께하는 하루는
+                                                소중한 순간들로 채워집니다. 자연스러운 일상을 통해
+                                                평범해서 더 특별한 반려동물과의 이야기를 담았습니다.
+                                            </dd>
+                                        </div>
+                                        <div>
+                                            <dt>영상 구성</dt>
+                                            <dd>
+                                                반려동물 소개 → 각자의 일상 → 산책과 놀이 → 교감의
+                                                순간 → 브랜드 메시지
+                                            </dd>
+                                        </div>
+                                        <div>
+                                            <dt>연출 포인트</dt>
+                                            <dd>
+                                                동물별 단독 컷으로 표현한 각자의 개성, 3분할
+                                                콜라주와 장면 전환을 활용한 리듬감, 자막과 엔딩
+                                                메시지를 통한 감성적 연출
+                                            </dd>
+                                        </div>
+                                        <div>
+                                            <dt>포맷</dt>
+                                            <dd>16:9 · 1920 × 1080 · 47.5초 · 사운드 포함</dd>
+                                        </div>
+                                    </dl>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="work-detail__panel">
+                            <section
+                                class="work-scenes__stage shortform-scene ai-video-scene"
+                                id="film-coffee"
+                                data-film="coffee"
+                                aria-label="SIPON AI 영상"
+                            >
+                                <div class="shortform-player">
+                                    <video
+                                        class="work-scenes__device-media"
+                                        data-ai-video
+                                        poster="images/ai-video/coffee-poster.jpg"
+                                        muted
+                                        loop
+                                        playsinline
+                                        controls
+                                        preload="none"
+                                        aria-label="SIPON 커피 광고 38초 영상"
+                                    >
+                                        <source src="images/ai-video/coffee.mp4" type="video/mp4" />
+                                        브라우저에서 영상을 재생할 수 없습니다.
+                                        <a href="images/ai-video/coffee.mp4">영상 보기</a>
+                                    </video>
+                                </div>
+                                <div class="shortform-copy">
+                                    <p class="shortform-eyebrow">
+                                        Video 02 / 03 · 가상 커피 브랜드 광고
+                                    </p>
+                                    <h3>SIPON</h3>
+                                    <div class="work-scenes__desc-en">
+                                        <p>A sip of a calmer day.</p>
+                                    </div>
+                                    <dl class="shortform-meta">
+                                        <div>
+                                            <dt>OVERVIEW</dt>
+                                            <dd>
+                                                반복되는 일상 속, 커피 한 잔이 선사하는 짧은 휴식을
+                                                담은 브랜드 광고입니다. 바쁜 하루 속 잠시 자신에게
+                                                집중하는 시간을 SIPON만의 차분하고 따뜻한 분위기로
+                                                표현했습니다.
+                                            </dd>
+                                        </div>
+                                        <div>
+                                            <dt>영상 구성</dt>
+                                            <dd>
+                                                건물 외관 → 불빛이 켜지는 순간 → 커피 추출 → 커피를
+                                                마시는 순간 → 브랜드 메시지
+                                            </dd>
+                                        </div>
+                                        <div>
+                                            <dt>연출 포인트</dt>
+                                            <dd>
+                                                차가운 아침빛에서 따뜻한 햇살로 이어지는 색감,
+                                                드립과 김의 디테일, 여백을 살린 문구
+                                            </dd>
+                                        </div>
+                                        <div>
+                                            <dt>포맷</dt>
+                                            <dd>16:9 · 1920 × 1080 · 38초 · 사운드 포함</dd>
+                                        </div>
+                                    </dl>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="work-detail__panel">
+                            <section
+                                class="work-scenes__stage shortform-scene ai-video-scene"
+                                id="film-saekomdalkom"
+                                data-film="saekomdalkom"
+                                aria-label="새콤달콤 AI 영상"
+                            >
+                                <div class="shortform-player">
+                                    <video
+                                        class="work-scenes__device-media"
+                                        data-ai-video
+                                        poster="images/ai-video/saekomdalkom-poster.jpg"
+                                        muted
+                                        loop
+                                        playsinline
+                                        controls
+                                        preload="none"
+                                        aria-label="새콤달콤 스토리형 제품 광고 1분 19.5초 영상"
+                                    >
+                                        <source
+                                            src="images/ai-video/saekomdalkom.mp4"
+                                            type="video/mp4"
+                                        />
+                                        브라우저에서 영상을 재생할 수 없습니다.
+                                        <a href="images/ai-video/saekomdalkom.mp4">영상 보기</a>
+                                    </video>
+                                </div>
+                                <div class="shortform-copy">
+                                    <p class="shortform-eyebrow">
+                                        Video 03 / 03 · 스토리형 제품 광고
+                                    </p>
+                                    <h3>새콤달콤</h3>
+                                    <div class="work-scenes__desc-en">
+                                        <p>말하지 못한 마음을 전해보세요.</p>
+                                    </div>
+                                    <dl class="shortform-meta">
+                                        <div>
+                                            <dt>OVERVIEW</dt>
+                                            <dd>
+                                                좋아하는 마음을 쉽게 표현하지 못하는 두 학생의
+                                                풋풋한 이야기를 담은 광고입니다. 새콤달콤 패키지에
+                                                담긴 메시지를 고백의 매개체로 활용해 제품과 스토리를
+                                                자연스럽게 연결했습니다.
+                                            </dd>
+                                        </div>
+                                        <div>
+                                            <dt>영상 구성</dt>
+                                            <dd>
+                                                메시지형 제품 발견 → 학교에서의 마주침 → 망설임과
+                                                후회 → 버스정류장 재회 → 제품을 통한 고백 → 엔딩
+                                            </dd>
+                                        </div>
+                                        <div>
+                                            <dt>연출 포인트</dt>
+                                            <dd>
+                                                인물의 표정과 시선으로 전달하는 설렘과 망설임, 제품
+                                                클로즈업을 통한 메시지 강조, 낮에서 저녁으로
+                                                이어지는 색감 변화와 감정의 흐름
+                                            </dd>
+                                        </div>
+                                        <div>
+                                            <dt>포맷</dt>
+                                            <dd>16:9 · 1920 × 1080 · 1분 19초 · 사운드 포함</dd>
+                                        </div>
+                                    </dl>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section
+                class="project-category project-category--event"
+                data-nav-id="work"
+                aria-label="Event Page 소개"
+            >
+                <nav class="project-category-nav" aria-label="프로젝트 유형">
+                    <a href="#work">01 Web Projects</a><a href="#shortForm">02 AI VIDEO</a
+                    ><a href="#practice">03 Event Page</a>
+                </nav>
+                <div class="project-category__inner">
+                    <p class="project-category__number">03 / 03</p>
+                    <h2>Detail & Event Pages</h2>
+                    <p class="project-category__label">상세페이지 · 프로모션 디자인</p>
+                    <p class="project-category__description">
+                        제품의 특징과 브랜드별 분위기를 고려해 제작한 상세·이벤트페이지
+                        디자인입니다. AI 이미지 생성과 비주얼 연출, 콘텐츠 배치를 활용해 제품의
+                        매력과 프로모션 정보를 효과적으로 전달했습니다.
+                    </p>
+                </div>
+            </section>
+            <section
+                class="event-pages"
+                id="practice"
+                data-nav-id="work"
+                aria-label="Event Page 디자인 3개"
+            >
+                <div class="event-pages__inner">
+                    <article class="event-card" data-event="laka" style="--event-color: #fff2f6">
+                        <a
+                            class="event-card__preview"
+                            href="pages/event-laka.html"
+                            aria-label="라카 이벤트 페이지 전체 디자인 보기"
+                        >
+                            <img
+                                src="images/event-pages/sections/laka-363-885.png"
+                                alt="라카 이벤트 페이지 키 비주얼"
+                                loading="lazy"
+                            />
+                        </a>
+                        <div class="event-card__copy">
+                            <p class="event-card__number">DETAIL 01 / 03 뷰티 상세페이지 디자인</p>
+                            <h3>Laka</h3>
+                            <p class="event-card__subtitle">틴트 컬러 & 텍스처 프로모션</p>
+                            <p class="event-card__description">
+                                라카 틴트의 맑은 광택과 생기 있는 컬러를 강조한 상세페이지
+                                디자인입니다. 인물 레퍼런스를 기반으로 AI 모델 이미지를 직접
+                                생성하고, 제품 텍스처와 컬러 비주얼을 조합해 제품의 매력을
+                                시각적으로 표현했습니다.
+                            </p>
+                            <dl class="event-card__meta">
+                                <div>
+                                    <dt>콘텐츠 구성</dt>
+                                    <dd>
+                                        키 비주얼 → 볼륨·보습 → 베스트 틴트 → 컬러 가이드 → 제품
+                                        특징
+                                    </dd>
+                                </div>
+                                <div>
+                                    <dt>디자인 포인트</dt>
+                                    <dd>
+                                        AI 생성 모델 이미지, 핑크·코랄 컬러 조합, 광택을 강조한
+                                        텍스처 표현, 모델 컷과 컬러 스와치의 대비
+                                    </dd>
+                                </div>
+                                <div>
+                                    <dt>작업 형태</dt>
+                                    <dd>
+                                        Figma · AI 이미지 생성 · 상세페이지 디자인 (퍼블리싱 미포함)
+                                    </dd>
+                                </div>
+                            </dl>
+                            <div class="event-card__actions">
+                                <a href="pages/event-laka.html"> 페이지 보기 ↗</a>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="event-card" data-event="kamill" style="--event-color: #edeee3">
+                        <a
+                            class="event-card__preview"
+                            href="pages/event-kamill.html"
+                            aria-label="카밀 이벤트 페이지 전체 디자인 보기"
+                        >
+                            <img
+                                src="images/event-pages/sections/kamill-132-720.png"
+                                alt="카밀 핸드크림과 캐모마일 키 비주얼"
+                                loading="lazy"
+                            />
+                        </a>
+                        <div class="event-card__copy">
+                            <p class="event-card__number">EVENT 02 / 03 · 카밀</p>
+                            <h3>Kamill</h3>
+                            <p class="event-card__subtitle">KAMILL CARE DAYS</p>
+                            <p class="event-card__description">
+                                카모마일을 중심으로 한 카밀의 자연주의 이미지를 내추럴한 컬러와 식물
+                                비주얼로 표현한 이벤트페이지입니다. 제품의 보습 성분과 브랜드
+                                스토리를 소개하고, 할인·증정·세트 혜택을 단계적으로 배치해 프로모션
+                                정보를 쉽게 탐색할 수 있도록 구성했습니다.
+                            </p>
+                            <dl class="event-card__meta">
+                                <div>
+                                    <dt>콘텐츠 구성</dt>
+                                    <dd>
+                                        브랜드 스토리 → 보습 성분 → 제품 라인업 → CARE DAYS 이벤트 →
+                                        제품 안내
+                                    </dd>
+                                </div>
+                                <div>
+                                    <dt>디자인 포인트</dt>
+                                    <dd>
+                                        내추럴 그린·크림 컬러, 식물 모티프를 활용한 비주얼, 제품과
+                                        프로모션 혜택의 명확한 시각적 구분
+                                    </dd>
+                                </div>
+                                <div>
+                                    <dt>작업 형태</dt>
+                                    <dd>Figma · 이벤트페이지 디자인 (퍼블리싱 미포함)</dd>
+                                </div>
+                            </dl>
+                            <div class="event-card__actions">
+                                <a href="pages/event-kamill.html">페이지 보기 ↗</a>
+                            </div>
+                        </div>
+                    </article>
+                    <article
+                        class="event-card"
+                        data-event="kombucha"
+                        style="--event-color: #fff0de"
+                    >
+                        <a
+                            class="event-card__preview"
+                            href="pages/event-kombucha.html"
+                            aria-label="콤부차 이벤트 페이지 전체 디자인 보기"
+                        >
+                            <img
+                                src="images/event-pages/kombucha-preview.png"
+                                alt="콤부차 이벤트 페이지 키 비주얼"
+                                loading="lazy"
+                            />
+                        </a>
+                        <div class="event-card__copy">
+                            <p class="event-card__number">EVENT 03 / 03 · 콤부차</p>
+                            <h3>TEAZEN</h3>
+                            <p class="event-card__subtitle">티젠 콤부차 이벤트 할인</p>
+                            <p class="event-card__description">
+                                티젠 콤부차의 상큼하고 청량한 이미지를 오렌지 컬러와 제품 비주얼로
+                                표현한 이벤트페이지입니다. 할인과 증정 혜택을 카드형 레이아웃으로
+                                구성해 프로모션 정보를 직관적으로 전달했습니다.
+                            </p>
+                            <dl class="event-card__meta">
+                                <div>
+                                    <dt>콘텐츠 구성</dt>
+                                    <dd>
+                                        키 비주얼 → 골라담기 할인 → 취향 테스트 → 랜덤 할인 쿠폰 →
+                                        보틀 증정 → 유의사항
+                                    </dd>
+                                </div>
+                                <div>
+                                    <dt>디자인 포인트</dt>
+                                    <dd>
+                                        오렌지 컬러, 제품 패키지를 활용한 입체적 비주얼, 할인율과
+                                        증정 혜택을 강조한 카드형 레이아웃
+                                    </dd>
+                                </div>
+                                <div>
+                                    <dt>작업 형태</dt>
+                                    <dd>Figma · 이벤트페이지 디자인 (퍼블리싱 미포함)</dd>
+                                </div>
+                            </dl>
+                            <div class="event-card__actions">
+                                <a href="pages/event-kombucha.html">페이지 보기 ↗</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Same pinned scroll-scrub structure/interaction as .work-transition
+         above (title scrolls in from the right, dissolves character-by-
+         character, wipe reveals mid-dwell) -- only the colors invert: this
+         one starts white bg/black text and wipes to black bg/white text,
+         the opposite of work-transition's black-to-white. -->
+            <section class="skill-transition" id="skillTransition" data-nav-id="skill">
+                <div class="skill-transition__sticky">
+                    <div class="skill-transition__base">
+                        <div class="skill-transition__wipe-grid" aria-hidden="true">
+                            <div class="fixed-grid-lines__col"></div>
+                            <div class="fixed-grid-lines__col"></div>
+                            <div class="fixed-grid-lines__col"></div>
+                            <div class="fixed-grid-lines__col"></div>
+                        </div>
+                        <div class="skill-transition__scroller" id="skillTransitionScrollerBase">
+                            <p class="skill-transition__title">
+                                <span class="skill-transition__title-en">SKILL </span
+                                ><span class="skill-transition__title-em">tools &amp; skills</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="skill-transition__wipe" id="skillTransitionWipe">
+                        <div class="skill-transition__scroller" id="skillTransitionScrollerWipe">
+                            <p class="skill-transition__title">
+                                <span class="skill-transition__title-en">SKILL </span
+                                ><span class="skill-transition__title-em">tools &amp; skills</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Figma node 2832-1904: black-bg SKILL section -- centered title +
+         Korean subtitle (fog-in reveal, same pattern/interaction as
+         .clone-coding__intro), then a DESIGN/FRONTEND/AI three-column
+         list that pins at viewport-center (position: sticky, same trick
+         as .clone-coding__intro) while the two flanking icon clusters
+         rise up into place beside it as the page keeps scrolling (same
+         one-time IntersectionObserver reveal as .clone-coding__card).
+         Icons use the project's own local SVGs (already placed by the
+         user) rather than Figma's exported assets. -->
+            <section class="skill-content" id="skill">
+                <div class="skill-content__stage" id="skillCarouselStage">
+                    <div class="skill-content__pin" id="skillCarouselPin">
+                        <div
+                            class="skill-content__carousel"
+                            id="skillCarousel"
+                            aria-hidden="true"
+                        ></div>
+
+                        <div class="skill-content__body">
+                            <div class="skill-content__intro">
+                                <p class="skill-content__title">SKILL</p>
+                                <p class="skill-content__subtitle">
+                                    웹사이트 구현부터 콘텐츠 디자인, AI 영상 제작까지. 다양한
+                                    프로젝트를 진행하며 직접 활용한 도구들을 소개합니다.
+                                </p>
+                            </div>
+
+                            <div class="skill-content__columns">
+                                <div class="reference-skill-group">
+                                    <div class="skill-content__column">
+                                        <p class="skill-content__column-title">DESIGN</p>
+                                        <ul class="skill-content__column-list">
+                                            <li>Figma</li>
+                                            <li>Photoshop</li>
+                                            <li>Illustrator</li>
+                                        </ul>
+                                    </div>
+                                    <div class="skill-content__column">
+                                        <p class="skill-content__column-title">WORKFLOW</p>
+                                        <ul class="skill-content__column-list">
+                                            <li>VS Code</li>
+                                            <li>Git · GitHub</li>
+                                            <li>Vercel</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="reference-skill-group">
+                                    <div class="skill-content__column">
+                                        <p class="skill-content__column-title">FRONTEND</p>
+                                        <ul class="skill-content__column-list">
+                                            <li>HTML · CSS</li>
+                                            <li>SCSS</li>
+                                            <li>JavaScript</li>
+                                            <li>React · Vite</li>
+                                        </ul>
+                                    </div>
+                                    <div class="skill-content__column">
+                                        <p class="skill-content__column-title">INTERACTION</p>
+                                        <ul class="skill-content__column-list">
+                                            <li>GSAP</li>
+                                            <li>ScrollTrigger</li>
+                                            <li>Scrolla.js</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="reference-skill-group">
+                                    <div class="skill-content__column">
+                                        <p class="skill-content__column-title">AI TOOLS</p>
+                                        <ul class="skill-content__column-list">
+                                            <li>ChatGPT · Gemini</li>
+                                            <li>Codex</li>
+                                            <li>Google Flow</li>
+                                            <li>Dreamina</li>
+                                        </ul>
+                                    </div>
+                                    <div class="skill-content__column">
+                                        <p class="skill-content__column-title">VIDEO</p>
+                                        <ul class="skill-content__column-list">
+                                            <li>Premiere Pro</li>
+                                            <li>CapCut</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="student-ai-note">
+                                AI 도구는 아이디어 구체화·문구 작성·이미지 및 영상 제작에
+                                활용합니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="quick-qa" id="about" data-nav-id="about">
+                <div class="quick-qa__inner">
+                    <div class="quick-qa__intro">
+                        <h2 class="quick-qa__title"><em>quick</em> Q&amp;A</h2>
+                        <p class="quick-qa__subtitle">
+                            아이디어를 시각적으로 표현하고, 디자인을 실제 결과물로 완성하는 과정.<br />그
+                            안에서 발견한 저만의 관점과 이야기를 전합니다.
+                        </p>
+                    </div>
+                    <div class="quick-qa__list">
+                        <article class="quick-qa__item">
+                            <button class="quick-qa__question" type="button" aria-expanded="false">
+                                <span>새로운 분야에 도전하게 된 계기는 무엇인가요?</span
+                                ><span class="quick-qa__arrow" aria-hidden="true"
+                                    ><img src="images/quick-qa-arrow.svg" alt=""
+                                /></span>
+                            </button>
+                            <div class="quick-qa__answer" hidden="">
+                                <div class="quick-qa__answer-inner">
+                                    <p>
+                                        처음에는 영상 제작 분야에 관심이 많았습니다. 하지만 취업을
+                                        준비하면서 영상 제작뿐만 아니라 다양한 실무 역량을 갖추는
+                                        것이 중요하다고 생각했습니다. 이를 계기로 웹디자인과 웹
+                                        구현, AI 콘텐츠 제작까지 배우며 제가 할 수 있는 일의 범위를
+                                        넓혀가게 되었습니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="quick-qa__item">
+                            <button class="quick-qa__question" type="button" aria-expanded="false">
+                                <span>디자인과 웹 구현을 함께 배우며 무엇을 느꼈나요?</span
+                                ><span class="quick-qa__arrow" aria-hidden="true"
+                                    ><img src="images/quick-qa-arrow.svg" alt=""
+                                /></span>
+                            </button>
+                            <div class="quick-qa__answer" hidden="">
+                                <div class="quick-qa__answer-inner">
+                                    <p>
+                                        레퍼런스를 찾는 것부터 생각한 디자인을 실제 화면으로
+                                        구현하는 과정까지 쉽지 않았습니다. 예상대로 결과가 나오지
+                                        않아 여러 번 수정하기도 했지만, 하나씩 해결하며 완성도를
+                                        높여갔습니다. 그렇게 완성된 결과물을 보면서 제가 직접
+                                        만들었다는 사실에 큰 성취감을 느꼈습니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="quick-qa__item">
+                            <button class="quick-qa__question" type="button" aria-expanded="false">
+                                <span
+                                    >프로젝트를 진행할 때 가장 중요하게 생각하는 것은
+                                    무엇인가요?</span
+                                ><span class="quick-qa__arrow" aria-hidden="true"
+                                    ><img src="images/quick-qa-arrow.svg" alt=""
+                                /></span>
+                            </button>
+                            <div class="quick-qa__answer" hidden="">
+                                <div class="quick-qa__answer-inner">
+                                    <p>
+                                        책임감 있는 태도와 원활한 소통이라고 생각합니다. 자신의
+                                        의견만 고집하기보다 다른 사람의 생각도 존중하고, 더 나은
+                                        방향을 함께 고민하는 자세가 필요하다고 느꼈습니다. 또한 맡은
+                                        일에 성실하게 참여하고 끝까지 책임지는 태도를 중요하게
+                                        생각합니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="quick-qa__item">
+                            <button class="quick-qa__question" type="button" aria-expanded="false">
+                                <span>지금까지의 경험을 앞으로 어떻게 활용하고 싶나요?</span
+                                ><span class="quick-qa__arrow" aria-hidden="true"
+                                    ><img src="images/quick-qa-arrow.svg" alt=""
+                                /></span>
+                            </button>
+                            <div class="quick-qa__answer" hidden="">
+                                <div class="quick-qa__answer-inner">
+                                    <p>
+                                        웹사이트 구현부터 상세페이지 디자인, AI 영상 제작까지 다양한
+                                        작업을 경험했습니다. 앞으로는 이러한 경험을 바탕으로
+                                        콘텐츠를 기획하고 제작하는 과정에 적극적으로 참여하고
+                                        싶습니다. 한 가지 분야에만 머무르기보다 새로운 기술과 도구를
+                                        꾸준히 배우며 다양한 업무에 유연하게 대응할 수 있는 사람으로
+                                        성장하고 싶습니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="site-footer" id="contact" data-nav-id="contact">
+                <canvas
+                    class="site-footer__staff-canvas"
+                    id="footerStaffCanvas"
+                    aria-hidden="true"
+                ></canvas>
+
+                <div class="site-footer__inner">
+                    <nav class="site-footer__explore" aria-label="Footer navigation">
+                        <p class="site-footer__label">EXPLORE</p>
+                        <ul class="site-footer__nav">
+                            <li><a href="#intro">Intro</a></li>
+                            <li><a href="#work">Work</a></li>
+                            <li><a href="#skill">Skill</a></li>
+                            <li><a href="#about">Q&amp;A</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="site-footer__contact">
+                        <p class="site-footer__label">CONTACT</p>
+                        <div class="site-footer__contact-list">
+                            <a
+                                class="site-footer__contact-link contact-primary"
+                                href="mailto:aaaa@gmail.com"
+                                ><svg
+                                    class="site-footer__contact-icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="m3 10 18-7-7 18-3-7-8-4Zm8 4L21 3"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    ></path></svg
+                                ><span>wjdgkrud0921@gmail.com</span></a
+                            ><a
+                                class="site-footer__contact-link contact-primary"
+                                href="tel:01000001111"
+                                ><svg
+                                    class="site-footer__contact-icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 2a15 15 0 0 1-7-7l2-2-2-5Z"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    ></path></svg
+                                ><span>010-2825-9236</span></a
+                            ><a
+                                class="site-footer__contact-link contact-primary"
+                                href="https://github.com/user"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                ><svg
+                                    class="site-footer__contact-icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M9 19c-4 1-4-2-6-2m14 5v-4c0-1-.3-2-1-2.5 3-.3 6-1.5 6-6 0-1.3-.5-2.5-1.3-3.4.2-.8.2-2-.2-3.1 0 0-1.1-.3-3.5 1.3a12 12 0 0 0-6 0C7.6 2.7 6.5 3 6.5 3c-.4 1.1-.4 2.3-.2 3.1C5.5 7 5 8.2 5 9.5c0 4.5 3 5.7 6 6-.7.5-1 1.5-1 2.5v4"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    ></path></svg
+                                ><span>GitHub ↗</span></a
+                            ><a
+                                class="site-footer__contact-link contact-primary"
+                                href="files/jihyun-resume.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                ><svg
+                                    class="site-footer__contact-icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M14 3H5v18h14V8l-5-5Zm0 0v5h5M8 12h8M8 16h6"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    ></path></svg
+                                ><span>이력서 ↗</span></a
+                            >
+                        </div>
+                    </div>
+
+                    <p class="site-footer__copyright">
+                        <span>© </span><span class="site-footer__copyright-year">2026</span
+                        ><span> HaGyeong Jung</span>
+                    </p>
+                </div>
+
+                <!-- Direct child of .site-footer (full viewport width), not
+           .site-footer__inner (position:relative but width capped at
+           1920px and centered) -- .site-footer__top's right/bottom offsets
+           need to resolve against the true screen corner the way
+           .portfolio-chatbot's fixed positioning already does, not against
+           that capped-and-centered column, which is what let it drift
+           inward from the real edge on any viewport wider than 1920px. -->
+                <button class="site-footer__top" type="button" aria-label="맨 위로 이동">
+                    <img src="images/footer-arrow-up.svg" alt="" />
+                </button>
+            </footer>
+        </main>
+
+        <div class="flying-card flying-card--photo" id="flyingCard2" aria-hidden="true">
+            <img src="images/computer-work-generated.png" alt="" />
+        </div>
+
+        <script src="script.js?v=20260731-webp-webm"></script>
+
+        <script src="portfolio.js"></script>
+        <script src="project-video.js"></script>
+        <script src="ai-video.js"></script>
+    </body>
+</html>

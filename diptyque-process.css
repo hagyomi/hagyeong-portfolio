@@ -1,0 +1,44 @@
+.diptyque-process-stage{display:grid!important;grid-template-columns:1fr 1fr;align-items:center;gap:7%;padding:8% 6%;box-sizing:border-box;color:#fff}
+.diptyque-material{min-width:0;position:relative;z-index:2}
+.diptyque-preview{display:block;width:100%;height:52vh;max-height:600px;padding:0;background:transparent;border:0;cursor:zoom-in}
+.diptyque-preview img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
+.diptyque-material-caption{display:flex;justify-content:space-between;gap:12px;margin:18px 0 0;font-size:13px;color:#eee;font-family:'Pretendard',sans-serif}
+.diptyque-material-caption span{color:#ccc;font-size:11px}
+.diptyque-process-copy{min-width:0;position:relative;z-index:2;font-family:'Pretendard',sans-serif}
+.diptyque-step{font-size:13px;letter-spacing:.12em;margin:0 0 28px}
+.diptyque-process-copy h3{font-size:clamp(26px,3vw,52px);font-weight:500;letter-spacing:-.05em;line-height:1.35;margin:0 0 42px}
+.diptyque-process-copy .work-scenes__desc-en{position:static!important;width:auto!important;max-width:none!important}
+.diptyque-process-copy .work-scenes__desc-en p{font-size:clamp(24px,2.3vw,40px);white-space:normal!important;line-height:1.3;margin:0;font-family:'Neue Montreal',sans-serif}
+.diptyque-process-description{font-size:clamp(14px,1.1vw,18px);line-height:1.85;color:#ddd;margin:26px 0 30px;word-break:keep-all}
+.diptyque-material-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.diptyque-material-tabs button{color:#ddd;border:1px solid #ffffff4d;background:transparent;border-radius:999px;padding:10px 16px;font:inherit;font-size:13px;cursor:pointer}
+.diptyque-material-tabs button[aria-pressed=true]{background:#f5f1e7;border-color:#f5f1e7;color:#222}
+.diptyque-preview:focus-visible,.diptyque-material-tabs button:focus-visible{outline:2px solid #fff;outline-offset:5px}
+#workDetail2 .work-detail__title-en{font-size:clamp(40px,5.1vw,96px)}
+#workDetail2 .work-detail__title-em{color:#837564}
+#workDetail2 .portfolio-macbook__screen{object-fit:contain;background:#fff}
+#workDetail2 .work-detail__title-en{font-size:clamp(34px,4.2vw,80px)}
+#workDetail2 .work-detail__title-em{font-size:clamp(28px,3.4vw,64px)}
+.methodology-example-note{font-family:'Pretendard',sans-serif;font-size:12px;line-height:1.65;opacity:.75;margin-top:20px;word-break:keep-all}
+.methodology-collage{height:calc(39 * var(--u));top:calc(9.5 * var(--u))}
+.methodology-card{position:absolute;box-sizing:border-box;margin:0;border:2px solid #777;border-radius:18px;background:#fff;overflow:hidden;padding:12px 10px 10px}
+.methodology-card figcaption{font-family:'Neue Montreal',sans-serif;font-weight:500;text-align:center;font-size:clamp(12px,1.1vw,21px);line-height:1.3;margin-bottom:10px;color:#191919}
+.methodology-card img{width:100%;height:calc(100% - 32px);object-fit:contain;display:block;background:#fff}
+.methodology-card--main{left:21%;top:2%;width:61%;height:90%;z-index:1}
+.methodology-card--left{left:0;top:40%;width:37%;height:30%;z-index:3;box-shadow:0 22px 36px #00000014}
+.methodology-card--right{right:0;top:16%;width:34%;height:30%;z-index:2;box-shadow:0 22px 36px #00000014}
+.methodology-card--left,.methodology-card--right{border-radius:11px;padding:8px}
+.methodology-card--left figcaption,.methodology-card--right figcaption{font-size:clamp(10px,.7vw,14px);margin-bottom:5px;text-align:left}
+.methodology-card--left img,.methodology-card--right img{height:calc(100% - 22px)}
+@media(max-width:1023px){#workDetail2 .methodology-collage{position:relative;left:auto;top:auto;width:100%;height:auto;aspect-ratio:1.25;margin:0 auto 25px}.methodology-card{border-width:1.5px;border-radius:13px}.methodology-card figcaption{font-size:15px}.methodology-card--left figcaption,.methodology-card--right figcaption{font-size:10px}}
+.diptyque-lightbox{width:min(1400px,94vw);height:90svh;max-height:90svh;padding:0;border:1px solid #555;background:#171717;color:#fff;overflow:hidden}
+.diptyque-lightbox::backdrop{background:#000c}
+.diptyque-lightbox-toolbar{display:flex;align-items:center;gap:16px;height:64px;padding:0 20px;border-bottom:1px solid #444;box-sizing:border-box}
+.diptyque-lightbox-toolbar h2{margin:0 auto 0 0;font-size:16px;font-weight:400}
+.diptyque-lightbox-toolbar button,.diptyque-lightbox-toolbar a{font:inherit;font-size:13px;color:#fff;background:transparent;border:0;text-decoration:none;cursor:pointer;white-space:nowrap}
+.diptyque-lightbox-body{height:calc(100% - 64px);overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:16px;box-sizing:border-box}
+.diptyque-lightbox-body img{max-width:100%;max-height:100%;object-fit:contain}
+.diptyque-lightbox.is-zoomed .diptyque-lightbox-body{display:block}
+.diptyque-lightbox.is-zoomed img{max-width:none;max-height:none;width:max(100%,1400px)}
+@media(min-width:1024px){.student-work.work-detail--p2{height:calc(100vh + 1695vh)}#workDetail2 .work-detail__glow-wrap{width:600%}}
+@media(max-width:1023px){.diptyque-process-stage{grid-template-columns:1fr;gap:28px;height:auto!important;min-height:100svh;padding:80px 6vw 60px;background:#222}.diptyque-preview{height:42svh}.diptyque-process-copy h3{font-size:28px;margin-bottom:20px}.diptyque-step{margin-bottom:15px}.diptyque-process-copy .fill-char{color:#fff!important;opacity:1!important;filter:none!important}.diptyque-material-caption{font-size:12px}.diptyque-material-tabs button{font-size:12px;padding:9px 12px}.diptyque-lightbox-toolbar{gap:10px;padding:0 12px}.diptyque-lightbox-toolbar h2{font-size:13px}.diptyque-lightbox-toolbar button,.diptyque-lightbox-toolbar a{font-size:11px}}

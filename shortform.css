@@ -1,0 +1,34 @@
+.shortform-cover,.shortform-scene{display:grid!important;grid-template-columns:1fr 1fr;gap:8%;align-items:center;padding:7% 7%;box-sizing:border-box;position:relative}
+.shortform-cover-posters{display:flex;gap:22px;justify-content:center;align-items:center;position:relative;z-index:2}.shortform-cover-posters img{width:45%;aspect-ratio:9/16;object-fit:cover;border-radius:12px}.shortform-cover-posters img:last-child{transform:translateY(30px)}
+.shortform-copy{font-family:'Pretendard',sans-serif;position:relative;z-index:3;min-width:0}.shortform-eyebrow{font-size:13px;letter-spacing:.08em;margin:0 0 25px}.shortform-copy h2{font-family:'Neue Montreal',sans-serif;font-size:clamp(36px,4.8vw,82px);font-weight:400;line-height:1.04;letter-spacing:-.04em;margin:0 0 30px}.shortform-copy h2 em{font-family:'Cardinal Fruit',Georgia,serif;font-weight:400}.shortform-body{font-size:clamp(14px,1.1vw,19px);line-height:1.85;word-break:keep-all;margin:25px 0}.shortform-tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}.shortform-tags span{border:1px solid #a49c8c;border-radius:999px;padding:9px 13px;font-size:11px}.shortform-scene{color:#fff}.shortform-player{height:70vh;aspect-ratio:9/16;max-width:100%;margin:auto;position:relative;z-index:3;overflow:hidden;border-radius:16px;background:#111}.shortform-player video{position:static!important;width:100%;height:100%;object-fit:contain;display:block}.shortform-copy h3{font-family:'Neue Montreal',sans-serif;font-weight:400;font-size:clamp(28px,3.6vw,60px);margin:0 0 35px;letter-spacing:-.035em}.shortform-copy .work-scenes__desc-en{position:static!important;width:auto!important}.shortform-copy .work-scenes__desc-en p{white-space:normal!important;font-size:clamp(24px,2.5vw,42px);line-height:1.3;margin:0}.shortform-meta{margin:30px 0 0}.shortform-meta>div{display:grid;grid-template-columns:75px 1fr;gap:20px;border-top:1px solid #ffffff30;padding:16px 0}.shortform-meta dt{font-size:12px;color:#c5c0b8}.shortform-meta dd{font-size:14px;line-height:1.7;margin:0;word-break:keep-all}
+@media(min-width:1024px){.student-work.short-form-work{height:calc(100vh + 885vh)}.short-form-work .work-detail__glow-wrap{width:300%}}
+.shortform-cover-posters{display:grid;grid-template-columns:1fr 1fr;gap:18px}.shortform-cover-posters img{width:100%;max-height:40vh;object-fit:cover}.shortform-cover-posters .shortform-hero-poster{grid-column:1/-1;aspect-ratio:16/9;max-height:21vh;width:100%;transform:none}.shortform-cover-posters img:nth-child(2){transform:translateY(20px)}
+.shortform-scene--hero .shortform-player{width:100%;height:auto;aspect-ratio:16/9;border-radius:12px}
+.shortform-scene .shortform-eyebrow{margin-bottom:18px}
+.shortform-scene .shortform-copy h3{margin-bottom:20px;font-size:clamp(28px,3.1vw,52px)}
+.shortform-scene .work-scenes__desc-en p{font-size:clamp(24px,2.2vw,38px)}
+.shortform-scene .shortform-meta{margin-top:24px}
+.shortform-scene .shortform-meta>div{grid-template-columns:80px 1fr;gap:16px;padding:12px 0}
+.shortform-scene .shortform-meta dd{font-size:13px;line-height:1.7}
+@media(max-width:1023px){.shortform-cover,.shortform-scene{grid-template-columns:1fr;height:auto!important;min-height:100svh;padding:70px 6vw;gap:50px}.shortform-scene{background:#222}.shortform-player{height:60svh}.shortform-copy h2{font-size:48px}.shortform-copy .fill-char{color:#fff!important;opacity:1!important;filter:none!important}.shortform-cover-posters{width:90%;margin:auto}.shortform-copy h3{font-size:34px;margin-bottom:22px}}
+
+/* User-supplied AI films are all landscape with original sound. */
+#shortForm .shortform-cover{align-content:start!important;align-items:start;padding-top:var(--ai-cover-top-gap,105px)}
+#shortForm .shortform-cover-posters figure{margin:0;min-width:0}
+#shortForm .shortform-cover-posters img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;max-height:none;transform:none;border-radius:10px;background:#171717}
+#shortForm .shortform-cover-posters figcaption{display:flex;justify-content:space-between;gap:8px;font-size:12px;padding-top:10px}
+#shortForm .shortform-cover-posters figcaption span{font-size:11px;opacity:.65}
+#shortForm .shortform-cover-posters .ai-video-featured{grid-column:1/-1;width:85%;margin:10px auto 0;justify-self:center}
+#shortForm .ai-video-preview{position:relative;display:block;overflow:hidden;border-radius:10px;color:#fff;text-decoration:none}
+#shortForm .ai-video-preview::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.52);opacity:0;transition:opacity .22s ease;pointer-events:none}
+#shortForm .ai-video-preview__label{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;gap:12px;font-size:clamp(14px,1.3vw,20px);font-weight:500;opacity:0;transition:opacity .22s ease}
+#shortForm .ai-video-preview:hover::after,#shortForm .ai-video-preview:focus-visible::after,#shortForm .ai-video-preview:hover .ai-video-preview__label,#shortForm .ai-video-preview:focus-visible .ai-video-preview__label{opacity:1}
+#shortForm .ai-video-preview:focus-visible{outline:2px solid #25211d;outline-offset:4px}
+@media(hover:none){#shortForm .ai-video-preview__label{inset:auto 10px 10px auto;background:#000b;padding:8px 11px;border-radius:999px;font-size:12px;opacity:1}}
+@media(prefers-reduced-motion:reduce){#shortForm .ai-video-preview::after,#shortForm .ai-video-preview__label{transition:none}}
+#shortForm .shortform-player{width:100%;height:auto;aspect-ratio:16/9;max-width:100%;border-radius:12px}
+#shortForm .shortform-player video{pointer-events:auto;object-fit:contain;transform:none}
+#shortForm .ai-video-sound-note{margin-top:24px;font-size:12px;line-height:1.8;opacity:.7;word-break:keep-all}
+#shortForm .shortform-meta dt{font-size:11px}
+@media(min-width:1024px){#shortForm .ai-video-scene{grid-template-columns:1.25fr 1fr;gap:5%;padding-inline:6%}}
+@media(max-width:1023px){#shortForm .shortform-cover,#shortForm .shortform-scene{align-content:center;gap:40px}#shortForm .shortform-cover-posters{width:100%}#shortForm .shortform-cover-posters figcaption{flex-direction:column;gap:4px}#shortForm .shortform-player{height:auto;width:100%}#shortForm .shortform-meta>div{grid-template-columns:70px 1fr;gap:12px}#shortForm .shortform-meta dd{font-size:14px}}

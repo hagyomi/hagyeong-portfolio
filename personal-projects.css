@@ -1,0 +1,26 @@
+﻿/* Standalone Web Projects: video fitting and long-brand title sizing. */
+.project-cover-video {
+  object-fit: contain;
+  object-position: center;
+}
+
+#workTouslesjours .work-detail__title-en {
+  display: inline-block;
+  font-size: clamp(40px, 5vw, 80px);
+  white-space: nowrap;
+}
+
+#workTouslesjours .work-detail__title {
+  width: 100%;
+  max-width: 100%;
+  white-space: normal;
+}
+
+@media (min-width: 1024px) {
+  .student-work.work-detail--p3 { height: 100svh; }
+}
+
+#workDetail3 .work-detail__track { transform: none !important; }
+
+/* The retained curve element belongs to the previous sliding presentation. */
+#workDetail3 .work-detail__glow-wrap { display: none; }

@@ -1,0 +1,35 @@
+/* Shared tokens without importing the portfolio scene styles into brand demos. */
+body {
+  font-family: var(--pf-font-body);
+}
+
+.copy i {
+  font-family: var(--pf-font-nav);
+}
+
+.copy p,
+.intro p {
+  font-size: var(--pf-text-body);
+  line-height: var(--pf-leading-body);
+}
+
+.menu,
+.slider-controls button,
+.tabs button {
+  min-height: var(--pf-target-min);
+  min-width: var(--pf-target-min);
+}
+
+:where(a, button):focus-visible {
+  outline: var(--pf-focus-width) solid var(--pf-white);
+  outline-offset: var(--pf-focus-offset);
+  box-shadow: 0 0 0 8px var(--pf-black);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none;
+    transform: none;
+    opacity: 1;
+  }
+}

@@ -1,0 +1,413 @@
+{
+  "fileKey": "VgDn8TpEInUTj3PxseLwwY",
+  "laka": {
+    "width": 1200,
+    "height": 14048
+  },
+  "kamill": {
+    "width": 1200,
+    "height": 29446
+  },
+  "sections": [
+    {
+      "key": "laka",
+      "nodeId": "363:788",
+      "name": "Frame 97",
+      "x": 0,
+      "y": 1515,
+      "width": 1200,
+      "height": 683,
+      "file": "laka-363-788.png"
+    },
+    {
+      "key": "laka",
+      "nodeId": "363:791",
+      "name": "Frame 101",
+      "x": 0,
+      "y": 4148,
+      "width": 1200,
+      "height": 915,
+      "file": "laka-363-791.png"
+    },
+    {
+      "key": "laka",
+      "nodeId": "363:794",
+      "name": "Frame 100",
+      "x": 0,
+      "y": 2198,
+      "width": 1200,
+      "height": 1950,
+      "file": "laka-363-794.png"
+    },
+    {
+      "key": "laka",
+      "nodeId": "363:809",
+      "name": "Frame 107",
+      "x": 1,
+      "y": 9068,
+      "width": 1200,
+      "height": 799,
+      "file": "laka-363-809.png"
+    },
+    {
+      "key": "laka",
+      "nodeId": "363:812",
+      "name": "Frame 110",
+      "x": 0,
+      "y": 9867,
+      "width": 1200,
+      "height": 1578,
+      "file": "laka-363-812.png"
+    },
+    {
+      "key": "laka",
+      "nodeId": "363:828",
+      "name": "Frame 116",
+      "x": 0,
+      "y": 11445,
+      "width": 1200,
+      "height": 1224,
+      "file": "laka-363-828.png"
+    },
+    {
+      "key": "laka",
+      "nodeId": "363:842",
+      "name": "Frame 120",
+      "x": 0,
+      "y": 12669,
+      "width": 1200,
+      "height": 1379,
+      "file": "laka-363-842.png"
+    },
+    {
+      "key": "laka",
+      "nodeId": "363:845",
+      "name": "Frame 102",
+      "x": 0,
+      "y": 5063,
+      "width": 1200,
+      "height": 4005,
+      "file": "laka-363-845.png"
+    },
+    {
+      "key": "laka",
+      "nodeId": "363:885",
+      "name": "Frame 96",
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 1515,
+      "file": "laka-363-885.png"
+    },
+    {
+      "key": "laka",
+      "nodeId": "363:889",
+      "name": "Frame 127",
+      "x": 0,
+      "y": 12669,
+      "width": 1200,
+      "height": 1379,
+      "file": "laka-363-889.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:695",
+      "name": "Frame 49",
+      "x": 0,
+      "y": 2671,
+      "width": 1200,
+      "height": 144,
+      "file": "kamill-132-695.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:697",
+      "name": "Frame 50",
+      "x": 0,
+      "y": 2815,
+      "width": 1200,
+      "height": 1477,
+      "file": "kamill-132-697.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:702",
+      "name": "Frame 52",
+      "x": 0,
+      "y": 5171,
+      "width": 1200,
+      "height": 1330,
+      "file": "kamill-132-702.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:709",
+      "name": "Frame 53",
+      "x": 0,
+      "y": 6501,
+      "width": 1200,
+      "height": 1029,
+      "file": "kamill-132-709.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:710",
+      "name": "Frame 54",
+      "x": 0,
+      "y": 7530,
+      "width": 1200,
+      "height": 1130,
+      "file": "kamill-132-710.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:719",
+      "name": "Frame 48",
+      "x": 0,
+      "y": 4292,
+      "width": 1200,
+      "height": 879,
+      "file": "kamill-132-719.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:720",
+      "name": "Frame 51",
+      "x": 0,
+      "y": 827,
+      "width": 1200,
+      "height": 1844,
+      "file": "kamill-132-720.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:691",
+      "name": "Frame 47",
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 827,
+      "file": "kamill-132-691.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:652",
+      "name": "Frame 63",
+      "x": 0,
+      "y": 8660,
+      "width": 1200,
+      "height": 4844,
+      "file": "kamill-132-652.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:668",
+      "name": "Frame 68",
+      "x": 0,
+      "y": 13504,
+      "width": 1200,
+      "height": 1004,
+      "file": "kamill-132-668.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:669",
+      "name": "Frame 67",
+      "x": 148,
+      "y": 13267,
+      "width": 905,
+      "height": 309,
+      "file": "kamill-132-669.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:671",
+      "name": "Frame 69",
+      "x": 0,
+      "y": 14508,
+      "width": 1200,
+      "height": 110,
+      "file": "kamill-132-671.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:674",
+      "name": "Frame 72",
+      "x": 0,
+      "y": 16936,
+      "width": 1200,
+      "height": 110,
+      "file": "kamill-132-674.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:677",
+      "name": "Frame 70",
+      "x": 0,
+      "y": 14618,
+      "width": 1200,
+      "height": 1386,
+      "file": "kamill-132-677.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:682",
+      "name": "Frame 71",
+      "x": 0,
+      "y": 16004,
+      "width": 1200,
+      "height": 932,
+      "file": "kamill-132-682.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "132:683",
+      "name": "Frame 73",
+      "x": 0,
+      "y": 17046,
+      "width": 1200,
+      "height": 1386,
+      "file": "kamill-132-683.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "157:636",
+      "name": "Frame 77",
+      "x": 0,
+      "y": 18432,
+      "width": 1200,
+      "height": 932,
+      "file": "kamill-157-636.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "175:780",
+      "name": "image 162",
+      "x": 79,
+      "y": 9325,
+      "width": 1042,
+      "height": 711,
+      "file": "kamill-175-780.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "180:786",
+      "name": "image 164",
+      "x": 82,
+      "y": 10757,
+      "width": 1037,
+      "height": 725,
+      "file": "kamill-180-786.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "183:796",
+      "name": "image 165",
+      "x": 111,
+      "y": 12203,
+      "width": 978,
+      "height": 684,
+      "file": "kamill-183-796.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "193:807",
+      "name": "Frame 79",
+      "x": 0,
+      "y": 19364,
+      "width": 1200,
+      "height": 110,
+      "file": "kamill-193-807.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "193:810",
+      "name": "Frame 81",
+      "x": 0,
+      "y": 21792,
+      "width": 1200,
+      "height": 110,
+      "file": "kamill-193-810.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "193:812",
+      "name": "Frame 83",
+      "x": 0,
+      "y": 24199,
+      "width": 1200,
+      "height": 110,
+      "file": "kamill-193-812.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "193:808",
+      "name": "Frame 80",
+      "x": 0,
+      "y": 19474,
+      "width": 1200,
+      "height": 1386,
+      "file": "kamill-193-808.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "193:813",
+      "name": "Frame 84",
+      "x": 0,
+      "y": 24309,
+      "width": 1200,
+      "height": 1386,
+      "file": "kamill-193-813.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "193:809",
+      "name": "Frame 79",
+      "x": 0,
+      "y": 20860,
+      "width": 1200,
+      "height": 932,
+      "file": "kamill-193-809.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "193:814",
+      "name": "Frame 85",
+      "x": 0,
+      "y": 25695,
+      "width": 1200,
+      "height": 932,
+      "file": "kamill-193-814.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "193:811",
+      "name": "Frame 82",
+      "x": 0,
+      "y": 21902,
+      "width": 1200,
+      "height": 2297,
+      "file": "kamill-193-811.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "193:815",
+      "name": "Frame 86",
+      "x": 0,
+      "y": 26627,
+      "width": 1200,
+      "height": 2375,
+      "file": "kamill-193-815.png"
+    },
+    {
+      "key": "kamill",
+      "nodeId": "272:684",
+      "name": "Frame 123",
+      "x": 0,
+      "y": 29002,
+      "width": 1200,
+      "height": 440,
+      "file": "kamill-272-684.png"
+    }
+  ]
+}

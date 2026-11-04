@@ -1,0 +1,518 @@
+{
+  "source": "https://persona1-pi.vercel.app/",
+  "downloadedAt": "2026-11-04T13:33:48.836Z",
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 77061
+    },
+    {
+      "path": "images/jihyun-profile.png",
+      "bytes": 432735
+    },
+    {
+      "path": "student.css",
+      "bytes": 9613
+    },
+    {
+      "path": "style.css",
+      "bytes": 243635
+    },
+    {
+      "path": "images/chatbot.svg",
+      "bytes": 4576
+    },
+    {
+      "path": "portfolio-tokens.css",
+      "bytes": 11156
+    },
+    {
+      "path": "reference-alignment.css",
+      "bytes": 24710
+    },
+    {
+      "path": "project-categories.css",
+      "bytes": 2838
+    },
+    {
+      "path": "diptyque-process.css",
+      "bytes": 5582
+    },
+    {
+      "path": "images/computer-work-generated.png",
+      "bytes": 2032516
+    },
+    {
+      "path": "images/office-work.png",
+      "bytes": 532623
+    },
+    {
+      "path": "portfolio.css",
+      "bytes": 5789
+    },
+    {
+      "path": "shortform.css",
+      "bytes": 3499
+    },
+    {
+      "path": "images/work-light-macbook.webp",
+      "bytes": 13274
+    },
+    {
+      "path": "images/team-meeting-generated.png",
+      "bytes": 2026161
+    },
+    {
+      "path": "images/zara-tablet.png",
+      "bytes": 166119
+    },
+    {
+      "path": "images/zara-desktop.png",
+      "bytes": 186266
+    },
+    {
+      "path": "images/zara-recording-poster.png",
+      "bytes": 186773
+    },
+    {
+      "path": "images/zara-mobile.png",
+      "bytes": 75568
+    },
+    {
+      "path": "images/zara-site-recording.webm",
+      "bytes": 4823890
+    },
+    {
+      "path": "images/work-typo-imac27.webp",
+      "bytes": 15520
+    },
+    {
+      "path": "images/work-ilkw-ipad-screen.webp",
+      "bytes": 20006
+    },
+    {
+      "path": "images/zara-team-work-generated.png",
+      "bytes": 2193714
+    },
+    {
+      "path": "images/zara-team-meeting-generated.png",
+      "bytes": 2197038
+    },
+    {
+      "path": "images/work-retention-ipad-bezel.webp",
+      "bytes": 13522
+    },
+    {
+      "path": "images/zara-methodology/lean.png",
+      "bytes": 118632
+    },
+    {
+      "path": "images/zara-methodology/persona.png",
+      "bytes": 69036
+    },
+    {
+      "path": "images/zara-methodology/brand.png",
+      "bytes": 77746
+    },
+    {
+      "path": "images/zara-methodology/meeting.png",
+      "bytes": 84922
+    },
+    {
+      "path": "images/zara-methodology/interviews.png",
+      "bytes": 84922
+    },
+    {
+      "path": "images/zara-methodology/requirements.png",
+      "bytes": 93832
+    },
+    {
+      "path": "images/zara-methodology/wireframe.png",
+      "bytes": 52220
+    },
+    {
+      "path": "images/zara-methodology/moodboard.png",
+      "bytes": 71868
+    },
+    {
+      "path": "images/onda-desktop.png",
+      "bytes": 819844
+    },
+    {
+      "path": "images/onda-tablet.png",
+      "bytes": 602180
+    },
+    {
+      "path": "images/onda-mobile.png",
+      "bytes": 294040
+    },
+    {
+      "path": "pages/personal-02.html",
+      "bytes": 2454
+    },
+    {
+      "path": "images/personal-gallery/luma-screen.png",
+      "bytes": 1752111
+    },
+    {
+      "path": "images/shortform/quiet-poster.png",
+      "bytes": 990901
+    },
+    {
+      "path": "images/onda-desktop-recording.webm",
+      "bytes": 2942284
+    },
+    {
+      "path": "images/shortform/night-poster.png",
+      "bytes": 983314
+    },
+    {
+      "path": "images/shortform/hero-poster.png",
+      "bytes": 1151077
+    },
+    {
+      "path": "pages/personal-luma.html",
+      "bytes": 2758
+    },
+    {
+      "path": "images/shortform/quiet.webm",
+      "bytes": 3762367
+    },
+    {
+      "path": "images/shortform/night.webm",
+      "bytes": 3700425
+    },
+    {
+      "path": "images/shortform/hero.webm",
+      "bytes": 4164467
+    },
+    {
+      "path": "images/icon-arrow-up-right.svg",
+      "bytes": 398
+    },
+    {
+      "path": "images/practice-1-desktop.png",
+      "bytes": 711449
+    },
+    {
+      "path": "pages/clone-01.html",
+      "bytes": 2480
+    },
+    {
+      "path": "images/practice-2-desktop.png",
+      "bytes": 796662
+    },
+    {
+      "path": "images/quick-qa-arrow.svg",
+      "bytes": 449
+    },
+    {
+      "path": "images/practice-3-desktop.png",
+      "bytes": 734177
+    },
+    {
+      "path": "images/ready-meeting-generated.png",
+      "bytes": 2129152
+    },
+    {
+      "path": "pages/clone-03.html",
+      "bytes": 2697
+    },
+    {
+      "path": "pages/clone-02.html",
+      "bytes": 2883
+    },
+    {
+      "path": "files/jihyun-resume.pdf",
+      "bytes": 33159
+    },
+    {
+      "path": "diptyque-process.js",
+      "bytes": 1768
+    },
+    {
+      "path": "images/footer-arrow-up.svg",
+      "bytes": 458
+    },
+    {
+      "path": "script.js",
+      "bytes": 227299
+    },
+    {
+      "path": "images/ready-work-generated.png",
+      "bytes": 1989171
+    },
+    {
+      "path": "images/ready-presentation-generated.png",
+      "bytes": 2081306
+    },
+    {
+      "path": "portfolio.js",
+      "bytes": 2559
+    },
+    {
+      "path": "images/zara-methodology/3c.png",
+      "bytes": 105619
+    },
+    {
+      "path": "images/zara-methodology/steep.png",
+      "bytes": 86764
+    },
+    {
+      "path": "images/zara-methodology/questions.png",
+      "bytes": 68611
+    },
+    {
+      "path": "images/zara-methodology/competitors.png",
+      "bytes": 77116
+    },
+    {
+      "path": "images/zara-methodology/summary.png",
+      "bytes": 71689
+    },
+    {
+      "path": "images/zara-methodology/flow.png",
+      "bytes": 45616
+    },
+    {
+      "path": "images/zara-methodology/journey.png",
+      "bytes": 91804
+    },
+    {
+      "path": "images/zara-methodology/affinity.png",
+      "bytes": 62968
+    },
+    {
+      "path": "images/zara-methodology/mindmap.png",
+      "bytes": 78873
+    },
+    {
+      "path": "images/zara-methodology/sitemap.png",
+      "bytes": 64941
+    },
+    {
+      "path": "images/zara-methodology/system.png",
+      "bytes": 77088
+    },
+    {
+      "path": "images/zara-methodology/components.png",
+      "bytes": 81606
+    },
+    {
+      "path": "fonts/NeueMontreal-Light.otf",
+      "bytes": 40516
+    },
+    {
+      "path": "fonts/NeueMontreal-LightItalic.otf",
+      "bytes": 49192
+    },
+    {
+      "path": "fonts/NeueMontreal-Regular.woff2",
+      "bytes": 25396
+    },
+    {
+      "path": "fonts/NeueMontreal-LightItalic.woff2",
+      "bytes": 25312
+    },
+    {
+      "path": "fonts/NeueMontreal-Light.woff2",
+      "bytes": 24712
+    },
+    {
+      "path": "fonts/NeueMontreal-Medium.woff2",
+      "bytes": 25516
+    },
+    {
+      "path": "fonts/NeueMontreal-Regular.otf",
+      "bytes": 40516
+    },
+    {
+      "path": "fonts/NeueMontreal-Italic.otf",
+      "bytes": 49624
+    },
+    {
+      "path": "fonts/NeueMontreal-Italic.woff2",
+      "bytes": 26012
+    },
+    {
+      "path": "fonts/NeueMontreal-Medium.otf",
+      "bytes": 41940
+    },
+    {
+      "path": "fonts/NeueMontreal-MediumItalic.woff2",
+      "bytes": 26924
+    },
+    {
+      "path": "fonts/NeueMontreal-MediumItalic.otf",
+      "bytes": 53652
+    },
+    {
+      "path": "fonts/NeueMontreal-Bold.woff2",
+      "bytes": 28844
+    },
+    {
+      "path": "fonts/NeueMontreal-Bold.otf",
+      "bytes": 42916
+    },
+    {
+      "path": "fonts/NeueMontreal-BoldItalic.woff2",
+      "bytes": 29240
+    },
+    {
+      "path": "fonts/NeueMontreal-BoldItalic.otf",
+      "bytes": 51532
+    },
+    {
+      "path": "fonts/cardinal-fruit.ttf",
+      "bytes": 205816
+    },
+    {
+      "path": "fonts/cardinal-fruit-medium.ttf",
+      "bytes": 206424
+    },
+    {
+      "path": "fonts/cardinal-fruit-italic.ttf",
+      "bytes": 221328
+    },
+    {
+      "path": "fonts/cardinal-fruit-medium-italic.ttf",
+      "bytes": 228000
+    },
+    {
+      "path": "fonts/cardinal-fruit-semibold.ttf",
+      "bytes": 213060
+    },
+    {
+      "path": "fonts/cardinal-fruit-bold.ttf",
+      "bytes": 219104
+    },
+    {
+      "path": "fonts/cardinal-fruit-semibold-italic.ttf",
+      "bytes": 228728
+    },
+    {
+      "path": "fonts/Pretendard-Regular.woff2",
+      "bytes": 765892
+    },
+    {
+      "path": "fonts/cardinal-fruit-bold-italic.ttf",
+      "bytes": 224376
+    },
+    {
+      "path": "fonts/Pretendard-SemiBold.woff2",
+      "bytes": 785856
+    },
+    {
+      "path": "vendor/gsap.min.js",
+      "bytes": 72779
+    },
+    {
+      "path": "pages/page.js",
+      "bytes": 1246
+    },
+    {
+      "path": "pages/page.css",
+      "bytes": 3464
+    },
+    {
+      "path": "images/zara-methodology/sources.json",
+      "bytes": 6326
+    },
+    {
+      "path": "images/elan-desktop.png",
+      "bytes": 947924
+    },
+    {
+      "path": "images/elan-mobile.png",
+      "bytes": 326882
+    },
+    {
+      "path": "photo-ratio.js",
+      "bytes": 1000
+    },
+    {
+      "path": "pages/page-motion.js",
+      "bytes": 1088
+    },
+    {
+      "path": "images/personal-gallery/luma.png",
+      "bytes": 2625559
+    },
+    {
+      "path": "images/onda-tea.png",
+      "bytes": 429423
+    },
+    {
+      "path": "images/claude.svg",
+      "bytes": 990
+    },
+    {
+      "path": "images/gpt.svg",
+      "bytes": 5773
+    },
+    {
+      "path": "images/elan-perfume.png",
+      "bytes": 624669
+    },
+    {
+      "path": "images/gemini.svg",
+      "bytes": 222428
+    },
+    {
+      "path": "images/css.svg",
+      "bytes": 21729
+    },
+    {
+      "path": "images/html.svg",
+      "bytes": 28415
+    },
+    {
+      "path": "images/scss-generated.png",
+      "bytes": 737080
+    },
+    {
+      "path": "images/capcut.svg",
+      "bytes": 290
+    },
+    {
+      "path": "images/after-effects.svg",
+      "bytes": 272
+    },
+    {
+      "path": "images/photoshop.svg",
+      "bytes": 2529
+    },
+    {
+      "path": "images/premiere-pro.svg",
+      "bytes": 272
+    },
+    {
+      "path": "images/javascript.svg",
+      "bytes": 7359
+    },
+    {
+      "path": "images/illustrator.svg",
+      "bytes": 2501
+    },
+    {
+      "path": "images/figma.svg",
+      "bytes": 932
+    },
+    {
+      "path": "images/zara-methodology/reference.png",
+      "error": "curl: (22) The requested URL returned error: 404"
+    },
+    {
+      "path": "assets/editorial-sheet.png",
+      "bytes": 2239838
+    },
+    {
+      "path": "images/zara-methodology/final.png",
+      "error": "curl: (22) The requested URL returned error: 404"
+    },
+    {
+      "path": "images/zara-methodology/initial.png",
+      "error": "curl: (22) The requested URL returned error: 404"
+    }
+  ]
+}
