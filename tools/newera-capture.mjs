@@ -52,16 +52,12 @@ try {
  await sleep(9000);
  console.log(await evaluate('document.body.innerText'));
  console.log(await evaluate('JSON.stringify([...document.querySelectorAll("main section,main>div")].map(e=>({cls:e.className,y:e.getBoundingClientRect().top+scrollY,h:e.offsetHeight})))'));
- await mkdir(path.join(root,'images/newera'),{recursive:true});
- for(const [name,selector] of [['desktop','.hero'],['attitude','.attitude'],['history','.history'],['categories','.categories'],['silhouette','.silhouette'],['lookbook','.shopall'],['collaboration','.collaboration']]){
+ await mkdir(path.join(root,'.local-preview/captures/newera'),{recursive:true});
+ for(const [name,selector] of [['desktop','.hero']]){
  await evaluate('(()=>{const e=document.querySelector('+JSON.stringify(selector)+'); if(e) scrollTo(0,e.getBoundingClientRect().top+scrollY);})()');
  await evaluate('Promise.all([...document.images].filter(i=>i.getBoundingClientRect().top < innerHeight && i.getBoundingClientRect().bottom > 0).map(i=>i.decode().catch(()=>{})))'); await sleep(3000);
  const shot=await send('Page.captureScreenshot',{format:'png'});
- await writeFile(path.join(root,'images/newera',name+'.png'),Buffer.from(shot.data,'base64'));
+ await writeFile(path.join(root,'.local-preview/captures/newera',name+'.png'),Buffer.from(shot.data,'base64'));
  }
-  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
- await evaluate('scrollTo(0,0)'); await sleep(2000);
- const mobile=await send('Page.captureScreenshot',{format:'png'});
- await writeFile(path.join(root,'images/newera/mobile.png'),Buffer.from(mobile.data,'base64'));
  console.log(JSON.stringify({exceptions,failed}));
 } finally { if(ws) ws.close(); browser.kill(); }

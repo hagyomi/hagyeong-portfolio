@@ -4,8 +4,20 @@ import path from 'node:path';
 // Conservative cleanup: retain cascade order, breakpoints and fallback values.
 // Only retired component selectors and byte-equivalent repeated rules are removed.
 const root = path.resolve(import.meta.dirname, '..');
-const files = ['style.css', 'student.css', 'reference-alignment.css', 'portfolio.css'];
-const retired = /\.(?:portfolio-chatbot|about-transition|gallery-interaction|ready-cta)(?:__[\w-]+|--[\w-]+)?(?![\w-])/;
+const files = [...fs.readdirSync(root).filter(f => f.endsWith('.css')), ...fs.readdirSync(path.join(root, 'pages')).filter(f => f.endsWith('.css')).map(f => 'pages/' + f)];
+const retired = /\.(?:portfolio-chatbot|about-transition|gallery-interaction|ready-cta|reason-quote|cards-reveal|clone-coding|ai-lab)(?:__[\w-]+|--[\w-]+)?(?![\w-])/;
+const runtimeFiles = ['index.html', ...fs.readdirSync(root).filter(f => f.endsWith('.js')), ...fs.readdirSync(path.join(root, 'pages')).filter(f => /\.(html|js)$/.test(f)).map(f => 'pages/' + f)];
+const runtime = runtimeFiles.map(f => fs.readFileSync(path.join(root, f), 'utf8').replace(/<!--[\s\S]*?-->|\/\*[\s\S]*?\*\//g, '')).join('\n');
+const unusedRoots = new Set();
+for (const file of files) {
+  const css = fs.readFileSync(path.join(root, file), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  for (const match of css.matchAll(/\.([a-zA-Z][\w-]*)/g)) {
+    const name = match[1];
+    if (!runtime.includes(name)) unusedRoots.add(name);
+  }
+}
+// Functional selector alternatives need branch-level analysis; retain them.
+const isUnused = selector => retired.test(selector) || (!/:(?:not|is|where|has)\(/.test(selector) && [...selector.matchAll(/\.([a-zA-Z][\w-]*)/g)].some(m => unusedRoots.has(m[1])));
 const stats = { retiredSelectors: 0, duplicateRules: 0, duplicateDeclarations: 0 };
 
 function scan(text, start, delimiters) {
@@ -53,7 +65,7 @@ function parse(text, context = '', seen = new Map()) {
       node.children = parse(node.body, context + '|' + selector, seen);
     } else if (!selector.startsWith('@')) {
       const selectors = split(selector, ',');
-      const keep = selectors.filter(s => !retired.test(s));
+      const keep = selectors.filter(s => !isUnused(s));
       stats.retiredSelectors += selectors.length - keep.length;
       if (!keep.length) node.removed = true;
       else {

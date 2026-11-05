@@ -33,8 +33,6 @@ body {
 }
 
 .hero__title em,
-.work-detail__title-em,
-.work-scenes__title-em,
 .quick-qa__title em {
   font-family: var(--pf-font-serif);
 }
@@ -116,8 +114,7 @@ body {
 }
 
 .project-category__inner,
-.project-category-nav,
-.short-form-section__inner {
+.project-category-nav {
   max-width: var(--pf-container-content);
 }
 
@@ -131,9 +128,6 @@ body {
   color: var(--pf-gray-body);
 }
 
-.short-form-section .project-category__description {
-  color: var(--pf-gray-light);
-}
 
 .work-detail__link {
   min-height: var(--pf-target-min);
@@ -146,10 +140,6 @@ body {
   transform: translateY(var(--pf-hover-lift));
 }
 
-.reference-cover-meta .student-task-list,
-.reference-practice-grid .clone-coding__caption {
-  font-family: var(--pf-font-body);
-}
 
 .portfolio-macbook {
   aspect-ratio: var(--pf-aspect-macbook);
@@ -202,12 +192,9 @@ main > [id] {
 }
 
 @media (width < 1024px) {
-  .reference-scene-copy .work-scenes__desc-kr p {
-    font-size: var(--pf-text-body);
-  }
 
-  .reference-cover-stage,
-  .reference-scene {
+
+  .reference-cover-stage {
     padding-inline: var(--pf-page-gutter);
   }
 }
@@ -260,8 +247,7 @@ main > [id] {
 .event-card__meta dt { color: var(--pf-project-muted); }
 .event-card__number,
 .event-card__meta dt,
-#shortForm .shortform-meta dt,
-#shortForm .ai-video-sound-note {
+#shortForm .shortform-meta dt {
   font-size: var(--pf-project-label-size);
   line-height: var(--pf-leading-meta);
 }

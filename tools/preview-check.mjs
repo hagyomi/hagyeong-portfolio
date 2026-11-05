@@ -68,7 +68,6 @@ try {
   await screenshot('desktop-work');
   report.work = await evaluate(`({scrollY,active:document.querySelector('.nav__link.is-active')?.textContent,heading:document.querySelector('#work h2')?.textContent})`);
   report.qa = await evaluate(`(()=>{const q=document.querySelector('.quick-qa__question');q.click();return {expanded:q.getAttribute('aria-expanded'),hidden:q.closest('article').querySelector('.quick-qa__answer').hidden};})()`);
-  report.dialog = await evaluate(`(()=>{const preview=document.querySelector('.diptyque-preview');if(!preview)return 'not present';preview.click();const d=document.querySelector('#diptyqueLightbox');const open=d.open;d.close();return open;})()`);
   report.chatbot = await evaluate(`(()=>{document.querySelector('.portfolio-chatbot__toggle').click();return {open:!document.querySelector('#portfolioChatbotPanel').hidden,focused:document.activeElement.id};})()`);
   await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape' });
   await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape' });
@@ -95,7 +94,7 @@ try {
   await navigate(390, 844, true);
   report.reducedMotion = await evaluate(`({animation:getComputedStyle(document.querySelector('.hero-word>span')).animationName,transform:getComputedStyle(document.querySelector('.hero__title-line')).transform})`);
   report.subpages = [];
-  for (const page of ['personal-02', 'personal-luma', 'clone-01', 'clone-02', 'clone-03']) {
+  for (const page of ['event-laka', 'event-kamill', 'event-kombucha']) {
     await send('Page.navigate', { url: `http://127.0.0.1:4173/pages/${page}.html` });
     await sleep(1000);
     for (let attempt = 0; attempt < 40; attempt++) {
@@ -105,7 +104,6 @@ try {
     }
     const state = await evaluate(`({title:document.title,viewport:innerWidth,width:document.documentElement.scrollWidth,heading:document.querySelector('h1')?.textContent,token:getComputedStyle(document.documentElement).getPropertyValue('--pf-target-min').trim()})`);
     report.subpages.push({ page, ...state });
-    if (page === 'personal-02') await screenshot('mobile-personal-demo');
   }
   report.exceptions = [...new Set(exceptions)];
   report.failedRequests = [...new Map(failed.map(x => [x.url, x])).values()];

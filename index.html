@@ -182,16 +182,6 @@
             >
                 <div class="work-detail__sticky">
                     <div class="work-detail__track">
-                        <div class="work-detail__glow-wrap" style="width: 300%">
-                            <svg
-                                class="work-detail__glow-curve"
-                                viewBox="0 0 3840 289.216"
-                                preserveAspectRatio="none"
-                                aria-hidden="true"
-                            >
-                                <path d="M0,150 L3840,150"></path>
-                            </svg>
-                        </div>
                         <div class="work-detail__panel">
                             <div class="work-detail__stage reference-cover-stage">
                                 <div class="reference-cover-devices">
@@ -870,15 +860,7 @@
                 </div>
             </section>
 
-            <!-- Figma node 2832-1904: black-bg SKILL section -- centered title +
-         Korean subtitle (fog-in reveal, same pattern/interaction as
-         .clone-coding__intro), then a DESIGN/FRONTEND/AI three-column
-         list that pins at viewport-center (position: sticky, same trick
-         as .clone-coding__intro) while the two flanking icon clusters
-         rise up into place beside it as the page keeps scrolling (same
-         one-time IntersectionObserver reveal as .clone-coding__card).
-         Icons use the project's own local SVGs (already placed by the
-         user) rather than Figma's exported assets. -->
+
             <section class="skill-content" id="skill">
                 <div class="skill-content__stage" id="skillCarouselStage">
                     <div class="skill-content__pin" id="skillCarouselPin">
@@ -1160,22 +1142,12 @@
                     </p>
                 </div>
 
-                <!-- Direct child of .site-footer (full viewport width), not
-           .site-footer__inner (position:relative but width capped at
-           1920px and centered) -- .site-footer__top's right/bottom offsets
-           need to resolve against the true screen corner the way
-           .portfolio-chatbot's fixed positioning already does, not against
-           that capped-and-centered column, which is what let it drift
-           inward from the real edge on any viewport wider than 1920px. -->
+
                 <button class="site-footer__top" type="button" aria-label="맨 위로 이동">
                     <img src="images/footer-arrow-up.svg" alt="" />
                 </button>
             </footer>
         </main>
-
-        <div class="flying-card flying-card--photo" id="flyingCard2" aria-hidden="true">
-            <img src="images/computer-work-generated.png" alt="" />
-        </div>
 
         <script src="script.js?v=20260731-webp-webm"></script>
 

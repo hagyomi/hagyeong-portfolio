@@ -40,53 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
   syncUFixed();
   window.addEventListener('resize', rafCoalesce(syncUFixed));
 
-  // Shared across both staff-canvas instances (hero + footer) -- a true
-  // constant, so computing it once here instead of on every drawStaffRibbon
-  // call (previously: every point of every line, every frame) costs nothing
-  // and changes nothing about the result.
-  const NINE_PI = Math.PI * 9;
-
-  // Chatbot header wave opacity controls (0 = invisible, 1 = opaque).
-  // Adjust only these five values to tune the foreground/background layers.
-  const CHATBOT_WAVE_OPACITY = Object.freeze({
-    front: 0.44,
-    middle: 0.24,
-    backTop: 0.24,
-    backBottom: 0.2,
-    backCenter: 0.35,
-  });
-
-  // Slow monochrome light fields, with gentle pointer parallax.
-  const initStaffCanvas = (canvas, options = {}) => {
+  // Static monochrome light fields for the footer.
+  const initFooterCanvas = (canvas) => {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    const frozen = options.static || matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let width = 0, height = 0, frame = 0, active = false, last = 0;
-    let targetX = 0, targetY = 0, pointerX = 0, pointerY = 0;
-    if (!frozen && canvas.id === 'staffCanvas' && matchMedia('(pointer: fine)').matches) {
-      canvas.parentElement.addEventListener('pointermove', event => {
-        const rect = canvas.getBoundingClientRect();
-        targetX = ((event.clientX - rect.left) / rect.width - .5) * 55;
-        targetY = ((event.clientY - rect.top) / rect.height - .5) * 40;
-      }, {passive:true});
-      canvas.parentElement.addEventListener('pointerleave', () => {targetX=0;targetY=0;});
-    }
-    const draw = (time = 0) => {
-      frame = 0;
-      if (!active && !frozen) return;
-      if (time - last < 42 && !frozen) { frame = requestAnimationFrame(draw); return; }
-      last = time;
+    let width = 0, height = 0;
+    const draw = () => {
       ctx.clearRect(0, 0, width, height);
-      if (options.background && options.background !== 'transparent') {
-        ctx.fillStyle = options.background; ctx.fillRect(0, 0, width, height);
-      }
-      const t = frozen ? 3 : time / 1000;
-      pointerX += (targetX - pointerX) * .045;
-      pointerY += (targetY - pointerY) * .045;
+      const t = 3;
       const span = Math.max(width, height);
       const field = (x,y,rx,ry,angle,opacity) => {
-        ctx.save();ctx.translate(x+pointerX,y+pointerY);ctx.rotate(angle);ctx.scale(rx,ry);
+        ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.scale(rx,ry);
         const glow=ctx.createRadialGradient(0,0,0,0,0,1);
         glow.addColorStop(0,'rgba(221,226,234,'+opacity+')');
         glow.addColorStop(.32,'rgba(174,184,200,'+(opacity*.55)+')');
@@ -94,111 +59,26 @@ document.addEventListener('DOMContentLoaded', () => {
         glow.addColorStop(1,'rgba(0,0,0,0)');
         ctx.fillStyle=glow;ctx.fillRect(-1,-1,2,2);ctx.restore();
       };
-      // Broad, overlapping light moves diagonally around a quiet center.
+      // Preserve the footer light composition.
       field(width*(.16+.08*Math.sin(t*.19)),height*(.65+.14*Math.cos(t*.16)),span*.57,span*.17,-.48+.12*Math.sin(t*.13),.27);
       field(width*(.88+.1*Math.cos(t*.17)),height*(.27+.12*Math.sin(t*.21)),span*.49,span*.2,-.52+.16*Math.cos(t*.12),.22);
       field(width*(.59+.13*Math.sin(t*.11)),height*(1.12+.07*Math.cos(t*.19)),span*.44,span*.13,-.24,.16);
       const shade=ctx.createRadialGradient(width*.5,height*.45,0,width*.5,height*.45,span*.7);
       shade.addColorStop(0,'rgba(0,0,0,.42)');shade.addColorStop(.4,'rgba(0,0,0,.08)');shade.addColorStop(1,'rgba(0,0,0,.25)');
       ctx.fillStyle=shade;ctx.fillRect(0,0,width,height);
-      if (!frozen && active) frame = requestAnimationFrame(draw);
     };
     const refresh = () => {
       width = canvas.clientWidth; height = canvas.clientHeight;
       const dpr = Math.min(devicePixelRatio || 1, 2);
       canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
-      ctx.setTransform(dpr,0,0,dpr,0,0); last = -Infinity;
-      if(frame)cancelAnimationFrame(frame);
-      draw(performance.now());
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      draw();
     };
-    new IntersectionObserver(entries => {
-      active = entries.some(entry => entry.isIntersecting);
-      if(active){last=-Infinity;if(!frame)draw(performance.now());}
-      else if(frame){cancelAnimationFrame(frame);frame=0;}
-    }, {rootMargin:'100px'}).observe(canvas);
     new ResizeObserver(rafCoalesce(refresh)).observe(canvas);
     refresh();
-    return {refresh};
   };
 
-  initStaffCanvas(document.getElementById('staffCanvas'), {
-    background: '#000000',
-  });
-  initStaffCanvas(document.getElementById('footerStaffCanvas'), {
-    initialAnimationOffset: 6200,
-    primaryCenterY: 0.48,
-    secondaryCenterY: 0.68,
-    primaryAlpha: 0.42,
-    secondaryAlpha: 0.2,
-    static: true,
-  });
-  // Two translucent five-line staves for the compact chatbot header. Lines
-  // within each staff stay almost parallel so the musical structure remains
-  // legible; only the two complete staves drift slightly against one another.
-  const chatbotHeaderStaffCanvas = initStaffCanvas(document.getElementById('portfolioChatbotHeaderCanvas'), {
-    initialAnimationOffset: 3400,
-    background: 'transparent',
-    primaryCenterY: 0.53,
-    secondaryCenterY: 0.57,
-    primaryCount: 5,
-    secondaryCount: 5,
-    amplitudeScale: 1.28,
-    spacingScale: 0.52,
-    primaryFrequency: 4.25,
-    secondaryFrequency: 3.92,
-    primaryPhase: 0.18,
-    secondaryPhase: -0.02,
-    primaryPhaseSpread: 0.008,
-    secondaryPhaseSpread: -0.006,
-    primaryAmplitudeSpread: 0.004,
-    secondaryAmplitudeSpread: -0.003,
-    primaryLift: 0,
-    secondaryLift: 0,
-    primaryThickness: 0.72,
-    secondaryThickness: 0.56,
-    primaryHighlight: true,
-    primarySoftGlow: true,
-    secondarySoftGlow: true,
-    primaryAlpha: CHATBOT_WAVE_OPACITY.front,
-    secondaryAlpha: CHATBOT_WAVE_OPACITY.middle,
-    dprCap: 3,
-    curveStep: 2,
-    echoLayers: [
-      {
-        centerY: 0.43,
-        amplitude: 0.07,
-        frequency: 4.9,
-        phase: 0.72,
-        alpha: CHATBOT_WAVE_OPACITY.backTop,
-        phaseSpread: 0.004,
-        thickness: 0.48,
-        softGlow: true,
-      },
-      {
-        centerY: 0.66,
-        amplitude: 0.058,
-        frequency: 3.28,
-        phase: -0.82,
-        alpha: CHATBOT_WAVE_OPACITY.backBottom,
-        phaseSpread: -0.004,
-        thickness: 0.48,
-        softGlow: true,
-      },
-      {
-        centerY: 0.55,
-        amplitude: 0.075,
-        frequency: 4.55,
-        phase: 1.18,
-        alpha: CHATBOT_WAVE_OPACITY.backCenter,
-        phaseSpread: 0.003,
-        thickness: 0.44,
-        softGlow: true,
-      },
-    ],
-    mobileCrop: false,
-    static: true,
-  });
-
+  initFooterCanvas(document.getElementById('footerStaffCanvas'));
   const hamburgerBtn = document.getElementById('hamburgerBtn');
   const mobileNav = document.getElementById('mobileNav');
   const navLinks = document.querySelectorAll('.nav__link, .mobile-nav__link');
@@ -297,20 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // smooth-scroll animation).
   let isNavJumping = false;
 
-  // Separate from isNavJumping -- that flag clears via waitForJumpToSettle's
-  // own "3 stable frames within 2px of target" polling loop, which can take
-  // a while (the browser's smooth-scroll easing tail keeps nudging the
-  // position by sub-pixel amounts well after the jump is visually done), so
-  // gating writes on it meant e.g. the header could sit black-on-black for
-  // up to a couple seconds after actually arriving. This instead clears on
-  // the native 'scrollend' event, which fires right when the browser itself
-  // considers the scroll finished. Also used by .about-transition (see
-  // updateAboutTransition) to skip animating its own black -> white wipe
-  // reveal in whatever compressed time a nav-jump's smooth-scroll takes to
-  // cross its 440vh -- not a race like the header's, just a real section
-  // the jump has to fly through, which otherwise reads as an unwanted flash
-  // of black rather than a deliberate transition.
-  let suspendNavJumpVisuals = false;
 
   // Scroll-jacked sections further down (the SKILL carousel) freeze real
   // page scrolling while engaged and drive their own animation off raw
@@ -335,7 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // hook for nav clicks so older section code can clean up local state if
   // needed.
   let releaseSkillCarouselLock = () => {};
-  let releaseCardsRevealLock = () => {};
 
   let isScrollLocked = false;
 
@@ -411,10 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       isNavJumping = true;
-      suspendNavJumpVisuals = true;
       navJumpToken += 1;
       header.classList.remove('header--hidden');
-      releaseCardsRevealLock();
       releaseSkillCarouselLock();
 
       // applyCombinedDarkState holds its overlay write for the whole jump,
@@ -449,28 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Native signal that a scroll (including the smooth-scroll a nav-link
-  // jump kicks off) has actually finished -- fires reliably right when the
-  // browser itself considers the scroll done, unlike isNavJumping's own
-  // "3 stable frames" polling (which can lag well behind the visual end of
-  // a smooth-scroll's easing tail). navJumpResumeCallbacks collects
-  // callbacks from sections suspended for the jump's duration (currently
-  // just .about-transition, see updateAboutTransition) that need one final
-  // recompute against the real, settled scroll position once it's over.
-  //
-  // applyCombinedDarkState() is also called unconditionally here (not just
-  // while suspendNavJumpVisuals was set): every *DarkContribution is only
-  // ever recomputed as a side effect of some 'scroll' listener firing, and
-  // applyCombinedDarkState's own rAF-batched write only runs when one of
-  // those calls it. If the browser's very last 'scroll' event of a
-  // smooth-scroll (nav-jump or otherwise) fires before the animation has
-  // fully settled to its rest position -- entirely possible during the
-  // easing tail -- nothing else is left to trigger one more recompute, so
-  // the header/overlay can get stuck showing whatever that last, not-quite-
-  // final position implied, indefinitely (confirmed: minutes, not frames).
-  // 'scrollend' is the one signal guaranteed to fire after scrolling has
-  // truly stopped, so forcing a recompute here closes that gap for good.
-  const navJumpResumeCallbacks = [];
   window.addEventListener('scrollend', () => {
     // The overlay's arrival value matches what the click handler already
     // eased it to, so dropping the temporary transition here never causes
@@ -478,25 +319,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isNavJumping && darkOverlayEl) darkOverlayEl.style.transition = '';
     if (!isNavJumping) navJumpActiveLock = false;
     applyCombinedDarkState();
-    if (suspendNavJumpVisuals) {
-      suspendNavJumpVisuals = false;
-      navJumpResumeCallbacks.forEach((fn) => fn());
-    }
+
   });
 
   window.addEventListener('scroll', () => {
-    // Always kept in sync with the real scrollY, even while isScrollLocked
-    // -- a scrollbar drag straight up to the hero can land here on the one
-    // 'scroll' event where a section's lock (cards-reveal, the SKILL
-    // carousel) is still flagged active (its own listener releases it
-    // moments later, on this same event, but after this handler already
-    // ran). Gating this below the isScrollLocked check meant that one
-    // event -- often the last, since the drag has already reached the top
-    // -- got skipped and .header--hero never reapplied, leaving the logo/
-    // nav text black-on-black over the hero until something else (a manual
-    // refresh) recomputed it from scratch. Nothing bad comes from calling
-    // it while genuinely locked either: real scrollY isn't moving then, so
-    // it just recomputes the same value.
     updateHeaderHeroState();
     if (isScrollLocked) return;
 
@@ -515,14 +341,6 @@ document.addEventListener('DOMContentLoaded', () => {
     lastScrollY = currentScrollY;
   });
 
-  /* Hero title -> Intro-reasons title scroll-linked hand-off.
-     The hero title clones into a fixed "flying" element while the
-     intro-reasons section scrolls into view, interpolating in document
-     coordinates between the two resting positions; once it docks, the
-     Korean subtitle, photo, and English subtext reveal in sequence. */
-  const heroTitleEl = document.querySelector('.hero__legacy-title');
-  const dockedTitleEl = document.querySelector('.intro-reasons__title');
-  const flyingTitleEl = document.getElementById('flyingTitle');
   const introReasons = document.querySelector('.intro-reasons');
   const subtitleEl = document.querySelector('.intro-reasons__subtitle');
   const textEl = document.querySelector('.intro-reasons__text');
@@ -571,37 +389,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('js-anim');
 
     let docked = false;
-
-    const measure = () => {
-      return;
-      // #flyingTitle lives outside any container-query ancestor (it must,
-      // so that position:fixed stays truly viewport-fixed instead of being
-      // contained by .intro-reasons' container-type box), so var(--u)'s
-      // cqw component can't resolve there ??copy the resolved px value
-      // from a container-query descendant instead.
-      flyingTitleEl.style.setProperty('--u', getComputedStyle(dockedTitleEl).getPropertyValue('--u'));
-
-      const startRect = heroTitleEl.getBoundingClientRect();
-      const stickyRect = introStickyEl.getBoundingClientRect();
-      const endRect = dockedTitleEl.getBoundingClientRect();
-
-      // Both anchors are captured in *viewport* space, not document space:
-      // - startPos is the hero title's document top, which equals its
-      //   viewport position at progress 0 (scrollY 0, since the hero is
-      //   exactly 100vh tall).
-      // - endPos is the docked title's offset *inside* the sticky box
-      //   (title.top - sticky.top), which never changes with scroll --
-      //   .intro-reasons__sticky centers its content the same way whether
-      //   it's currently pinned or not. Once actually pinned, the sticky
-      //   box sits at viewport top 0, so this offset IS the title's final
-      //   on-screen resting position.
-      // Blending directly between these two fixed viewport points (instead
-      // of the old document-coordinate lerp minus a live scrollY) keeps the
-      // flight strictly monotonic -- no more dipping past the docked spot
-      // and rising back up to correct itself.
-      startPos = { top: startRect.top + window.scrollY, left: startRect.left };
-      endPos = { top: endRect.top - stickyRect.top, left: endRect.left };
-    };
 
     const getProgress = () => {
       const rect = introReasons.getBoundingClientRect();
@@ -658,14 +445,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const FILL_END_VH = 187.5;
       const SWAP_TRIGGER_VH = 218.85;
       const fillProgress = stage(0, (FILL_END_VH * vh) / dwellDist, dwellProgress);
-      // The English->Korean crossfade used to map opacity directly to
-      // scroll distance across this whole window, which read as a
-      // mechanical wipe keyed to scroll speed rather than a genuine
-      // fade-in. Now it's a single trigger at SWAP_TRIGGER_VH --
-      // .is-swapped's CSS transition (see .intro-reasons__text-kr) plays
-      // the actual low-opacity-rising-to-full fade over a fixed duration,
-      // matching how .intro-reasons__reveal and the reason-quote word
-      // reveals already animate elsewhere in this file.
       const krSwapThreshold = (SWAP_TRIGGER_VH * vh) / dwellDist;
 
       if (fillChars.length) {
@@ -698,64 +477,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let resizeTimer;
     const onResize = () => {
-      measure();
       update();
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        measure();
-        update();
-      }, 200);
+      resizeTimer = setTimeout(update, 200);
     };
 
-    measure();
     update();
-
-    // Smooth entrance for the hero title on first load: fade + rise in from
-    // slightly below (only when we're actually starting at the top -- if the
-    // page loaded mid-scroll, update() above already put it in the right
-    // state and it shouldn't be touched). The transition is inline and
-    // temporary, not a CSS animation with fill-mode -- a filled animation
-    // keeps overriding any later inline opacity change on the same element
-    // forever, which previously left the hero title stuck visible even
-    // after script.js tried to hide it once scrolling into the hand-off,
-    // showing it doubled up alongside the flying/docked title.
-    if (heroTitleEl && getProgress() <= 0) {
-      heroTitleEl.style.transition = 'none';
-      heroTitleEl.style.opacity = '0';
-      heroTitleEl.style.transform = 'translateY(28px)';
-      heroTitleEl.getBoundingClientRect();
-      requestAnimationFrame(() => {
-        heroTitleEl.style.transition = 'opacity 0.9s ease, transform 0.9s ease';
-        heroTitleEl.style.opacity = '1';
-        heroTitleEl.style.transform = 'translateY(0)';
-        // A hard timeout, not transitionend: if the user scrolls before this
-        // finishes, update() changes the opacity target mid-flight, which
-        // means the transition never reaches "1" and transitionend never
-        // fires -- leaving this slow transition attached indefinitely and
-        // making every later scroll-driven opacity change (the hand-off to
-        // the flying title) crawl instead of snap instantly.
-        setTimeout(() => {
-          heroTitleEl.style.transition = '';
-        }, 900);
-      });
-    }
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', rafCoalesce(onResize));
-    window.addEventListener('load', () => {
-      measure();
-      update();
-    });
+    window.addEventListener('load', update);
   }
 
-  /* Shared full-screen dark takeover, contributed to by both reason-quote
-     and cards-reveal (two consecutive black sections) -- whichever one is
-     more "on screen" at a given scroll position drives #scrollDarkOverlay
-     and the header inversion, so the header/overlay stay dark across the
-     handoff between them instead of the header flashing back to black at
-     exactly the point reason-quote's own dark contribution fades out
-     (which happens right as cards-reveal takes over -- see each
-     section's own entry/exit math below). */
+
   const darkOverlayEl = document.getElementById('scrollDarkOverlay');
   const headerEl = document.querySelector('.header');
   // How much of the overlay fade counts as "in the dark section" for the
@@ -782,27 +516,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // all of them, synchronously, immediately before every write, so no
   // combined value is ever built from a mix of stale and fresh contributions.
   const darkContributionRefreshers = [];
-  let reasonDarkContribution = 0;
-  let cardsDarkContribution = 0;
   let workTransitionDarkContribution = 0;
-  let workDetail3DarkContribution = 0;
   let shortformDarkContribution = 0;
   let skillTransitionDarkContribution = 0;
   let skillContentDarkContribution = 0;
-  let aboutTransitionDarkContribution = 0;
-  // .site-footer (and .ready-cta, the always-solid-black section right
-  // before it) are always solid black, unlike every other section above
-  // (which fade a dark overlay in/out via their own *DarkContribution).
-  // quickQaDarkContribution's own "exit" factor drops to 0 as soon as
-  // quick-qa's bottom scrolls above the viewport -- with nothing covering
-  // for .ready-cta/.site-footer after it, the header logo (plain black SVG,
-  // only inverted to white while some *DarkContribution is above threshold)
-  // would go black-on-black and effectively disappear over them. No fade
-  // needed here since that whole remaining stretch is already fully opaque
-  // -- this is just 1 while the viewport's top edge is over it, 0
-  // otherwise. Set inside updateQuickQaDarkState itself (not a separate
-  // listener) -- see that function for why sharing its one rect read
-  // matters here.
   let blackSectionDarkContribution = 0;
   let quickQaDarkContribution = 0;
   // Mobile only (see updateSkillContentDark below): keeps the header
@@ -812,27 +529,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // solid black background, so the overlay never needs to reflect it.
   let skillContentHeaderOverlap = 0;
 
-  // A direct black<->white swap (.header--inverted, see CSS) once the
-  // overlay is dark enough -- not a per-frame RGB blend. Blending toward
-  // white tracked the scroll position 1:1, so for most of the scroll it
-  // sat at some intermediate gray -- exactly the muted color inactive
-  // links already use, making active/inactive momentarily
-  // indistinguishable, and it meant black text stayed low-contrast
-  // against the darkening background for a long stretch instead of
-  // becoming legible (white) as soon as darkening starts.
-  // Batching the actual DOM write into one rAF (rather than writing on
-  // every single applyCombinedDarkState() call, several of which can land
-  // for what's functionally the same on-screen instant during a fast
-  // scroll) means only one, fully-settled value gets painted per frame.
-  // Combined with darkContributionRefreshers above (refreshing every
-  // section's contribution from live geometry immediately before reading
-  // any of them, right here), the value read on any given frame can never
-  // be a mix of one section's stale figure and another's fresh one --
-  // eliminating the header/overlay flicker without delaying the write
-  // itself (color changes land the same frame the underlying scroll
-  // position does, nav-jump or otherwise -- see .about-transition's own
-  // suspend-during-jump handling below for the one section that needs a
-  // real behavioral change during a jump, not just a timing fix).
   let darkStateFrameId = 0;
   const applyCombinedDarkState = () => {
     if (darkStateFrameId) return;
@@ -855,7 +551,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // destination state in one clean frame instead of several flickery
       // ones.
       if (isNavJumping) return;
-      const combined = Math.max(reasonDarkContribution, cardsDarkContribution, workTransitionDarkContribution, workDetail3DarkContribution, shortformDarkContribution, skillTransitionDarkContribution, skillContentDarkContribution, aboutTransitionDarkContribution, quickQaDarkContribution);
+      const combined = Math.max(workTransitionDarkContribution, shortformDarkContribution, skillTransitionDarkContribution, skillContentDarkContribution, quickQaDarkContribution);
       if (darkOverlayEl) darkOverlayEl.style.opacity = String(combined);
       // blackSectionDarkContribution deliberately does NOT feed into
       // `combined`: combined drives #scrollDarkOverlay's opacity (a
@@ -883,39 +579,6 @@ document.addEventListener('DOMContentLoaded', () => {
       a: parts.length > 3 ? parts[3] : 1,
     };
   };
-
-  const updateTopArrowSurface = () => {
-    const button = document.querySelector('.portfolio-chatbot__top');
-    if (!button) return;
-    const rect = button.getBoundingClientRect();
-    const stack = document.elementsFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
-    let brightness = 255;
-    let found = false;
-    for (const start of stack) {
-      if (start.closest('.portfolio-chatbot') || start.closest('.fixed-grid-lines') || start === darkOverlayEl) continue;
-      for (let el = start; el; el = el.parentElement) {
-        const color = readColor(getComputedStyle(el).backgroundColor);
-        if (color && color.a > .5) {
-          brightness = (color.r * 299 + color.g * 587 + color.b * 114) / 1000;
-          found = true;
-          break;
-        }
-      }
-      if (found) break;
-    }
-    const overlay = darkOverlayEl ? Number.parseFloat(getComputedStyle(darkOverlayEl).opacity) || 0 : 0;
-    button.classList.toggle('is-on-dark', brightness * (1 - overlay) < 190);
-  };
-  let topArrowFrame = 0;
-  const requestTopArrowSurface = () => {
-    if (topArrowFrame) return;
-    topArrowFrame = requestAnimationFrame(() => { topArrowFrame = 0; updateTopArrowSurface(); });
-  };
-  window.addEventListener('scroll', requestTopArrowSurface, {passive:true});
-  window.addEventListener('resize', requestTopArrowSurface);
-  window.addEventListener('load', requestTopArrowSurface);
-  if (darkOverlayEl) new MutationObserver(requestTopArrowSurface).observe(darkOverlayEl, {attributes:true,attributeFilter:['style']});
-  requestTopArrowSurface();
 
   const updateMobileHeaderSurface = () => {
     if (!headerEl || window.innerWidth > 1023) {
@@ -966,119 +629,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', requestMobileHeaderSurfaceUpdate);
   window.addEventListener('load', updateMobileHeaderSurface);
 
-  /* Reason-quote: personal statement that scrolls in right after
-     intro-reasons. The *whole viewport* (not just this section's own box)
-     crossfades white -> black continuously as the section slides into
-     place, via #scrollDarkOverlay -- a fixed full-screen layer whose
-     opacity is scroll-scrubbed (like the flying-title hand-off above) --
-     and fades back out once the section is scrolled past. In sync, the
-     fixed header's logo/active nav-link invert from black to white so
-     they stay legible over the darkening screen. Once pinned, words/chips
-     reveal in scroll-triggered batches -- each batch that's been scrolled
-     past gets .is-revealed and animates in over its own CSS transition,
-     independent of scroll speed, matching INTERACTION_GUIDE.md's
-     mask-wipe + chip-expand pattern. */
-  const reasonQuoteEl = document.querySelector('.reason-quote');
 
-  if (reasonQuoteEl) {
-    const reasonSequence = Array.from(reasonQuoteEl.querySelectorAll('.word, .media-chip'));
-
-    // Cumulative reveal count at each dwellProgress threshold -- lines up
-    // with the sentence's own word groups and inline chips (e.g. the first
-    // threshold reveals "FROM music", the next adds the piano chip + "TO").
-    const reasonThresholds = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7];
-    const reasonRevealCounts = [2, 4, 6, 7, 9, 10, 12, 14];
-
-    const getReasonEntryProgress = () => {
-      const rect = reasonQuoteEl.getBoundingClientRect();
-      const vh = window.innerHeight;
-      return Math.min(1, Math.max(0, (vh - rect.top) / vh));
-    };
-
-    // Mirrors getReasonEntryProgress but off the section's *bottom* edge,
-    // so the overlay fades back out as the section scrolls past rather
-    // than staying pinned black for every section that follows it.
-    const getReasonExitProgress = () => {
-      const rect = reasonQuoteEl.getBoundingClientRect();
-      const vh = window.innerHeight;
-      return Math.min(1, Math.max(0, rect.bottom / vh));
-    };
-
-    const getReasonDwellProgress = () => {
-      const rect = reasonQuoteEl.getBoundingClientRect();
-      const dwellDist = reasonQuoteEl.offsetHeight - window.innerHeight;
-      return dwellDist > 0 ? Math.min(1, Math.max(0, -rect.top / dwellDist)) : 0;
-    };
-
-    darkContributionRefreshers.push(() => {
-      reasonDarkContribution = window.innerWidth <= 1023
-        ? 0
-        : Math.min(getReasonEntryProgress(), getReasonExitProgress());
-    });
-
-    const updateReasonQuote = () => {
-      // Mobile fallback (see CSS) shows everything at rest with a plain
-      // static black block -- skip the scroll-scrubbed overlay/header
-      // inversion and reveal-threshold math entirely, and clear any
-      // inline styles left over from a wider viewport instead of letting
-      // them fight the CSS override.
-      if (window.innerWidth <= 1023) {
-        reasonDarkContribution = 0;
-        applyCombinedDarkState();
-        const mobileEntry = getReasonEntryProgress();
-        const shouldRevealMobileChips = mobileEntry > 0.42;
-        reasonSequence.forEach((el) => {
-          if (el.classList.contains('media-chip')) {
-            el.classList.toggle('is-revealed', shouldRevealMobileChips);
-          }
-        });
-        return;
-      }
-
-      const entry = getReasonEntryProgress();
-      const exit = getReasonExitProgress();
-      reasonDarkContribution = Math.min(entry, exit);
-      applyCombinedDarkState();
-
-      // Only start evaluating reveal batches once the section is actually
-      // pinned (entry fully complete) -- dwellProgress alone can't tell
-      // "just reached the start of the dwell" apart from "haven't scrolled
-      // anywhere near the section yet", since both clamp to 0.
-      const dwellProgress = entry >= 1 ? getReasonDwellProgress() : 0;
-      let activeCount = 0;
-      if (entry >= 1) {
-        reasonThresholds.forEach((threshold, i) => {
-          if (dwellProgress >= threshold) activeCount = reasonRevealCounts[i];
-        });
-      }
-      reasonSequence.forEach((el, i) => {
-        el.classList.toggle('is-revealed', i < activeCount);
-      });
-    };
-
-    let reasonTicking = false;
-    const onReasonScroll = () => {
-      if (!reasonTicking) {
-        reasonTicking = true;
-        requestAnimationFrame(() => {
-          updateReasonQuote();
-          reasonTicking = false;
-        });
-      }
-    };
-
-    updateReasonQuote();
-    window.addEventListener('scroll', onReasonScroll, { passive: true });
-    window.addEventListener('resize', rafCoalesce(updateReasonQuote));
-    window.addEventListener('load', updateReasonQuote);
-  }
-
-  /* Work transition: "WORK selected projects" title screen between
-     cards-reveal and the work-detail cover (see CSS for the full writeup
-     of the two-layer clip-path technique this borrows from
-     SCROLL-INTERACTIONS.md's Color-Invert Wipe). Same pinned-dwell +
-     live-progress pattern as every section above -- entry/exit/dwell all
-     read fresh off getBoundingClientRect() every scroll frame, no GSAP. */
   const workTransitionEl = document.querySelector('.work-transition');
 
   if (workTransitionEl) {
@@ -1322,10 +873,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const revealFrom = 100 - wipeProgress * 100;
       wipeEl.style.clipPath = `polygon(${revealFrom}% 0%, 100% 0%, 100% 100%, ${revealFrom}% 100%)`;
 
-      // Dark contribution fades out as the wipe completes (screen turns
-      // white), same entry/exit-gated pattern as reason-quote/cards-reveal
-      // above so the header only inverts back while this section is
-      // actually the one on screen.
       workTransitionDarkContribution = 0;
       applyCombinedDarkState();
     };
@@ -1358,7 +905,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const isMobileFogViewport = () => window.innerWidth <= 1023;
-  const mobileTransitionFogEls = Array.from(document.querySelectorAll('.work-transition, .skill-transition, .about-transition'));
+  const mobileTransitionFogEls = Array.from(document.querySelectorAll('.work-transition, .skill-transition'));
   if (mobileTransitionFogEls.length) {
     const mobileTransitionFogObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -1468,11 +1015,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const getSkillTransitionExitProgress = () => {
       const rect = skillTransitionEl.getBoundingClientRect();
       const vh = window.innerHeight;
-      // Mobile: same fix as skill-content's exit progress below -- a
-      // vh-wide margin means this stays nonzero well past skill-transition's
-      // own footprint (it's much shorter than a full viewport, ~52svh), so
-      // it was still feeding the shared overlay dark all the way through
-      // skill-content and bleeding into about-transition/gallery below.
       if (window.innerWidth <= 1023) {
         return rect.bottom > 80 ? 1 : 0;
       }
@@ -1498,12 +1040,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const updateSkillTransition = () => {
-      // Mobile fallback (see CSS): static stacked end-state, no pin/scrub --
-      // same "reveal as one whole block" pattern as work-transition/
-      // about-transition (.is-mobile-fog-visible, toggled once by
-      // mobileTransitionFogObserver above), not a continuous per-char
-      // scroll-driven dissolve. Also clears any fog-char styles left over
-      // from a desktop-width scroll before the viewport was resized down.
       if (window.innerWidth <= 1023) {
         const entry = getSkillTransitionEntryProgress();
         const exit = getSkillTransitionExitProgress();
@@ -1577,15 +1113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', rafCoalesce(onSkillTransitionResize));
   }
 
-  /* Skill-content: solid black section right after the skill-transition
-     wipe. skillTransitionDarkContribution (above) only covers the wipe
-     itself and fades back to 0 as soon as its bottom edge clears the
-     header -- exactly when this section takes over -- so without a
-     contribution of its own here the header would flip back to
-     non-inverted for the rest of the scroll through this section,
-     leaving the black "SKILL" active nav link invisible against its
-     black background. Same plain entry/exit crossfade as reason-quote;
-     no dwell/wipe math needed since it's uniformly black throughout. */
+
   const skillContentEl = document.querySelector('.skill-content');
 
   if (skillContentEl) {
@@ -1598,14 +1126,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const getSkillContentExitProgress = () => {
       const rect = skillContentEl.getBoundingClientRect();
       const vh = window.innerHeight;
-      // Mobile: skill-content already paints its own solid black background,
-      // so this contribution's only real job here is keeping the header
-      // inverted while the header still physically overlaps skill-content's
-      // remaining black sliver -- it should NOT also fade the shared
-      // full-viewport overlay across the rest of the (already-visible,
-      // meant to stay plain white) about-transition/gallery content below.
-      // A step tied to the header's own height removes that gradual wash
-      // entirely instead of merely shortening it.
       if (window.innerWidth <= 1023) {
         return rect.bottom > 80 ? 1 : 0;
       }
@@ -1627,19 +1147,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateSkillContentDark = () => {
       const entry = getSkillContentEntryProgress();
       const exit = getSkillContentExitProgress();
-      // On mobile this used to feed skillContentDarkContribution directly,
-      // which -- via applyCombinedDarkState's shared Math.max -- pinned the
-      // full-viewport #scrollDarkOverlay fully opaque for the entire stretch
-      // where rect.bottom stayed above 80 (until skill-content's remnant
-      // cleared the header), then snapped it to 0. That stretch reaches well
-      // past the about-transition wipe into the gallery reveal below, so the
-      // whole screen (including the gallery's own cards, visible through the
-      // WebGL canvas's transparent gaps) rendered solid black and then
-      // flashed bright the instant the step flipped -- exactly the "dark
-      // then suddenly bright" flash reported entering the gallery section.
-      // Route it to the header-only signal instead: skill-content's own
-      // background is already opaque black, so the overlay never needed
-      // this contribution to look dark in the first place.
       if (window.innerWidth <= 1023) {
         skillContentDarkContribution = 0;
         skillContentHeaderOverlap = Math.min(entry, exit);
@@ -1666,1064 +1173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', rafCoalesce(updateSkillContentDark));
   }
 
-  /* About transition: "ABOUT more about me" title screen right after
-     skill-content, before the ABOUT section proper. 1:1 mirror of the
-     work-transition block above -- same scroll-in title, per-char fog
-     dissolve, mid-dwell clip-path wipe -- and the same black-to-white
-     direction (dark contribution starts high and fades OUT as the wipe
-     completes), not skill-transition's white-to-black. */
-  const aboutTransitionEl = document.querySelector('.about-transition');
 
-  if (aboutTransitionEl) {
-    const aboutScrollerBaseEl = document.getElementById('aboutTransitionScrollerBase');
-    const aboutScrollerWipeEl = document.getElementById('aboutTransitionScrollerWipe');
-    const aboutWipeEl = document.getElementById('aboutTransitionWipe');
-
-    // Local copy of work-transition's own smoothstep -- that one is scoped
-    // inside the `if (workTransitionEl)` block above, out of reach here.
-    const smoothstep = (t) => t * t * (3 - 2 * t);
-
-    const ABOUT_WIPE_START = 0.4;
-    const ABOUT_WIPE_END = 0.6;
-
-    // "A"'s rest-state center sits at ~414px (narrower than "W"'s ~454px),
-    // so work-transition's 480 start left it already ~10% dissolved before
-    // any scrolling -- same issue SKILL_FOG_START's 400 was tuned to avoid
-    // for "S". 380 sits just under where "A" starts at rest so the fade
-    // zone doesn't reach it until scroll actually pushes it left.
-    const ABOUT_FOG_START = 380;
-    // See FOG_END in updateWorkTransition -- widened the same way (150 ->
-    // -350) so each char's own fade spans multiple scroll gestures instead
-    // of finishing inside one.
-    const ABOUT_FOG_END = -350;
-    const ABOUT_FOG_MAX_BLUR = 65;
-    const ABOUT_FOG_RISE = 200;
-    // See FOG_BLUR_KNEE in updateWorkTransition -- same two-tier blur ramp,
-    // kept in sync.
-    const ABOUT_FOG_BLUR_KNEE = 0.55;
-    const ABOUT_FOG_BLUR_KNEE_BLUR = 22;
-
-    const aboutTitleBaseEl = aboutScrollerBaseEl.querySelector('.about-transition__title');
-    const aboutTitleWipeEl = aboutScrollerWipeEl.querySelector('.about-transition__title');
-    wrapChars(aboutTitleBaseEl, 'fog-char');
-    wrapChars(aboutTitleWipeEl, 'fog-char');
-    const aboutFogCharsBase = Array.from(aboutTitleBaseEl.querySelectorAll('.fog-char')).map((el) => ({ el, center: 0 }));
-    const aboutFogCharsWipe = Array.from(aboutTitleWipeEl.querySelectorAll('.fog-char')).map((el) => ({ el, center: 0 }));
-
-    const measureAboutFogChars = () => {
-      [...aboutFogCharsBase, ...aboutFogCharsWipe].forEach((c) => {
-        c.center = c.el.offsetLeft + c.el.offsetWidth / 2;
-      });
-    };
-    measureAboutFogChars();
-    // See the matching comment in the work-transition block above -- webfont
-    // swap-in after the initial measure was leaving these centers stale.
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(measureAboutFogChars);
-    }
-
-    const ABOUT_FADE_DURATION = 0.45;
-
-    const applyAboutFogChars = (chars, x, settleProgress = 0, centerX = 0) => {
-      const staggerSpanPx = Math.max(1, centerX - ABOUT_FOG_END);
-      chars.forEach((c) => {
-        const viewportX = c.center + x;
-        const linear = Math.min(1, Math.max(0, (ABOUT_FOG_START - viewportX) / (ABOUT_FOG_START - ABOUT_FOG_END)));
-        const positional = smoothstep(linear);
-        let extra = 0;
-        if (settleProgress > 0) {
-          const normalizedPos = Math.min(1, Math.max(0, (viewportX - (centerX - staggerSpanPx)) / staggerSpanPx));
-          const staggerDelay = normalizedPos * (1 - ABOUT_FADE_DURATION);
-          const staggeredT = Math.min(1, Math.max(0, (settleProgress - staggerDelay) / ABOUT_FADE_DURATION));
-          extra = smoothstep(staggeredT);
-        }
-        const progress = Math.max(positional, extra);
-        if (progress <= 0) {
-          c.el.style.opacity = '';
-          c.el.style.filter = '';
-          c.el.style.transform = '';
-        } else {
-          c.el.style.opacity = String(1 - progress);
-          const blurRamp = progress <= ABOUT_FOG_BLUR_KNEE
-            ? progress * (ABOUT_FOG_BLUR_KNEE_BLUR / ABOUT_FOG_BLUR_KNEE)
-            : ABOUT_FOG_BLUR_KNEE_BLUR
-              + ((progress - ABOUT_FOG_BLUR_KNEE) / (1 - ABOUT_FOG_BLUR_KNEE)) * (ABOUT_FOG_MAX_BLUR - ABOUT_FOG_BLUR_KNEE_BLUR);
-          c.el.style.filter = `blur(${blurRamp}px)`;
-          c.el.style.transform = `translateY(${-progress * ABOUT_FOG_RISE}px)`;
-        }
-      });
-    };
-
-    const getAboutTransitionEntryProgress = () => {
-      const rect = aboutTransitionEl.getBoundingClientRect();
-      const vh = window.innerHeight;
-      return Math.min(1, Math.max(0, (vh - rect.top) / vh));
-    };
-
-    const getAboutTransitionExitProgress = () => {
-      const rect = aboutTransitionEl.getBoundingClientRect();
-      const vh = window.innerHeight;
-      return Math.min(1, Math.max(0, rect.bottom / vh));
-    };
-
-    const getAboutTransitionDwellProgress = () => {
-      const rect = aboutTransitionEl.getBoundingClientRect();
-      const dwellDist = aboutTransitionEl.offsetHeight - window.innerHeight;
-      return dwellDist > 0 ? Math.min(1, Math.max(0, -rect.top / dwellDist)) : 0;
-    };
-
-    darkContributionRefreshers.push(() => {
-      // Forced to 0 for the same reason updateAboutTransition itself skips
-      // its normal calculation during a nav-jump -- see that function.
-      if (suspendNavJumpVisuals || window.innerWidth <= 1023) {
-        aboutTransitionDarkContribution = 0;
-        return;
-      }
-      const entry = getAboutTransitionEntryProgress();
-      const exit = getAboutTransitionExitProgress();
-      const dwellProgress = entry >= 1 ? getAboutTransitionDwellProgress() : 0;
-      const wipeProgress = Math.min(1, Math.max(0, (dwellProgress - ABOUT_WIPE_START) / (ABOUT_WIPE_END - ABOUT_WIPE_START)));
-      aboutTransitionDarkContribution = Math.min(entry, exit) * (1 - wipeProgress);
-    });
-
-    const updateAboutTransition = () => {
-      if (window.innerWidth <= 1023) {
-        aboutTransitionDarkContribution = 0;
-        applyCombinedDarkState();
-        [...aboutFogCharsBase, ...aboutFogCharsWipe].forEach((c) => {
-          c.el.style.opacity = '';
-          c.el.style.filter = '';
-          c.el.style.transform = '';
-        });
-        return;
-      }
-
-      // Unlike the header/overlay race this same flag also guards elsewhere,
-      // this section isn't fighting another listener -- it's a real, solid
-      // black 440vh block (.about-transition's own background, independent
-      // of #scrollDarkOverlay) that a nav-jump's smooth-scroll has to cross
-      // in a second or two. Left to animate normally, that plays its black
-      // -> white wipe reveal in whatever compressed time the jump takes,
-      // which reads as an unwanted flash rather than the deliberate
-      // scroll-paced reveal it's designed to be. Snapping straight to the
-      // fully-revealed end state keeps it looking "already done" for the
-      // whole jump; the 'scrollend' resume callback recomputes the real
-      // state for wherever the jump actually lands once it's over.
-      if (suspendNavJumpVisuals) {
-        const centerX = aboutTransitionEl.getBoundingClientRect().width / 2;
-        const contentEnd = aboutTitleBaseEl.offsetLeft + aboutTitleBaseEl.offsetWidth;
-        const scrollToCenter = Math.max(0, contentEnd - centerX);
-        const xPx = `${-scrollToCenter}px`;
-        aboutScrollerBaseEl.style.transform = `translateX(${xPx})`;
-        aboutScrollerWipeEl.style.transform = `translateX(${xPx})`;
-        applyAboutFogChars(aboutFogCharsBase, -scrollToCenter, 1, centerX);
-        applyAboutFogChars(aboutFogCharsWipe, -scrollToCenter, 1, centerX);
-        aboutWipeEl.style.clipPath = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)';
-        aboutTransitionDarkContribution = 0;
-        return;
-      }
-
-      const entry = getAboutTransitionEntryProgress();
-      const exit = getAboutTransitionExitProgress();
-      const dwellProgress = entry >= 1 ? getAboutTransitionDwellProgress() : 0;
-
-      const centerX = aboutTransitionEl.getBoundingClientRect().width / 2;
-      const contentEnd = aboutTitleBaseEl.offsetLeft + aboutTitleBaseEl.offsetWidth;
-      const scrollToCenter = Math.max(0, contentEnd - centerX);
-
-      // See SCROLL_PHASE_END in updateWorkTransition -- raised to 0.78 to
-      // slow the slide phase itself (the primary per-char positional
-      // dissolve), kept in sync.
-      const ABOUT_SCROLL_PHASE_END = 0.78;
-      const scrollPhaseProgress = Math.min(1, dwellProgress / ABOUT_SCROLL_PHASE_END);
-      const x = -scrollToCenter * scrollPhaseProgress;
-      const settleProgress = Math.min(1, Math.max(0, (dwellProgress - ABOUT_SCROLL_PHASE_END) / (1 - ABOUT_SCROLL_PHASE_END)));
-
-      const xPx = `${x}px`;
-      aboutScrollerBaseEl.style.transform = `translateX(${xPx})`;
-      aboutScrollerWipeEl.style.transform = `translateX(${xPx})`;
-      applyAboutFogChars(aboutFogCharsBase, x, settleProgress, centerX);
-      applyAboutFogChars(aboutFogCharsWipe, x, settleProgress, centerX);
-
-      const wipeProgress = Math.min(1, Math.max(0, (dwellProgress - ABOUT_WIPE_START) / (ABOUT_WIPE_END - ABOUT_WIPE_START)));
-      const revealFrom = 100 - wipeProgress * 100;
-      aboutWipeEl.style.clipPath = `polygon(${revealFrom}% 0%, 100% 0%, 100% 100%, ${revealFrom}% 100%)`;
-
-      // Same as work-transition: dark contribution fades OUT as the wipe
-      // completes (screen turns white), since black is the *start* state
-      // here, not the end.
-      aboutTransitionDarkContribution = Math.min(entry, exit) * (1 - wipeProgress);
-      applyCombinedDarkState();
-    };
-
-    let aboutTransitionTicking = false;
-    const onAboutTransitionScroll = () => {
-      if (!aboutTransitionTicking) {
-        aboutTransitionTicking = true;
-        requestAnimationFrame(() => {
-          updateAboutTransition();
-          aboutTransitionTicking = false;
-        });
-      }
-    };
-
-    let aboutTransitionResizeTimer;
-    const onAboutTransitionResize = () => {
-      measureAboutFogChars();
-      updateAboutTransition();
-      clearTimeout(aboutTransitionResizeTimer);
-      aboutTransitionResizeTimer = setTimeout(() => {
-        measureAboutFogChars();
-        updateAboutTransition();
-      }, 200);
-    };
-
-    updateAboutTransition();
-    window.addEventListener('scroll', onAboutTransitionScroll, { passive: true });
-    window.addEventListener('resize', rafCoalesce(onAboutTransitionResize));
-    navJumpResumeCallbacks.push(updateAboutTransition);
-  }
-
-  /* Gallery interaction ("WHAT shapes ME"): ported from the standalone
-     gallery-interaction-clone project (see GALLERY_INTERACTION_GUIDE.md) --
-     a WebGL canvas of 24 photo cards that morphs scatter -> line -> ring ->
-     orbiting arc as the user scrolls. The clone drove this off
-     window.scrollY / document scrollHeight (whole page); here progress is
-     rescoped to this section's own sticky-pinned scroll range, mirroring
-     the about-transition dwell-progress pattern above. Header/scroll-rail/
-     footer from the clone are dropped -- the portfolio has its own. */
-  const galleryInteractionEl = document.querySelector('.gallery-interaction');
-
-  if (galleryInteractionEl) {
-    const subTextItems = [
-      {title:'OBSERVATION',lines:['일상에서 만나는 웹사이트와 브랜드를 살펴보며','어떤 정보가 먼저 보이고, 어떤 행동을 유도하는지 관찰합니다.']},
-      {title:'ORGANIZATION',lines:['복잡한 내용을 작은 단위로 나누고','우선순위를 정리하는 과정에서 생각을 구체화합니다.']},
-      {title:'LEARNING',lines:['작은 화면부터 직접 만들어 보고,','막히는 부분을 찾아 수정하며 배움을 이어갑니다.']},
-    ];
-    // ABOUT gallery text timing knobs:
-    // - subTextChangePoints controls when each label appears, in visualProgress.
-    //   Order: TRAVEL, EXHIBITION, CONCERT, MUSIC, PHOTOGRAPHY.
-    //   Move a number lower to show that label earlier, higher to show it later.
-    // - GALLERY_LABEL_SCROLL_SCALE controls the wheel resistance while these
-    //   labels are active. Lower = more held/resistant, higher = freer scroll.
-    const subTextChangePoints = [0.78, 0.88, 0.98];
-    const GALLERY_LABEL_RESISTANCE_START = subTextChangePoints[0];
-    const GALLERY_LABEL_RESISTANCE_END = 1;
-    const GALLERY_LABEL_SCROLL_SCALE = 0.72;
-    const GALLERY_LABEL_RESISTANCE_RAMP = 0.012;
-    const GALLERY_LABEL_WHEEL_HOLD_MS = 180;
-    const GALLERY_SOFT_STOP_START = 1;
-
-    const CARD_COUNT = 24;
-    const imageOrder = [
-      6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-      18, 19, 20, 21, 22, 23, 24, 1, 2, 3, 4, 5,
-    ];
-    const targetImageIndex = imageOrder.indexOf(3);
-    // -0.5 shifts the whole ring by half a card-step so a *gap* between two
-    // cards sits on the vertical centerline at rest, matching how the line
-    // formation already centers (even card count -> the middle two cards'
-    // shared edge, not a card center, lands on centerX). Without it, one
-    // card's center sits exactly on the centerline instead. Must match the
-    // same constant used in `ringAngle` below so the orbit math (which
-    // relies on the two canceling out) still docks the target image dead
-    // center at the end.
-    const targetImageAngle = ((targetImageIndex - (CARD_COUNT * 0.75 - 0.5)) * Math.PI * 2) / CARD_COUNT;
-    const targetOrbitRotation = -Math.PI * 2 + (-Math.PI / 2 - targetImageAngle);
-    const orbitScrollStart = 0.66;
-    const orbitScrollEnd = 1;
-    const visualHoldStart = 0.965;
-    // Scatter/line/ring (progress 0-0.64) scrolls faster now; the zoom-in
-    // + arc/orbit phase (0.64-1, where the ring enlarges and settles into
-    // an arc) keeps its original scroll speed. The section's own CSS
-    // height was shortened to match (see .gallery-interaction), so
-    // scrollFraction (raw scroll / new shorter range) needs remapping
-    // into `progress` piecewise instead of the old 1:1 linear mapping,
-    // otherwise the zoom/orbit phase would speed up too.
-    const zoomPhaseStart = 0.64;
-    const earlyPhaseSpeedup = 1.25;
-    const earlyScrollFraction = (zoomPhaseStart / earlyPhaseSpeedup)
-      / (zoomPhaseStart / earlyPhaseSpeedup + (1 - zoomPhaseStart));
-    const galleryImages = ["newera/desktop.png","elan-desktop.png","office-work.png","touslesjours/desktop.png","jihyun-profile.png","newera/desktop.png","elan-mobile.png","touslesjours/mobile.png","elan-perfume.png","touslesjours/story.png","computer-work-generated.png","team-meeting-generated.png"];
-    const cardImageSources = imageOrder.map(n => 'images/' + galleryImages[(n-1)%galleryImages.length]);
-
-    const scatter = [
-      [-0.438, 0.059], [-0.401, -0.393], [-0.362, -0.165], [-0.325, -0.275],
-      [-0.287, -0.165], [-0.248, -0.393], [-0.21, 0.059], [-0.172, 0.172],
-      [-0.134, 0.059], [-0.096, -0.275], [-0.057, 0.172], [-0.02, 0.172],
-      [0.019, 0.285], [0.057, -0.056], [0.095, -0.275], [0.133, 0.285],
-      [0.172, -0.056], [0.21, -0.393], [0.247, 0.397], [0.286, -0.056],
-      [0.324, -0.165], [0.363, 0.059], [0.4, -0.165], [0.439, -0.275],
-    ];
-
-    const revealSequence = [5, 2, 0, 17, 4, 11, 8, 14, 20, 6, 1, 9, 16, 13, 3, 22, 10, 19, 7, 21, 15, 12, 23, 18];
-    const revealRank = Array(CARD_COUNT);
-    revealSequence.forEach((cardIndex, rank) => {
-      revealRank[cardIndex] = rank;
-    });
-
-    const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
-    const lerp = (from, to, t) => from + (to - from) * t;
-    const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-    const range = (value, start, end) => easeInOut(clamp((value - start) / (end - start)));
-    const normalizeDegrees = (degrees) => (((degrees + 180) % 360 + 360) % 360) - 180;
-    const lerpAngleDegrees = (from, to, t) => from + normalizeDegrees(to - from) * t;
-    const toRadians = (degrees) => (degrees * Math.PI) / 180;
-
-    const gallery = galleryInteractionEl.querySelector('.gallery-interaction__gallery');
-    const galleryStage = galleryInteractionEl.querySelector('.gallery-interaction__stage');
-    const visionTitle = galleryInteractionEl.querySelector('.gallery-interaction__vision-title');
-    const visionDescription = galleryInteractionEl.querySelector('.gallery-interaction__vision-description');
-    const ringHint = galleryInteractionEl.querySelector('.gallery-interaction__ring-hint');
-    const ringLabel = galleryInteractionEl.querySelector('.gallery-interaction__ring-label');
-
-    const canvas = document.createElement('canvas');
-    canvas.className = 'gallery-interaction__webgl-canvas';
-    gallery.append(canvas);
-
-    const gl = canvas.getContext('webgl', {
-      alpha: true,
-      antialias: true,
-      depth: false,
-      premultipliedAlpha: false,
-    });
-
-    // Uniform locations are assigned inside the `if (gl)` setup block just
-    // below, but declared here (rather than with `const` down there) so
-    // drawCard -- defined later, gl-only itself but still parsed either
-    // way -- can close over them regardless of which path this page ends
-    // up taking.
-    let colorLocation;
-    let textureLocation;
-    let sizeLocation;
-    let radiusLocation;
-    let alphaLocation;
-    let hasTextureLocation;
-    let imageAspectLocation;
-    let cardAspectLocation;
-
-    // WebGL-specific setup -- program/shaders/texture uploads only ever
-    // needed on the gl path. createTextureFromImage stays null on the
-    // fallback path (see the image-loading branch below, which never
-    // calls it in that case).
-    let createTextureFromImage = null;
-
-    if (gl) {
-      const vertexShaderSource = `
-        attribute vec2 a_position;
-        attribute vec2 a_uv;
-        varying vec2 v_uv;
-        void main() {
-          v_uv = a_uv;
-          gl_Position = vec4(a_position, 0.0, 1.0);
-        }
-      `;
-
-      const fragmentShaderSource = `
-        precision mediump float;
-        varying vec2 v_uv;
-        uniform vec4 u_color;
-        uniform sampler2D u_texture;
-        uniform vec2 u_size;
-        uniform float u_radius;
-        uniform float u_alpha;
-        uniform float u_hasTexture;
-        uniform float u_imageAspect;
-        uniform float u_cardAspect;
-
-        float roundedRect(vec2 uv, vec2 size, float radius) {
-          vec2 halfSize = size * 0.5;
-          vec2 p = abs((uv - 0.5) * size) - (halfSize - vec2(radius));
-          return length(max(p, 0.0)) + min(max(p.x, p.y), 0.0) - radius;
-        }
-
-        void main() {
-          float d = roundedRect(v_uv, u_size, u_radius);
-          if (d > 0.0) discard;
-          float edge = 1.0 - smoothstep(-1.5, 0.0, d);
-          vec2 sampleUv = v_uv;
-          if (u_imageAspect > u_cardAspect) {
-            float visibleWidth = u_cardAspect / u_imageAspect;
-            sampleUv.x = (v_uv.x - 0.5) * visibleWidth + 0.5;
-          } else {
-            float visibleHeight = u_imageAspect / u_cardAspect;
-            sampleUv.y = (v_uv.y - 0.5) * visibleHeight + 0.5;
-          }
-          vec4 imageColor = texture2D(u_texture, sampleUv);
-          vec3 fallback = u_color.rgb + vec3((1.0 - v_uv.y) * 0.045);
-          vec3 color = mix(fallback, imageColor.rgb, u_hasTexture);
-          float alpha = mix(u_color.a, imageColor.a, u_hasTexture);
-          gl_FragColor = vec4(color, alpha * u_alpha * edge);
-        }
-      `;
-
-      const compileShader = (type, source) => {
-        const shader = gl.createShader(type);
-        gl.shaderSource(shader, source);
-        gl.compileShader(shader);
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-          throw new Error(gl.getShaderInfoLog(shader));
-        }
-        return shader;
-      };
-
-      const createProgram = () => {
-        const program = gl.createProgram();
-        gl.attachShader(program, compileShader(gl.VERTEX_SHADER, vertexShaderSource));
-        gl.attachShader(program, compileShader(gl.FRAGMENT_SHADER, fragmentShaderSource));
-        gl.linkProgram(program);
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-          throw new Error(gl.getProgramInfoLog(program));
-        }
-        return program;
-      };
-
-      const program = createProgram();
-      const positionLocation = gl.getAttribLocation(program, 'a_position');
-      const uvLocation = gl.getAttribLocation(program, 'a_uv');
-      colorLocation = gl.getUniformLocation(program, 'u_color');
-      textureLocation = gl.getUniformLocation(program, 'u_texture');
-      sizeLocation = gl.getUniformLocation(program, 'u_size');
-      radiusLocation = gl.getUniformLocation(program, 'u_radius');
-      alphaLocation = gl.getUniformLocation(program, 'u_alpha');
-      hasTextureLocation = gl.getUniformLocation(program, 'u_hasTexture');
-      imageAspectLocation = gl.getUniformLocation(program, 'u_imageAspect');
-      cardAspectLocation = gl.getUniformLocation(program, 'u_cardAspect');
-      const buffer = gl.createBuffer();
-
-      gl.useProgram(program);
-      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-      gl.enableVertexAttribArray(positionLocation);
-      gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 16, 0);
-      gl.enableVertexAttribArray(uvLocation);
-      gl.vertexAttribPointer(uvLocation, 2, gl.FLOAT, false, 16, 8);
-      gl.enable(gl.BLEND);
-      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-      gl.uniform1i(textureLocation, 0);
-
-      createTextureFromImage = (image) => {
-        const texture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        return texture;
-      };
-    }
-
-    // Cards should stagger in when the user actually scrolls the section
-    // into view, not the instant their images finish loading (which
-    // happens almost immediately on page load, long before the user
-    // has scrolled anywhere near this section). revealStartedAt is only
-    // set once both the images are ready AND the section has entered
-    // the viewport, timed from whichever happens later. Shared by both
-    // the WebGL and DOM-fallback paths.
-    let loadSettledCount = 0;
-    let imagesSettledAt = null;
-    let sectionEnteredAt = null;
-    let revealStartedAt = null;
-    const markCardSettled = () => {
-      loadSettledCount += 1;
-      if (loadSettledCount === CARD_COUNT && imagesSettledAt === null) {
-        imagesSettledAt = window.performance.now();
-      }
-    };
-
-    const galleryEntryObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && sectionEnteredAt === null) {
-          sectionEnteredAt = window.performance.now();
-        }
-      });
-    }, { threshold: 0 });
-    galleryEntryObserver.observe(galleryInteractionEl);
-
-    const cards = Array.from({ length: CARD_COUNT }, (_, index) => ({
-      index,
-      color: index % 2
-        ? [199 / 255, 202 / 255, 204 / 255, 1]
-        : [215 / 255, 217 / 255, 218 / 255, 1],
-      backColor: [186 / 255, 191 / 255, 193 / 255, 1],
-      texture: null,
-      imageAspect: 1,
-      isLoaded: false,
-      hoverLift: 0,
-      state: null,
-      el: null,
-      frontImg: null,
-    }));
-
-    // DOM fallback cards -- only built when WebGL isn't available (see the
-    // render-call branch in layout() below). Two stacked faces per card
-    // (front image / back solid color) so the ring's flip animation still
-    // shows the right face via backface-visibility, same as the WebGL
-    // path's manual faceTowardCamera check.
-    // Fixed at a size at least as big as the largest this card ever
-    // actually reaches on screen (cardW tops out at 59px, zoomScale at
-    // ~3.05, plus a bit of hover-lift headroom) -- see renderCardsDOM's own
-    // comment for why. Set once here and never touched again; all the
-    // per-frame size change happens via `scale()` down from this instead.
-    const FALLBACK_CARD_BASE_W = 220;
-    const FALLBACK_CARD_BASE_H = FALLBACK_CARD_BASE_W * (77 / 59);
-
-    if (!gl) {
-      cards.forEach((card) => {
-        const el = document.createElement('div');
-        el.className = 'gallery-interaction__card-dom';
-        const [r, g, b] = card.color;
-        el.innerHTML = `
-          <div class="gallery-interaction__card-face gallery-interaction__card-face--front" style="background: rgb(${r * 255}, ${g * 255}, ${b * 255});">
-            <img alt="" draggable="false">
-          </div>
-          <div class="gallery-interaction__card-face gallery-interaction__card-face--back"></div>
-        `;
-        el.style.width = `${FALLBACK_CARD_BASE_W}px`;
-        el.style.height = `${FALLBACK_CARD_BASE_H}px`;
-        gallery.append(el);
-        card.el = el;
-        card.frontImg = el.querySelector('img');
-      });
-    }
-
-    cards.forEach((card, index) => {
-      if (gl) {
-        const image = new Image();
-        image.onload = () => {
-          card.texture = createTextureFromImage(image);
-          card.imageAspect = image.naturalWidth / image.naturalHeight;
-          card.isLoaded = true;
-          markCardSettled();
-        };
-        image.onerror = () => {
-          markCardSettled();
-        };
-        image.src = cardImageSources[index];
-      } else {
-        const img = card.frontImg;
-        img.onload = () => {
-          card.imageAspect = img.naturalWidth / img.naturalHeight;
-          card.isLoaded = true;
-          markCardSettled();
-        };
-        img.onerror = () => {
-          markCardSettled();
-        };
-        img.src = cardImageSources[index];
-      }
-    });
-
-    let smoothScroll = 0;
-    let galleryWheelDirection = 0;
-    let galleryWheelActiveUntil = 0;
-    let galleryWheelTicking = false;
-    let lastGalleryWheelTickAt = null;
-    let pointerX = 0;
-    let pointerY = 0;
-    let hoverActive = false;
-    let hoveredCard = -1;
-    let viewportWidth = 0;
-    let viewportHeight = 0;
-    let dpr = 1;
-
-    const updatePointerFromEvent = (event) => {
-      const rect = gallery.getBoundingClientRect();
-      pointerX = event.clientX - rect.left;
-      pointerY = event.clientY - rect.top;
-      hoverActive = true;
-    };
-
-    const handlePointerLeave = () => {
-      hoverActive = false;
-    };
-
-    const resizeCanvas = (width, height) => {
-      const nextDpr = Math.min(window.devicePixelRatio || 1, 2);
-      if (viewportWidth === width && viewportHeight === height && dpr === nextDpr) return;
-      viewportWidth = width;
-      viewportHeight = height;
-      dpr = nextDpr;
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      gl.viewport(0, 0, canvas.width, canvas.height);
-    };
-
-    const projectPoint = (point, centerX, centerY) => {
-      const perspective = 900;
-      const depthScale = perspective / (perspective - point.z);
-      return {
-        x: centerX + (point.x - centerX) * depthScale,
-        y: centerY + (point.y - centerY) * depthScale,
-        z: point.z,
-        scale: depthScale,
-      };
-    };
-
-    const getCardCorners = (card, centerX, centerY) => {
-      const projectedCenter = projectPoint({ x: card.x, y: card.y, z: card.z }, centerX, centerY);
-      const flipSqueeze = Math.max(0.08, Math.abs(Math.cos(toRadians(card.flipX))));
-      const halfW = (card.w * card.scale * projectedCenter.scale) / 2;
-      const halfH = (card.h * card.scale * projectedCenter.scale * flipSqueeze) / 2;
-      const rotate = toRadians(card.rotation);
-      const cosZ = Math.cos(rotate);
-      const sinZ = Math.sin(rotate);
-      const local = [
-        [-halfW, -halfH, 0, 0],
-        [halfW, -halfH, 1, 0],
-        [halfW, halfH, 1, 1],
-        [-halfW, halfH, 0, 1],
-      ];
-
-      return local.map(([lx, ly, u, v]) => {
-        const rx = lx * cosZ - ly * sinZ;
-        const ry = lx * sinZ + ly * cosZ;
-        return {
-          x: projectedCenter.x + rx,
-          y: projectedCenter.y + ry,
-          scale: projectedCenter.scale,
-          u,
-          v,
-        };
-      });
-    };
-
-    const drawCard = (card, centerX, centerY) => {
-      if (card.opacity <= 0.002) return;
-
-      const corners = getCardCorners(card, centerX, centerY);
-      const faceTowardCamera = Math.cos(toRadians(card.flipX)) >= 0;
-      const vertices = [
-        corners[0], corners[1], corners[2],
-        corners[0], corners[2], corners[3],
-      ];
-      const data = new Float32Array(vertices.flatMap((corner) => [
-        (corner.x / viewportWidth) * 2 - 1,
-        1 - (corner.y / viewportHeight) * 2,
-        corner.u,
-        faceTowardCamera ? corner.v : 1 - corner.v,
-      ]));
-      const color = faceTowardCamera ? card.color : card.backColor;
-      const visualScale = card.scale * Math.max(0.65, corners.reduce((sum, corner) => sum + corner.scale, 0) / corners.length);
-
-      gl.bufferData(gl.ARRAY_BUFFER, data, gl.DYNAMIC_DRAW);
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, card.texture);
-      gl.uniform4f(colorLocation, color[0], color[1], color[2], color[3]);
-      gl.uniform2f(sizeLocation, card.w * visualScale, card.h * visualScale);
-      gl.uniform1f(radiusLocation, 6 * visualScale);
-      gl.uniform1f(alphaLocation, card.opacity);
-      gl.uniform1f(hasTextureLocation, card.texture ? 1 : 0);
-      gl.uniform1f(imageAspectLocation, card.imageAspect || 1);
-      gl.uniform1f(cardAspectLocation, card.w / card.h);
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
-    };
-
-    const renderCards = (centerX, centerY) => {
-      gl.clearColor(0, 0, 0, 0);
-      gl.clear(gl.COLOR_BUFFER_BIT);
-      cards
-        .filter((card) => card.state)
-        .map((card) => card.state)
-        .sort((a, b) => a.z - b.z)
-        .forEach((state) => drawCard(state, centerX, centerY));
-    };
-
-    // DOM fallback renderer: same per-card x/y/z/rotation/flipX/scale/
-    // opacity values as the WebGL path above, applied as a real CSS 3D
-    // transform instead of a manual per-vertex projection -- the
-    // `perspective: 900px` on .gallery-interaction__gallery (matching the
-    // `perspective = 900` constant in projectPoint above) makes the browser
-    // do the same depth scaling the WebGL path computes by hand. flipX
-    // drives rotateX (it squashes card.h in the WebGL version above, i.e.
-    // a horizontal-axis flip) with a real two-sided element (see
-    // .gallery-interaction__card-face--back's own rotateX(180deg) in CSS)
-    // instead of swapping a color uniform.
-    //
-    // Every card's own box stays fixed at FALLBACK_CARD_BASE_W/H (set once
-    // at creation, never touched here) -- all size change happens through
-    // this scale() instead of resizing the element. A resized box forces
-    // the browser to re-decode/re-rasterize the <img> at the new size, and
-    // browsers cache that decode at whatever size it was last shown at;
-    // cards here start tiny (the scatter/line phases) and later zoom to
-    // ~3x, so a box that's resized larger over time can end up reusing a
-    // decode meant for the earlier, much smaller size and read as blurry --
-    // even though the source photos (see images/card-XX.webp) are plenty
-    // high-res. Since FALLBACK_CARD_BASE_W/H is already at least as large
-    // as this card is ever shown, boxScale here is always <= 1: the
-    // browser only ever scales this one full-size decode *down*, which
-    // stays sharp at any size, instead of ever scaling a smaller decode up.
-    const renderCardsDOM = (centerX, centerY) => {
-      cards.forEach((card) => {
-        const state = card.state;
-        if (!state || !card.el) return;
-        const { el } = card;
-        if (state.opacity <= 0.002) {
-          el.style.opacity = '0';
-          el.style.pointerEvents = 'none';
-          return;
-        }
-        el.style.pointerEvents = '';
-        const width = state.w * state.scale;
-        const boxScale = width / FALLBACK_CARD_BASE_W;
-        el.style.left = `${state.x}px`;
-        el.style.top = `${state.y}px`;
-        el.style.transform = `translate3d(-50%, -50%, ${state.z}px) rotateZ(${state.rotation}deg) rotateX(${state.flipX}deg) scale(${boxScale})`;
-        el.style.opacity = String(state.opacity);
-        el.style.zIndex = String(Math.round(1000 + state.z));
-      });
-    };
-
-    const getGalleryScrollState = () => {
-        const height = window.innerHeight;
-        const rect = galleryInteractionEl.getBoundingClientRect();
-        const scrollRange = Math.max(0, galleryInteractionEl.offsetHeight - height);
-        const sectionTop = rect.top + window.scrollY;
-        const current = scrollRange > 0 ? clamp(-rect.top, 0, scrollRange) : 0;
-        return { height, rect, scrollRange, sectionTop, current };
-      };
-
-      const mapScrollFractionToProgress = (scrollFraction) => (
-        scrollFraction <= earlyScrollFraction
-          ? (scrollFraction / earlyScrollFraction) * zoomPhaseStart
-          : zoomPhaseStart + ((scrollFraction - earlyScrollFraction) / (1 - earlyScrollFraction)) * (1 - zoomPhaseStart)
-      );
-
-      const getGalleryVisualProgress = (progress) => {
-        const rawVisualProgress = progress < visualHoldStart
-          ? progress / visualHoldStart
-          : 1;
-        if (GALLERY_SOFT_STOP_START >= 1) {
-          return rawVisualProgress;
-        }
-        const softStopT = clamp((rawVisualProgress - GALLERY_SOFT_STOP_START) / (1 - GALLERY_SOFT_STOP_START));
-        const softStopProgress = softStopT * softStopT * softStopT * (softStopT * (softStopT * 6 - 15) + 10);
-        return rawVisualProgress < GALLERY_SOFT_STOP_START
-          ? rawVisualProgress
-          : GALLERY_SOFT_STOP_START + (1 - GALLERY_SOFT_STOP_START) * softStopProgress;
-      };
-
-      const getGalleryLabelResistance = (visualProgress) => {
-        if (
-          visualProgress < GALLERY_LABEL_RESISTANCE_START - GALLERY_LABEL_RESISTANCE_RAMP
-          || visualProgress > GALLERY_LABEL_RESISTANCE_END + GALLERY_LABEL_RESISTANCE_RAMP
-        ) {
-          return 1;
-        }
-
-        const fadeIn = easeInOut(clamp(
-          (visualProgress - (GALLERY_LABEL_RESISTANCE_START - GALLERY_LABEL_RESISTANCE_RAMP))
-          / GALLERY_LABEL_RESISTANCE_RAMP,
-        ));
-        const fadeOut = GALLERY_LABEL_RESISTANCE_END >= 1
-          ? 1
-          : easeInOut(clamp(
-            ((GALLERY_LABEL_RESISTANCE_END + GALLERY_LABEL_RESISTANCE_RAMP) - visualProgress)
-            / GALLERY_LABEL_RESISTANCE_RAMP,
-          ));
-        const resistanceAmount = Math.min(fadeIn, fadeOut);
-        return lerp(1, GALLERY_LABEL_SCROLL_SCALE, resistanceAmount);
-      };
-
-      const tickGalleryWheel = () => {
-        const now = window.performance.now();
-        if (!galleryWheelDirection || now > galleryWheelActiveUntil) {
-          galleryWheelDirection = 0;
-          galleryWheelTicking = false;
-          lastGalleryWheelTickAt = null;
-          return;
-        }
-
-        const deltaSeconds = lastGalleryWheelTickAt === null
-          ? 1 / 60
-          : Math.min(0.05, Math.max(0.001, (now - lastGalleryWheelTickAt) / 1000));
-        lastGalleryWheelTickAt = now;
-
-        const { height, scrollRange, sectionTop, current } = getGalleryScrollState();
-        if (scrollRange <= 0) {
-          galleryWheelDirection = 0;
-          galleryWheelTicking = false;
-          lastGalleryWheelTickAt = null;
-          return;
-        }
-
-        const direction = galleryWheelDirection;
-        const scrollFraction = scrollRange > 0 ? clamp(current / scrollRange) : 0;
-        const progress = mapScrollFractionToProgress(scrollFraction);
-        const visualProgress = getGalleryVisualProgress(progress);
-        const labelResistance = getGalleryLabelResistance(visualProgress);
-        const step = height * 1.2 * deltaSeconds * labelResistance;
-        const nextLocalScroll = clamp(current + direction * step, 0, scrollRange);
-        window.scrollTo(0, sectionTop + nextLocalScroll);
-
-        if ((nextLocalScroll <= 0 && direction < 0) || (nextLocalScroll >= scrollRange && direction > 0)) {
-          galleryWheelDirection = 0;
-        }
-
-        requestAnimationFrame(tickGalleryWheel);
-      };
-
-      const handleGalleryWheel = (event) => {
-        if (event.ctrlKey || Math.abs(event.deltaY) < 1) return;
-
-        const { height, rect, scrollRange, current } = getGalleryScrollState();
-        if (scrollRange <= 0) return;
-
-        const direction = Math.sign(event.deltaY);
-        const projectedLocalScroll = current + event.deltaY;
-        const pinActive = rect.top <= 0 && rect.bottom >= height;
-        const currentProgress = mapScrollFractionToProgress(clamp(current / scrollRange));
-        const projectedProgress = mapScrollFractionToProgress(clamp(projectedLocalScroll / scrollRange));
-        const currentVisualProgress = getGalleryVisualProgress(currentProgress);
-        const projectedVisualProgress = getGalleryVisualProgress(projectedProgress);
-        const minVisualProgress = Math.min(currentVisualProgress, projectedVisualProgress);
-        const maxVisualProgress = Math.max(currentVisualProgress, projectedVisualProgress);
-        const inLabelResistanceZone = maxVisualProgress >= GALLERY_LABEL_RESISTANCE_START
-          && minVisualProgress <= GALLERY_LABEL_RESISTANCE_END;
-        if (!pinActive || !inLabelResistanceZone) return;
-        if (
-          (direction < 0 && projectedLocalScroll <= 0)
-          || (direction > 0 && projectedLocalScroll >= scrollRange)
-        ) {
-          galleryWheelDirection = 0;
-          galleryWheelTicking = false;
-          lastGalleryWheelTickAt = null;
-          return;
-        }
-
-        event.preventDefault();
-        updateHeaderForDelta(direction);
-
-        galleryWheelDirection = direction;
-        galleryWheelActiveUntil = window.performance.now() + GALLERY_LABEL_WHEEL_HOLD_MS;
-
-        if (!galleryWheelTicking) {
-          galleryWheelTicking = true;
-          requestAnimationFrame(tickGalleryWheel);
-        }
-      };
-
-      const layout = () => {
-        // clientWidth (not innerWidth) on purpose: innerWidth includes the
-        // reserved scrollbar strip, but the sitewide .fixed-grid-lines is
-        // position:fixed, so its left/right offsets resolve against the
-        // initial containing block, which excludes that strip. Sizing the
-        // canvas off innerWidth made it 15-20px wider than the page's actual
-        // content box, overflowing under the scrollbar and shifting this
-        // canvas's own centerX away from the grid's true center divider by
-        // half that gap -- exactly the rightward drift reported against the
-        // grid line.
-        const width = document.documentElement.clientWidth;
-        const height = window.innerHeight;
-        if (gl) resizeCanvas(width, height);
-
-        const scrollRange = galleryInteractionEl.offsetHeight - height;
-        const targetScroll = scrollRange > 0
-          ? clamp(-galleryInteractionEl.getBoundingClientRect().top, 0, scrollRange)
-          : 0;
-        const targetFraction = scrollRange > 0 ? clamp(targetScroll / scrollRange) : 0;
-        smoothScroll = lerp(smoothScroll, targetScroll, 0.075);
-        const scrollFraction = scrollRange > 0 ? clamp(smoothScroll / scrollRange) : 0;
-        const progress = mapScrollFractionToProgress(scrollFraction);
-        const visualProgress = getGalleryVisualProgress(progress);
-
-        const mobile = width <= 520;
-        const tablet = width <= 900;
-        const cardW = width <= 768 ? 30 : tablet ? width * 0.031 : Math.min(59, Math.max(38, width * (59 / 1920)));
-        const cardH = cardW * (77 / 59);
-        const cardGap = width <= 768 ? 6 : width * (14 / 1920);
-        const centerX = width * 0.5;
-        const centerY = height * 0.5;
-        const arcSceneLift = height * (mobile ? 0.05 : tablet ? 0.115 : 0.13);
-        const baseRadius = mobile
-          ? Math.min(width, height) * 0.32
-          : tablet
-            ? Math.min(width, height) * 0.295
-            : Math.min(width * (328 / 1920), height * 0.38);
-        const finalRingRadius = baseRadius;
-
-        const makeLine = range(visualProgress, 0.08, 0.29);
-        const ringProgress = range(visualProgress, 0.29, 0.64);
-        const arcZoomIn = range(visualProgress, 0.64, 0.84);
-        const arcZoomBlend = easeInOut(arcZoomIn);
-        const subTextIndex = subTextChangePoints.reduce(
-          (activeIndex, point, i) => (visualProgress >= point ? i : activeIndex),
-          0,
-        );
-        const hoverReady = range(visualProgress, 0.72, 0.84);
-        const hoverSearch = { index: -1, distance: Infinity };
-
-        if (revealStartedAt === null && imagesSettledAt !== null && sectionEnteredAt !== null) {
-          revealStartedAt = Math.max(imagesSettledAt, sectionEnteredAt);
-        }
-
-        cards.forEach((card, index) => {
-          const lineT = index / (cards.length - 1);
-          const appearDelay = revealRank[index] * 75;
-          const now = window.performance.now();
-          const revealElapsed = revealStartedAt === null ? 0 : now - revealStartedAt;
-          const appearByTime = range(revealElapsed, appearDelay, appearDelay + 500);
-          const appearByScroll = range(visualProgress, 0.025 + revealRank[index] * 0.005, 0.175 + revealRank[index] * 0.005);
-          const appear = card.isLoaded ? Math.max(appearByTime, appearByScroll) : 0;
-
-          let x = centerX + scatter[index][0] * width;
-          let y = centerY + scatter[index][1] * height;
-          // scatter[10]/[11] sit only 0.037 of width apart (same y) -- on
-          // desktop/tablet cardW scales down with width so that's still a
-          // clear gap, but mobile's cardW is a flat 30px that doesn't shrink
-          // with the viewport, so on any mobile width under ~810px that gap
-          // is narrower than the two cards' combined half-widths and they
-          // visibly overlap in the scatter phase. Nudge just this one pair
-          // further apart on mobile rather than touching the shared array
-          // (which desktop's line/ring math also reads).
-          if (width <= 768 && (index === 10 || index === 11)) {
-            x += (index === 10 ? -1 : 1) * width * 0.045;
-          }
-          let z = 0;
-          let rotation = 0;
-          let flipX = 0;
-          let scale = lerp(0.94, 1, appear);
-
-          const lineWidth = cardW * cards.length + cardGap * (cards.length - 1);
-          const lineStart = centerX - lineWidth / 2 + cardW / 2;
-          const lineX = lineStart + index * (cardW + cardGap);
-          const lineY = centerY;
-          x = lerp(x, lineX, makeLine);
-          y = lerp(y, lineY, makeLine);
-
-          const edgeDistance = Math.abs(lineT - 0.5) * 2;
-          // Symmetric distance-from-nearest-edge, 0-indexed (cards.length - 1,
-          // matching lineT above) -- the previous `cards.length - index` was
-          // off by one, so the two center cards (11/12 of 24) got unequal
-          // edgeRank (11 vs 12) and every right-side card folded into the
-          // ring 0.035s later than its mirrored left-side card, reading as a
-          // persistent rightward lag/shift during the line->ring fold.
-          const edgeRank = Math.min(index, cards.length - 1 - index);
-          const foldDelay = edgeRank * 0.035;
-          const localFold = range(ringProgress, foldDelay, Math.min(1, foldDelay + 0.62));
-          const planeOpen = Math.pow(ringProgress, 2.6);
-          const ringAngle = ((index - (cards.length * 0.75 - 0.5)) * Math.PI * 2) / cards.length;
-          const ringX = centerX + Math.cos(ringAngle) * finalRingRadius;
-          const ringY = centerY + Math.sin(ringAngle) * finalRingRadius * planeOpen;
-          const ringZ = -(Math.sin(ringAngle) + 1) * finalRingRadius * (1 - planeOpen) * 1.15;
-
-          const localFlipProgress = range(ringProgress, foldDelay, Math.min(1, foldDelay + 0.5));
-          const flipToBack = range(localFlipProgress, 0, 0.34);
-          const flipSettle = range(localFlipProgress, 0.34, 1);
-          const flipArc = Math.sin(localFlipProgress * Math.PI);
-          const radialRotation = normalizeDegrees((ringAngle * 180) / Math.PI + 90);
-
-          if (visualProgress > 0.29) {
-            x = lerp(lineX, ringX, localFold);
-            y = lerp(lineY, ringY, localFold) - flipArc * cardH * 0.14;
-          }
-          z = lerp(0, ringZ, localFold) - edgeDistance * cardH * 0.42 * flipArc;
-          rotation = lerp(0, radialRotation, localFold * planeOpen);
-          flipX = -180 * flipToBack - 180 * flipSettle * planeOpen;
-
-          const zoomIn = arcZoomBlend;
-          const orbitRawProgress = clamp((visualProgress - orbitScrollStart) / (orbitScrollEnd - orbitScrollStart));
-          const orbitProgress = orbitRawProgress;
-          const zoomScale = lerp(1, mobile ? 2.4 : 3.05, zoomIn);
-          const zoomRotation = orbitProgress * targetOrbitRotation;
-          const zoomAngle = ringAngle + zoomRotation;
-          const zoomCenterY = centerY + finalRingRadius * zoomIn * (mobile ? 2.1 : 3.15) - arcSceneLift * zoomIn;
-          const zoomX = centerX + Math.cos(zoomAngle) * finalRingRadius * zoomScale;
-          const zoomY = zoomCenterY + Math.sin(zoomAngle) * finalRingRadius * zoomScale;
-          const zoomCardRotation = normalizeDegrees((zoomAngle * 180) / Math.PI + 90);
-          x = lerp(x, zoomX, zoomIn);
-          y = lerp(y, zoomY, zoomIn);
-          scale *= zoomScale;
-          rotation = lerpAngleDegrees(rotation, zoomCardRotation, zoomIn);
-
-          if (hoverActive && hoverReady > 0.05) {
-            const hitW = Math.max(cardW * scale * 0.68, 96);
-            const hitH = Math.max(cardH * scale * 0.68, 128);
-            const dx = (pointerX - x) / hitW;
-            const dy = (pointerY - y) / hitH;
-            const distance = dx * dx + dy * dy;
-            if (distance < 1 && distance < hoverSearch.distance) {
-              hoverSearch.index = index;
-              hoverSearch.distance = distance;
-            }
-          }
-
-          card.hoverLift = lerp(card.hoverLift, hoveredCard === index ? hoverReady : 0, 0.16);
-          y -= cardH * scale * 0.42 * card.hoverLift;
-          z += 180 * card.hoverLift;
-          scale *= 1 + 0.08 * card.hoverLift;
-
-          card.state = {
-            x, y, z,
-            w: cardW,
-            h: cardH,
-            scale,
-            rotation,
-            flipX,
-            opacity: appear,
-            color: card.color,
-            backColor: card.backColor,
-            texture: card.texture,
-            imageAspect: card.imageAspect,
-          };
-        });
-
-        hoveredCard = hoverSearch.index;
-        if (gl) {
-          renderCards(centerX, centerY);
-        } else {
-          renderCardsDOM(centerX, centerY);
-        }
-
-        const activeSubText = subTextItems[subTextIndex];
-        if (visionTitle) visionTitle.textContent = activeSubText.title;
-        if (visionDescription) {
-          visionDescription.innerHTML = activeSubText.lines.map((line) => `<p>${line}</p>`).join('');
-        }
-        if (ringLabel) ringLabel.textContent = '';
-        if (ringHint) ringHint.textContent = '';
-
-        galleryInteractionEl.classList.toggle('is-vision', visualProgress > 0.67);
-        galleryInteractionEl.classList.toggle('is-intro-ready', visualProgress > 0.52);
-        galleryInteractionEl.classList.toggle('is-vision-copy-ready', visualProgress >= subTextChangePoints[0]);
-      };
-
-      const animate = () => {
-        layout();
-        requestAnimationFrame(animate);
-      };
-
-      galleryStage.addEventListener('pointermove', updatePointerFromEvent);
-      galleryStage.addEventListener('pointerleave', handlePointerLeave);
-      window.addEventListener('pointermove', updatePointerFromEvent);
-      window.addEventListener('wheel', handleGalleryWheel, { passive: false });
-      window.addEventListener('resize', layout);
-      animate();
-  }
-
-
-  /* Work-detail: each project's cover stays pinned past its own 100vh of
-     rest. .work-detail__track holds the cover plus every scene after it as
-     side-by-side panels -- a real filmstrip, .work-detail__panel's
-     flex:0 0 100% already supports any panel count -- and once pinned,
-     scroll first just pauses at the cover, then slides that track left to
-     carry each scene into view in turn. The background crossfades white ->
-     black on its own, in sync with the first slide but as an independent
-     layer (#scrollDarkOverlay, same technique reason-quote/cards-reveal
-     use) -- not something carried by the sliding content itself, and it
-     stays black (not re-crossfading) through every scene after that first
-     one. Once each scene is docked, further scroll fills its own
-     .work-scenes__desc-en gray -> white character by character (same
-     wrapChars/fillChars technique as .intro-reasons__subtitle), then holds
-     before either the next slide or (on the last scene) releasing.
-     initWorkDetailSequence is one reusable driver for this whole pattern,
-     parameterized per project (rootEl + its own timing config) since
-     project 2 (ÉLAN) repeats the exact same cover+scene(s) mechanism as
-     project 1 (ZARA) but with its own panel count/pacing and no glow
-     curve -- see the two call sites below for each project's own numbers. */
   function initWorkDetailSequence(rootEl, config) {
     if (!rootEl) return;
 
@@ -2918,10 +1368,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const update = () => {
-      // Mobile fallback (see CSS) drops the pin/slide for a plain static
-      // stack already showing the filled end state -- skip the
-      // dark-overlay/transform/fill math entirely, same pattern as
-      // reason-quote/cards-reveal's own mobile guards.
       if (window.innerWidth <= 1023) {
         setDarkContribution(0);
         if (trackEl) {
@@ -3096,222 +1542,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  // Clone-coding gallery -- each card rises into place once as it scrolls
-  // into view (see .clone-coding__card / .is-revealed in style.css).
-  const cloneCards = document.querySelectorAll('.clone-coding__card');
-  if (cloneCards.length) {
-    const cloneObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          cloneObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
-
-    cloneCards.forEach((card) => cloneObserver.observe(card));
-  }
-
-  // Clone-coding intro -- fog-in reveal across the whole sticky intro
-  // (chips, title, subtitle), the reverse of .work-transition__title's
-  // fog-dissolve: everything starts blurred/faded/dropped and condenses
-  // into place, staggered chips -> title chars -> subtitle. Unlike the
-  // one-time card reveal, this toggles .is-revealed on and off as the
-  // intro enters/leaves the viewport, so it replays every time you
-  // scroll away and back in.
-  const cloneIntroEl = document.querySelector('.clone-coding__intro');
-  if (cloneIntroEl) {
-    const cloneChipEls = Array.from(cloneIntroEl.querySelectorAll('.clone-coding__chip'));
-    const cloneTitleEl = cloneIntroEl.querySelector('.clone-coding__title');
-    const cloneSubtitleEl = cloneIntroEl.querySelector('.clone-coding__subtitle');
-
-    if (cloneTitleEl) {
-      wrapChars(cloneTitleEl, 'clone-coding__title-char');
-    }
-    const titleChars = cloneTitleEl
-      ? Array.from(cloneTitleEl.querySelectorAll('.clone-coding__title-char'))
-      : [];
-
-    const cloneDelayStep = isMobileFogViewport() ? 8 : 60;
-    // Matches .ai-lab__title-char's own flat 8ms stagger (see the AI Lab
-    // block below) -- was 25ms on desktop, visibly slower than AI Lab's
-    // title reveal even though both use the same fog-in mechanics.
-    const cloneTitleDelayStep = 8;
-    const cloneGroupGap = isMobileFogViewport() ? 35 : 150;
-    const chipsEnd = cloneChipEls.length * cloneDelayStep;
-    cloneChipEls.forEach((el, i) => {
-      el.style.setProperty('--fog-delay', `${i * cloneDelayStep}ms`);
-    });
-    titleChars.forEach((el, i) => {
-      el.style.setProperty('--fog-delay', `${chipsEnd + cloneGroupGap + i * cloneTitleDelayStep}ms`);
-    });
-    if (cloneSubtitleEl) {
-      const titleEnd = titleChars.length * cloneTitleDelayStep;
-      cloneSubtitleEl.style.setProperty('--fog-delay', `${chipsEnd + cloneGroupGap + titleEnd + cloneGroupGap}ms`);
-    }
-
-    const cloneIntroObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        cloneIntroEl.classList.toggle('is-revealed', entry.isIntersecting);
-      });
-    }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
-
-    cloneIntroObserver.observe(cloneIntroEl);
-  }
-
-  // AI Lab -- title fog-in reveal, matching the clone-coding title rhythm.
-  const aiLabHeadEl = document.querySelector('.ai-lab__head');
-  if (aiLabHeadEl) {
-    const aiLabTitleEl = aiLabHeadEl.querySelector('.ai-lab__title');
-    const aiLabSummaryEl = aiLabHeadEl.querySelector('.ai-lab__summary');
-    const aiLabLinksEl = aiLabHeadEl.querySelector('.ai-lab__links');
-
-    if (aiLabTitleEl) {
-      wrapChars(aiLabTitleEl, 'ai-lab__title-char');
-    }
-    const aiLabTitleChars = aiLabTitleEl
-      ? Array.from(aiLabTitleEl.querySelectorAll('.ai-lab__title-char'))
-      : [];
-
-    aiLabTitleChars.forEach((el, i) => {
-      el.style.setProperty('--fog-delay', `${i * 8}ms`);
-    });
-    if (aiLabSummaryEl) {
-      aiLabSummaryEl.style.setProperty('--fog-delay', '35ms');
-    }
-    if (aiLabLinksEl) {
-      aiLabLinksEl.style.setProperty('--fog-delay', '50ms');
-    }
-
-    const aiLabObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        aiLabHeadEl.classList.toggle('is-revealed', entry.isIntersecting);
-      });
-    }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
-
-    aiLabObserver.observe(aiLabHeadEl);
-  }
-
-  const aiLabBrowserEl = document.querySelector('.ai-lab__browser');
-  if (aiLabBrowserEl) {
-    const aiLabTryOverlayEl = aiLabBrowserEl.querySelector('.ai-lab__try-overlay');
-    const aiLabTryButtonEl = aiLabBrowserEl.querySelector('.ai-lab__try-button');
-
-    if (aiLabTryButtonEl) {
-      aiLabTryButtonEl.addEventListener('click', () => {
-        aiLabBrowserEl.classList.add('is-unlocked');
-        if (aiLabTryOverlayEl) aiLabTryOverlayEl.setAttribute('aria-hidden', 'true');
-      });
-    }
-  }
-
-  const aiLabEl = document.querySelector('.ai-lab');
-  if (aiLabEl && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    const aiLabCursorEl = aiLabEl.querySelector('.ai-lab__cursor-card');
-    const aiLabCursorCopyEl = aiLabEl.querySelector('.ai-lab__cursor-copy');
-    const aiLabLinksEl = aiLabEl.querySelector('.ai-lab__links');
-    const aiLabAppUrl = aiLabCursorEl ? aiLabCursorEl.dataset.appUrl : '';
-    const aiLabCopyText = aiLabCursorCopyEl ? aiLabCursorCopyEl.dataset.text || '' : '';
-    const aiLabCopyChars = aiLabCursorCopyEl
-      ? aiLabCopyText.split('').map((char, index) => {
-        const span = document.createElement('span');
-        span.className = 'ai-lab__cursor-copy-char';
-        span.textContent = char === ' ' ? '\u00a0' : char;
-        span.style.setProperty('--trail-index', index);
-        aiLabCursorCopyEl.appendChild(span);
-        return span;
-      })
-      : [];
-    let aiLabCursorRaf = 0;
-    let aiLabCursorX = -999;
-    let aiLabCursorY = -999;
-    let aiLabIsOverBrowser = false;
-    let aiLabPressTimer = null;
-
-    const isNearAiLabLinks = (event) => {
-      if (!aiLabLinksEl) return false;
-      const rect = aiLabLinksEl.getBoundingClientRect();
-      const gap = 28;
-      return event.clientX >= rect.left - gap
-        && event.clientX <= rect.right + gap
-        && event.clientY >= rect.top - gap
-        && event.clientY <= rect.bottom + gap;
-    };
-
-    const updateAiLabCursorVisibility = (event) => {
-      aiLabEl.classList.toggle('is-cursor-hidden', aiLabIsOverBrowser || isNearAiLabLinks(event));
-    };
-
-    const setAiLabCursor = (event) => {
-      aiLabCursorX = event.clientX;
-      aiLabCursorY = event.clientY;
-      updateAiLabCursorVisibility(event);
-      if (!aiLabCursorEl || aiLabCursorRaf) return;
-
-      aiLabCursorRaf = window.requestAnimationFrame(() => {
-        aiLabCursorEl.style.transform = `translate3d(${aiLabCursorX}px, ${aiLabCursorY}px, 0) translate(-50%, -50%) rotate(-5deg)`;
-        if (aiLabCursorCopyEl) {
-          aiLabCursorCopyEl.style.transform = `translate3d(${aiLabCursorX + 26}px, ${aiLabCursorY + 18}px, 0)`;
-        }
-        aiLabCursorRaf = 0;
-      });
-    };
-
-    aiLabEl.addEventListener('mouseenter', (event) => {
-      setAiLabCursor(event);
-      aiLabEl.classList.add('is-cursor-active');
-    });
-
-    aiLabEl.addEventListener('mousemove', (event) => {
-      setAiLabCursor(event);
-    });
-
-    aiLabEl.addEventListener('mouseleave', () => {
-      aiLabEl.classList.remove('is-cursor-active', 'is-cursor-hidden');
-      if (aiLabCursorRaf) {
-        window.cancelAnimationFrame(aiLabCursorRaf);
-        aiLabCursorRaf = 0;
-      }
-    });
-
-    aiLabEl.addEventListener('pointerdown', (event) => {
-      if (event.target.closest('a, button, iframe, .ai-lab__browser')) return;
-      if (isNearAiLabLinks(event)) return;
-      if (aiLabCursorEl) aiLabCursorEl.classList.add('is-pressed');
-    });
-
-    aiLabEl.addEventListener('click', (event) => {
-      if (event.target.closest('a, button, iframe, .ai-lab__browser')) return;
-      if (isNearAiLabLinks(event)) return;
-      if (aiLabAppUrl) {
-        window.open(aiLabAppUrl, '_blank', 'noopener');
-        if (aiLabCursorEl) {
-          aiLabCursorEl.classList.add('is-pressed');
-          window.clearTimeout(aiLabPressTimer);
-          aiLabPressTimer = window.setTimeout(() => {
-            aiLabCursorEl.classList.remove('is-pressed');
-          }, 180);
-        }
-      }
-    });
-
-    if (aiLabBrowserEl) {
-      aiLabBrowserEl.addEventListener('mouseenter', () => {
-        aiLabIsOverBrowser = true;
-        aiLabEl.classList.add('is-cursor-hidden');
-      });
-
-      aiLabBrowserEl.addEventListener('mouseleave', () => {
-        aiLabIsOverBrowser = false;
-        aiLabEl.classList.remove('is-cursor-hidden');
-      });
-    }
-  }
-
-  // Skill content -- fog-in reveal for the SKILL title + Korean subtitle,
-  // identical mechanics to .clone-coding__intro above (title chars wrap
-  // + stagger via --fog-delay, subtitle fades as one block), replaying on
-  // every re-entry via IntersectionObserver.
   const skillIntroEl = document.querySelector('.skill-content__intro');
   if (skillIntroEl) {
     const skillTitleEl = skillIntroEl.querySelector('.skill-content__title');
@@ -3324,7 +1554,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ? Array.from(skillTitleEl.querySelectorAll('.skill-content__title-char'))
       : [];
 
-    // Matches .ai-lab__title-char's flat 8ms stagger -- was 25ms on desktop.
     const skillFogDelayStep = 8;
     skillTitleChars.forEach((el, i) => {
       el.style.setProperty('--fog-delay', `${i * skillFogDelayStep}ms`);
@@ -3357,7 +1586,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ? Array.from(quickQaTitleEl.querySelectorAll('.quick-qa__title-char'))
       : [];
 
-    // Matches .ai-lab__title-char's flat 8ms stagger -- was 25ms on desktop.
     const quickQaFogDelayStep = 8;
     quickQaTitleChars.forEach((el, i) => {
       el.style.setProperty('--fog-delay', `${i * quickQaFogDelayStep}ms`);
@@ -3380,22 +1608,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const entry = Math.min(1, Math.max(0, (entryMargin - rect.top) / entryMargin));
       const exit = Math.min(1, Math.max(0, rect.bottom / vh));
       quickQaDarkContribution = Math.min(entry, exit);
-      // .ready-cta and .site-footer both sit directly after quick-qa with no
-      // gap between any of them, and both are solid black with no fade of
-      // their own, so rect.bottom here IS the top edge of that whole opaque
-      // black run through to the end of the page -- reusing this same
-      // reading (rather than separate scroll-ordered listeners on each
-      // section after it) is what actually matters: independent listeners
-      // computing complementary halves of the same boundary can transiently
-      // disagree for one 'scroll' event during a fast (nav-jump) scroll, if
-      // one has updated its contribution for the new position and calls
-      // applyCombinedDarkState before the other has -- producing exactly one
-      // frame where the header logo flicks black then immediately back to
-      // white. Deriving all of it from one reading, in one function, closes
-      // that gap entirely. Tolerance (not a strict <= 0): at rest, sub-pixel
-      // scroll rounding can leave rect.bottom reading as a tiny positive
-      // value (observed 0.1171875) even when the footer visually fills the
-      // entire viewport, which a strict <= 0 check would miss forever.
       blackSectionDarkContribution = rect.bottom <= 1 ? 1 : 0;
       applyCombinedDarkState();
     };
@@ -3494,13 +1706,11 @@ document.addEventListener('DOMContentLoaded', () => {
   pinFooterNavLinkWidths();
   window.addEventListener('resize', rafCoalesce(pinFooterNavLinkWidths));
 
-  document.querySelectorAll('.site-footer__top, .portfolio-chatbot__top').forEach((footerTopButton) => {
+  document.querySelectorAll('.site-footer__top').forEach((footerTopButton) => {
     footerTopButton.addEventListener('click', () => {
       isNavJumping = true;
-      suspendNavJumpVisuals = true;
       navJumpToken += 1;
       header.classList.remove('header--hidden');
-      releaseCardsRevealLock();
       releaseSkillCarouselLock();
       navJumpActiveLock = true;
       setActiveNav('intro');
@@ -3514,91 +1724,6 @@ document.addEventListener('DOMContentLoaded', () => {
       waitForJumpToSettle(0);
     });
   });
-
-  /* Ready CTA -- title/desc fade in via IntersectionObserver as the section
-     first scrolls into view, then a pinned scroll dwell (.ready-cta__sticky)
-     plays the three photo cards falling into place one at a time (back card
-     first, matching DOM/z-index order), then cross-fades the English desc to
-     Korean and holds there for a while, all before the footer is allowed to
-     scroll in. Same dwellProgress + vh-pinned-threshold technique as
-     intro-reasons' update() above, just simpler (no title hand-off, no char
-     fill). Dropped entirely on mobile -- see .ready-cta's max-width:1023px
-     rules, which already show every card/the English line in its final
-     static state. */
-  const readyCtaEl = document.querySelector('.ready-cta');
-  if (readyCtaEl && window.matchMedia('(min-width: 1024px)').matches) {
-    const readyCtaCardA = readyCtaEl.querySelector('.ready-cta__card--a');
-    const readyCtaCardB = readyCtaEl.querySelector('.ready-cta__card--b');
-    const readyCtaCardC = readyCtaEl.querySelector('.ready-cta__card--c');
-    const readyCtaDescEl = readyCtaEl.querySelector('.ready-cta__desc');
-    const readyCtaTextEl = readyCtaEl.querySelector('.ready-cta__text');
-
-    if (readyCtaTextEl) {
-      const readyCtaTextObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          readyCtaTextEl.classList.toggle('is-revealed', entry.isIntersecting);
-        });
-      }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
-      readyCtaTextObserver.observe(readyCtaTextEl);
-    }
-
-    const getReadyCtaDwellProgress = () => {
-      const rect = readyCtaEl.getBoundingClientRect();
-      const dwellDist = readyCtaEl.offsetHeight - window.innerHeight;
-      return dwellDist > 0 ? Math.min(1, Math.max(0, -rect.top / dwellDist)) : 0;
-    };
-
-    let readyCtaPrevScrollY = window.scrollY;
-    let readyCtaScrollingUp = false;
-
-    const updateReadyCta = () => {
-      const dwellProgress = getReadyCtaDwellProgress();
-      const dwellDist = readyCtaEl.offsetHeight - window.innerHeight;
-      if (dwellDist <= 0) return;
-
-      const vh = window.innerHeight / 100;
-      // Fixed vh distances (not fractions of the whole dwell) so however
-      // long .ready-cta's CSS height is tuned to be, each stage always
-      // fires after the same amount of physical scrolling -- same
-      // reasoning as intro-reasons' FILL_END_VH/SWAP_TRIGGER_VH.
-      const CARD_A_VH = 30;
-      const CARD_B_VH = 80;
-      const CARD_C_VH = 130;
-      const DESC_SWAP_VH = 165;
-      // Scrolling back up, every stage un-reveals this much earlier (at
-      // higher dwell progress) than it revealed on the way down. Without
-      // the lead, card A starts its 0.9s fly-up only 30vh before the pin
-      // releases, so it's still mid-flight when the section un-sticks and
-      // visibly rides up with the page; with it, the whole stack has
-      // exited while still pinned and only then does the scroll let go.
-      const UP_LEAD_VH = 60;
-
-      const scrollYNow = window.scrollY;
-      if (scrollYNow !== readyCtaPrevScrollY) readyCtaScrollingUp = scrollYNow < readyCtaPrevScrollY;
-      readyCtaPrevScrollY = scrollYNow;
-      const leadVh = readyCtaScrollingUp ? UP_LEAD_VH : 0;
-
-      if (readyCtaCardA) readyCtaCardA.classList.toggle('is-revealed', dwellProgress >= ((CARD_A_VH + leadVh) * vh) / dwellDist);
-      if (readyCtaCardB) readyCtaCardB.classList.toggle('is-revealed', dwellProgress >= ((CARD_B_VH + leadVh) * vh) / dwellDist);
-      if (readyCtaCardC) readyCtaCardC.classList.toggle('is-revealed', dwellProgress >= ((CARD_C_VH + leadVh) * vh) / dwellDist);
-      if (readyCtaDescEl) readyCtaDescEl.classList.toggle('is-swapped', dwellProgress >= ((DESC_SWAP_VH + leadVh) * vh) / dwellDist);
-    };
-
-    let readyCtaTicking = false;
-    const onReadyCtaScroll = () => {
-      if (!readyCtaTicking) {
-        readyCtaTicking = true;
-        requestAnimationFrame(() => {
-          updateReadyCta();
-          readyCtaTicking = false;
-        });
-      }
-    };
-
-    updateReadyCta();
-    window.addEventListener('scroll', onReadyCtaScroll, { passive: true });
-    window.addEventListener('resize', rafCoalesce(updateReadyCta));
-  }
 
   // Skill content carousel -- the pin sticks while wheel/key input drives the
   // orbit, then releases back to normal page scroll at either end.
@@ -3845,21 +1970,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function unlockPageScroll() {}
 
-    // While engaged, wheel/keydown/pointer-drag input never touches real
-    // page scroll themselves (they preventDefault the native scroll and
-    // drive the carousel's rotation as internal state instead) -- the
-    // only page-scroll changes those cause are engageAtRect's/
-    // releaseEngagement's own explicit scrollBy snaps. So any *other*
-    // scroll-position change seen here while engaged can only be an
-    // input this carousel doesn't listen for -- a scrollbar drag,
-    // Home/End, middle-click autoscroll, etc. This used to always force
-    // it back to lockedScrollY, which fights a scrollbar drag on every
-    // 'scroll' event it fires (there's no timeout here unlike
-    // cards-reveal's own lock, so nothing else ever re-enables further
-    // progress) and traps the user at this position indefinitely.
-    // Releasing the engagement instead lets that kind of scroll win
-    // immediately, the same way isNavJumping already does for nav-link
-    // jumps.
     window.addEventListener(
       'scroll',
       () => {

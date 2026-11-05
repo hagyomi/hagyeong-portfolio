@@ -59,10 +59,16 @@ try {
  const filename=path.join(out,'css-structure-'+mode+'.json');
  await writeFile(filename,JSON.stringify(snapshots,null,2));
  if(mode==='after') {
-  const before=JSON.parse(await readFile(path.join(out,'css-structure-before.json'),'utf8'));
-  const differences=[];
-  snapshots.forEach((snap,j)=>snap.styles.forEach((el,i)=>{const prev=before[j].styles[i];if(JSON.stringify(prev)!==JSON.stringify(el)) differences.push({width:snap.width,index:i,before:prev,after:el})}));
+  const before=JSON.parse(await readFile(path.join(out,process.argv[3] || 'css-structure-before.json'),'utf8'));
+  const differences=[], removed=[];
+  snapshots.forEach((snap,j)=>{
+   const queues=new Map();
+   before[j].styles.forEach(el=>{if(!queues.has(el.key))queues.set(el.key,[]);queues.get(el.key).push(el)});
+   snap.styles.forEach(el=>{const prev=queues.get(el.key)?.shift();if(JSON.stringify(prev)!==JSON.stringify(el))differences.push({width:snap.width,before:prev,after:el})});
+   queues.forEach(values=>values.forEach(el=>removed.push({width:snap.width,key:el.key})));
+  });
   await writeFile(path.join(out,'css-structure-differences.json'),JSON.stringify(differences,null,2));
-  console.log(JSON.stringify({differences:differences.length,checks:snapshots.map(({styles,...rest})=>rest),exceptions,failed},null,2));
+  console.log(JSON.stringify({differences:differences.length,removed,checks:snapshots.map(({styles,...rest})=>rest),exceptions,failed},null,2));
+  if(differences.length||exceptions.length||failed.length||snapshots.some(s=>s.duplicates.length||s.brokenAnchors.length||s.overflow))process.exitCode=1;
  } else console.log('Baseline saved: '+snapshots.length+' viewports');
 } finally {ws?.close();browser.kill();}

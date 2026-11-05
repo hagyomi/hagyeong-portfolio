@@ -1,30 +1,27 @@
-.project-category--event,.event-pages{background:#f7f6f2;z-index:41}
-.project-category--event{padding-top:85px}
-.project-category--event .project-category__inner{padding-bottom:0}
-@media(max-width:767px){.project-category--event{padding-top:60px}}
-.event-pages{position:relative;color:#25211d;padding:var(--event-cover-top-gap,110px) 6vw 120px;font-family:'Pretendard',sans-serif}
-.event-pages__inner{max-width:1320px;margin:auto}
-.event-pages__intro{display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:end;margin-bottom:80px}
-.event-pages__eyebrow{font-family:'Neue Montreal',sans-serif;font-size:13px;letter-spacing:.08em;margin:0 0 28px}
-.event-pages__title{font-family:'Neue Montreal',sans-serif;font-size:clamp(50px,6vw,92px);font-weight:400;line-height:.95;letter-spacing:-.04em;margin:0}
-.event-pages__title em{font-family:'Cardinal Fruit',Georgia,serif;font-weight:400}
-.event-pages__intro-copy{font-size:16px;line-height:1.9;word-break:keep-all;max-width:480px;margin:0}
-.event-card{display:grid;grid-template-columns:1.05fr 1fr;gap:7%;align-items:center;border-top:1px solid #cbc5bb;padding:64px 0}
-.event-card__preview{display:block;aspect-ratio:4/5;overflow:hidden;background:var(--event-color,#ece8e1);border-radius:12px;position:relative}
-.event-card__preview img{display:block;width:100%;height:auto;max-width:none;transition:filter .2s}
-.event-card[data-event="kombucha"] .event-card__preview{aspect-ratio:1070/1160}
-.event-card__preview:hover img{filter:brightness(.96)}
-.event-card__preview:focus-visible{outline:3px solid #25211d;outline-offset:5px}
-.event-card__hint{position:absolute;right:18px;bottom:18px;background:#fff;color:#25211d;padding:12px 17px;border-radius:999px;font-size:12px;box-shadow:0 3px 18px #0001}
-.event-card__number{font-family:'Neue Montreal',sans-serif;font-size:12px;letter-spacing:.1em;margin:0 0 24px;color:#746e66}
-.event-card h3{font-family:'Neue Montreal','Pretendard',sans-serif;font-size:clamp(36px,4vw,64px);font-weight:400;line-height:1.1;letter-spacing:-.03em;margin:0 0 12px}
-.event-card__subtitle{font-size:15px;margin:0 0 30px;color:#766f67}
-.event-card__description{font-size:15px;line-height:1.9;word-break:keep-all;margin:0 0 28px}
-.event-card__meta{margin:0 0 32px}
-.event-card__meta>div{border-top:1px solid #d9d3ca;padding:15px 0;display:grid;grid-template-columns:82px 1fr;gap:14px}
-.event-card__meta dt{font-size:12px;color:#827a70}
-.event-card__meta dd{font-size:13px;line-height:1.8;margin:0;word-break:keep-all}
-.event-card__actions{display:flex;flex-wrap:wrap;gap:12px}
-.event-card__actions a{border:1px solid #aaa094;border-radius:999px;padding:14px 20px;font-size:12px;text-decoration:none;color:inherit;transition:background .2s}
-.event-card__actions a:hover{background:#e9e4dc}
-@media(max-width:767px){.event-pages{padding:var(--event-cover-top-gap,80px) 6vw 80px}.event-pages__intro{grid-template-columns:1fr;gap:30px;margin-bottom:44px}.event-pages__intro-copy{font-size:15px}.event-card{grid-template-columns:1fr;gap:30px;padding:38px 0}.event-card__preview{aspect-ratio:4/5}.event-card h3{font-size:40px}.event-card__number{margin-bottom:18px}.event-card__description{font-size:14px}.event-card__meta>div{grid-template-columns:72px 1fr}}
+.project-category--event,.event-pages {background:#f7f6f2;z-index:41}
+.project-category--event {padding-top:85px}
+.project-category--event .project-category__inner {padding-bottom:0}
+@media(max-width:767px) {.project-category--event {padding-top:60px}}
+.event-pages {position:relative;color:#25211d;padding:var(--event-cover-top-gap,110px) 6vw 120px;font-family:'Pretendard',sans-serif}
+.event-pages__inner {max-width:1320px;margin:auto}
+
+
+.event-card {display:grid;grid-template-columns:1.05fr 1fr;gap:7%;align-items:center;border-top:1px solid #cbc5bb;padding:64px 0}
+.event-card__preview {display:block;aspect-ratio:4/5;overflow:hidden;background:var(--event-color,#ece8e1);border-radius:12px;position:relative}
+.event-card__preview img {display:block;width:100%;height:auto;max-width:none;transition:filter .2s}
+.event-card[data-event="kombucha"] .event-card__preview {aspect-ratio:1070/1160}
+.event-card__preview:hover img {filter:brightness(.96)}
+.event-card__preview:focus-visible {outline:3px solid #25211d;outline-offset:5px}
+
+.event-card__number {font-family:'Neue Montreal',sans-serif;font-size:12px;letter-spacing:.1em;margin:0 0 24px;color:#746e66}
+.event-card h3 {font-family:'Neue Montreal','Pretendard',sans-serif;font-size:clamp(36px,4vw,64px);font-weight:400;line-height:1.1;letter-spacing:-.03em;margin:0 0 12px}
+.event-card__subtitle {font-size:15px;margin:0 0 30px;color:#766f67}
+.event-card__description {font-size:15px;line-height:1.9;word-break:keep-all;margin:0 0 28px}
+.event-card__meta {margin:0 0 32px}
+.event-card__meta>div {border-top:1px solid #d9d3ca;padding:15px 0;display:grid;grid-template-columns:82px 1fr;gap:14px}
+.event-card__meta dt {font-size:12px;color:#827a70}
+.event-card__meta dd {font-size:13px;line-height:1.8;margin:0;word-break:keep-all}
+.event-card__actions {display:flex;flex-wrap:wrap;gap:12px}
+.event-card__actions a {border:1px solid #aaa094;border-radius:999px;padding:14px 20px;font-size:12px;text-decoration:none;color:inherit;transition:background .2s}
+.event-card__actions a:hover {background:#e9e4dc}
+@media(max-width:767px) {.event-pages {padding:var(--event-cover-top-gap,80px) 6vw 80px}.event-card {grid-template-columns:1fr;gap:30px;padding:38px 0}.event-card__preview {aspect-ratio:4/5}.event-card h3 {font-size:40px}.event-card__number {margin-bottom:18px}.event-card__description {font-size:14px}.event-card__meta>div {grid-template-columns:72px 1fr}}

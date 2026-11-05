@@ -8,10 +8,13 @@ if (path.dirname(output) !== root || path.basename(output) !== 'dist') throw Err
 await fs.rm(output, { recursive: true, force: true });
 await fs.mkdir(output, { recursive: true });
 const entries = await fs.readdir(root, { withFileTypes: true });
-const directories = new Set(['assets', 'files', 'fonts', 'images', 'pages', 'vendor']);
+const directories = new Set(['files', 'fonts', 'images', 'pages']);
 for (const entry of entries) {
   if ((entry.isFile() && /\.(html|css|js)$/.test(entry.name)) || (entry.isDirectory() && directories.has(entry.name))) {
-    await fs.cp(path.join(root, entry.name), path.join(output, entry.name), { recursive: true });
+    await fs.cp(path.join(root, entry.name), path.join(output, entry.name), {
+      recursive: true,
+      filter: source => !/\.(md|json)$/i.test(source),
+    });
   }
 }
 console.log('Static site built in dist/');

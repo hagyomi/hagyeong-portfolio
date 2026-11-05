@@ -75,7 +75,6 @@ try {
   await screenshot('desktop-work');
   report.work = await evaluate(`({scrollY,active:document.querySelector('.nav__link.is-active')?.textContent,heading:document.querySelector('#work h2')?.textContent})`);
   report.qa = await evaluate(`(()=>{const q=document.querySelector('.quick-qa__question');q.click();return {expanded:q.getAttribute('aria-expanded'),hidden:q.closest('article').querySelector('.quick-qa__answer').hidden};})()`);
-  report.dialog = await evaluate(`(()=>{const preview=document.querySelector('.diptyque-preview');if(!preview)return 'not present';preview.click();const d=document.querySelector('#diptyqueLightbox');const open=d.open;d.close();return open;})()`);
   await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape' });
   await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape' });
 
@@ -117,7 +116,6 @@ try {
     }
     const state = await evaluate(`({title:document.title,viewport:innerWidth,width:document.documentElement.scrollWidth,heading:document.querySelector('h1')?.textContent,token:getComputedStyle(document.documentElement).getPropertyValue('--pf-target-min').trim()})`);
     report.subpages.push({ page, ...state });
-    if (page === 'personal-02') await screenshot('mobile-personal-demo');
   }
   report.exceptions = [...new Set(exceptions)];
   report.failedRequests = [...new Map(failed.map(x => [x.url, x])).values()];

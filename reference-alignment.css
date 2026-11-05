@@ -1,21 +1,10 @@
 /* Original motion and spatial structure, adapted to the supplied portfolio content. */
 /* clip avoids creating a body scroll container, which would stop every sticky pin. */
 body {overflow-x:clip}
-.team-role-scene {padding:18vh 5vw 5vh;box-sizing:border-box;color:#fff}
-.team-role-heading h3 {font-family:'Cardinal Fruit',Georgia,serif;font-size:clamp(24px,2.2vw,40px);font-weight:400;margin:0 0 8px}
-.team-role-heading>p {font-size:14px;margin:0 0 24px}
-.team-role-layout {display:grid;grid-template-columns:1.15fr 1fr;gap:3vw}
-.team-role-player {aspect-ratio:2/1;border:2px solid #555;border-radius:24px;overflow:hidden;background:#111}
-.team-role-scene video {position:static;display:block;width:100%;height:100%;object-fit:cover;object-position:top}
-.team-role-scene h4 {font-size:clamp(15px,1.2vw,22px);font-weight:500;margin:20px 0 10px;padding-left:12px;border-left:3px solid #c6b99d}
-.team-role-scene p {font-size:clamp(12px,.95vw,16px);font-weight:300;line-height:1.6;color:#ccc}
-.team-role-links {display:flex;gap:16px;margin-top:22px}
-.team-role-support {display:grid;gap:24px}
-.team-role-support article {display:grid;grid-template-columns:1.1fr 1fr;gap:20px;align-items:center}
-.team-role-preview {aspect-ratio:1.45;overflow:hidden;border-radius:12px;background:#111}
-.team-role-support h4 {margin-top:0}
+
+
 @media(min-width:1024px) {#work.student-work {height:calc(100vh + 1695vh)}}
-@media(max-width:1023px) {.team-role-scene {height:auto!important;min-height:100svh;padding:100px 6vw 60px;background:#000}.team-role-layout {grid-template-columns:1fr;gap:36px}.team-role-support article {grid-template-columns:1fr;gap:12px}.team-role-scene p {font-size:14px}.team-role-links .work-scenes__link {position:static;font-size:13px}.team-role-heading h3 {font-size:32px}}
+
 .site-footer__top {background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;color:#111;mix-blend-mode:normal}
 .site-footer__top {color:#fff}
 .site-footer__top:hover,
@@ -31,78 +20,38 @@ body {overflow-x:clip}
 .site-footer__contact-link.contact-primary {font-size:clamp(24px,2.35vw,44px);font-weight:600;line-height:1.5;letter-spacing:-.035em;gap:14px}
 .contact-primary .site-footer__contact-icon {width:28px;height:28px}
 @media(max-width:520px) {.site-footer__contact-link.contact-primary {font-size:clamp(20px,6vw,28px);gap:10px}.contact-primary .site-footer__contact-icon {width:22px;height:22px}}
-.cards-reveal__card-desc {font-size:clamp(11px,.8333vw,15px)!important;line-height:1.5!important;font-weight:100}
-@media(max-width:600px) {.cards-reveal__card-desc {font-size:11px!important}}
 
-
-#workDetail3 .personal-result-scene .work-scenes__copy {left:calc(51 * var(--u));top:calc(15 * var(--u));width:calc(42 * var(--u));gap:0}
-.personal-result-label {font-family:'Neue Montreal',sans-serif;font-size:calc(.75 * var(--u));letter-spacing:.1em;color:#ddd;margin:0 0 calc(1.6 * var(--u))}
-#workDetail3 .personal-result-scene .work-scenes__title {font-size:calc(3.4 * var(--u));white-space:normal;line-height:1.15;margin:0 0 calc(4 * var(--u))}
-.personal-result-overview h4 {font-family:'Neue Montreal',sans-serif;font-size:calc(1 * var(--u));font-weight:500;letter-spacing:.05em;color:white;margin:0 0 calc(1.2 * var(--u))}
-#workDetail3 .personal-result-scene .work-scenes__desc-en {position:static;width:100%;max-width:none;font-family:'Pretendard',sans-serif}
-#workDetail3 .personal-result-scene .work-scenes__desc-en p {font-size:calc(1.15 * var(--u));line-height:1.8;white-space:normal;word-break:keep-all;margin:0}
-.personal-result-actions {margin-top:calc(3 * var(--u));display:flex}
-.personal-result-actions .work-scenes__link {font-size:calc(.9 * var(--u));gap:14px}
-@media(max-width:1023px) {#workDetail3 .personal-result-scene .work-scenes__copy {position:static;left:auto;top:auto;width:100%;gap:0}.personal-result-label {font-size:11px;margin:0 0 15px}#workDetail3 .personal-result-scene .work-scenes__title {font-size:36px;margin-bottom:30px}.personal-result-overview h4 {font-size:15px;margin-bottom:14px}#workDetail3 .personal-result-scene .work-scenes__desc-en p {font-size:15px;line-height:1.85}.personal-result-actions {margin-top:26px}.personal-result-actions .work-scenes__link {font-size:13px}}
-#practice .clone-coding__grid {overflow:clip}
-#practice .clone-coding__card,#practice .clone-coding__card.is-revealed {opacity:1;transform:none;transition:none}
-#practice .clone-coding__card::before {pointer-events:none}
-#practice .clone-coding__title {font-family:'Neue Montreal',sans-serif;font-weight:400;font-size:clamp(38px,5.2vw,100px);line-height:1.1;letter-spacing:-.035em}
-#practice .clone-coding__title em {font-family:'Cardinal Fruit',Georgia,serif;font-weight:400}
-#practice .clone-coding__subtitle {font-size:clamp(14px,1vw,18px);line-height:1.7}
-@media(min-width:1024px) {#practice .clone-coding__stage {height:390svh}#practice .clone-coding__card--1 {top:110svh}#practice .clone-coding__card--2 {top:210svh}#practice .clone-coding__card--3 {top:310svh}}
-@media(max-width:1023px) {#practice .clone-coding__stage {height:auto}#practice .clone-coding__grid {overflow:visible}#practice .clone-coding__title {font-size:clamp(36px,7vw,60px);white-space:normal}}
 
 .hero__stage {flex-direction:column}
-.student-hero-desc {text-align:center;flex:0 0 auto}
+
 @media(min-width:1024px) {
-  .reason-quote .line {font-size:calc(5 * var(--u));line-height:1.08}
-  .reason-quote__stage {padding-inline:5vw}
+
+
   .intro-reasons__title .stay-title-line:last-child {font-size:1em}
   .student-work {height:calc(100vh + 1425vh)}
-  .student-work.work-detail--p2 {height:calc(100vh + 1170vh)}
+
   .student-work.work-detail--p3 {height:calc(100vh + 885vh)}
 }
 .reference-cover-stage {background:transparent}
 .reference-cover-devices {position:absolute;left:calc(3.7 * var(--u));top:calc(13.5 * var(--u));width:calc(46.7 * var(--u));height:calc(37 * var(--u))}
-.reference-device-set {position:relative;width:100%;height:100%;filter:drop-shadow(0 5px 9px #0003)}
-.reference-monitor {position:absolute;left:0;top:0;width:76%;aspect-ratio:1.42;background:linear-gradient(#050505 83%,#d4d5d7 83%);border:calc(.65 * var(--u)) solid #111;border-bottom:0;border-radius:calc(1 * var(--u));box-sizing:border-box}
-.reference-monitor-screen {position:absolute;inset:3% 2.4% 17%;overflow:hidden;background:#ddd}
-.reference-monitor-screen img {width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
-.reference-monitor::before {content:'';position:absolute;left:38%;top:100%;width:24%;height:20%;background:linear-gradient(90deg,#9c9da1,#dedee0 48%,#b6b7bc);clip-path:polygon(18% 0,82% 0,100% 100%,0 100%)}
-.reference-monitor::after {content:'';position:absolute;left:30%;top:119%;width:40%;height:3%;border-radius:50%;background:linear-gradient(#eee,#87898d)}
-.reference-monitor-mark {position:absolute;left:50%;bottom:5%;transform:translateX(-50%);font-size:calc(1 * var(--u));color:#333}
-.reference-tablet {position:absolute;left:54%;bottom:2%;width:29%;aspect-ratio:3/4;border:calc(.7 * var(--u)) solid #111;border-radius:calc(1.2 * var(--u));overflow:hidden;box-shadow:0 4px 7px #0003;background:#111}
-.reference-phone {position:absolute;right:0;bottom:2%;width:12%;aspect-ratio:9/19.5;border:calc(.35 * var(--u)) solid #111;border-radius:calc(1 * var(--u));overflow:hidden;box-shadow:0 4px 7px #0003;background:#111}
-.reference-tablet img,.reference-phone img {width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+
+
 .reference-cover-info {gap:calc(2.2 * var(--u))}
 .reference-cover-info h2 {margin:0;font-weight:400;line-height:1.05}
-.reference-cover-info .work-detail__title-em {font-size:calc(4.7 * var(--u))}
-.reference-cover-info .work-detail__index-current {font-size:calc(2.0833 * var(--u))}
+
+
 .reference-cover-info .work-detail__eyebrow {font-size:calc(1.0417 * var(--u))}
 .reference-cover-meta h3 {font-family:'Neue Montreal',sans-serif;font-size:calc(.94 * var(--u));font-weight:500;margin:calc(1.6 * var(--u)) 0 calc(.65 * var(--u))}
 .reference-cover-meta {display:block}
 .reference-cover-meta h3:first-child {margin-top:0}
 .reference-cover-meta>p {font-family:'Pretendard',sans-serif;font-size:calc(.87 * var(--u));line-height:1.6;margin:0}
-.reference-cover-meta .student-task-list {display:grid;grid-template-columns:1fr 1fr;gap:3px 18px;padding:0 0 0 14px;font-family:'Pretendard',sans-serif;font-size:calc(.83 * var(--u));line-height:1.6;margin:8px 0}
-.reference-cover-meta .student-note {font-size:calc(.76 * var(--u));margin-top:12px}
+
+
 .reference-cover-body {gap:calc(1.3 * var(--u))}
 .reference-cover-body .work-detail__progress {gap:calc(1.2 * var(--u));flex-wrap:wrap}
 .reference-cover-body .work-detail__progress-item {font-size:calc(.75 * var(--u));padding:6px 10px}
-.reference-scene {position:relative;width:min(100cqw,1920px);aspect-ratio:1920/1080;margin:auto;color:white}
-.reference-scene-visual {position:absolute;left:62%;top:21%;width:34.5%;height:62%}
-.reference-device-set--single .reference-monitor {width:100%;aspect-ratio:1.42}
-.reference-scene-copy {position:absolute;left:2.3%;top:22%;width:46%;gap:calc(3.1 * var(--u))}
-.reference-scene-copy>.student-eyebrow {font-size:calc(.83 * var(--u));margin:0}
-.reference-scene-title {font-size:calc(3.6458 * var(--u));line-height:1.12;font-weight:400;letter-spacing:calc(-.1 * var(--u));margin:0;white-space:normal}
-.reference-scene-title em {font-family:'Cardinal Fruit',Georgia,serif;font-weight:400}
-.reference-scene-copy .work-scenes__desc {gap:calc(2.1 * var(--u))}
-.reference-scene-copy .work-scenes__desc-en,.reference-scene-copy .work-scenes__desc-kr {width:100%;position:static;max-width:none}
-.reference-scene-copy .work-scenes__desc-en p {font-size:calc(2.08 * var(--u));line-height:1.3;margin:0}
-.reference-scene-copy .work-scenes__desc-kr p {font-size:calc(.95 * var(--u));line-height:1.7;margin:0}
-.reference-scene-copy .student-link {margin:0;align-self:flex-start;font-size:calc(.9 * var(--u))}
-.reference-scene--reverse .reference-scene-copy {left:56%;width:40%}
-.reference-scene--reverse .reference-scene-visual {left:7%;width:38%}
+
+
 .student-work .work-detail__glow-wrap {pointer-events:none}
 .skill-content__carousel {opacity:1}
 .skill-content__body {width:min(650px,48vw);z-index:5}
@@ -111,63 +60,46 @@ body {overflow-x:clip}
 .reference-skill-group .skill-content__column-title {margin-bottom:calc(1.7 * var(--u))}
 .reference-skill-group .skill-content__column-list {gap:calc(1 * var(--u))}
 .skill-content__column-list li {font-size:calc(1.0417 * var(--u))!important}
-.reference-practice-grid .clone-coding__caption {font-family:'Pretendard',sans-serif;font-size:14px;line-height:1.7;text-align:left;padding-top:24px}
-.reference-practice-grid .clone-coding__caption h3 {font-family:'Neue Montreal',sans-serif;font-size:28px;font-weight:400;margin:10px 0}
-.reference-practice-grid .clone-coding__caption .student-eyebrow {font-size:11px;margin:0}
-.reference-practice-grid .clone-coding__caption small {font-size:12px;opacity:.6}
-.reference-practice-grid .clone-coding__img {object-fit:cover;object-position:top}
+
 
 @media(max-width:1023px) {
   .reference-cover-stage {aspect-ratio:auto;padding:85px 6vw 65px;width:100%;box-sizing:border-box;display:flex;flex-direction:column;gap:50px}
   .reference-cover-devices {position:relative;left:auto;top:auto;width:100%;height:70vw;max-height:520px;margin-top:20px}
-  .reference-monitor {border-width:6px;border-radius:10px}.reference-monitor-mark {font-size:10px}.reference-tablet {border-width:6px;border-radius:12px}.reference-phone {border-width:4px;border-radius:10px}
+
   .reference-cover-info {position:static;inset:auto;transform:none;width:100%;gap:28px}
-  .reference-cover-info .work-detail__title-em {font-size:clamp(32px,6vw,55px)}
+
   .reference-cover-info .work-detail__eyebrow {font-size:14px}
-  .reference-cover-info .work-detail__index-current {font-size:30px}
-  .reference-cover-meta h3 {font-size:13px;margin:22px 0 12px}.reference-cover-meta>p {font-size:14px}.reference-cover-meta .student-task-list {font-size:13px;grid-template-columns:1fr}.reference-cover-meta .student-note {font-size:12px}
+
+  .reference-cover-meta h3 {font-size:13px;margin:22px 0 12px}.reference-cover-meta>p {font-size:14px}
   .reference-cover-body .work-detail__progress-item {font-size:11px}.reference-cover-body {gap:24px}
-  .reference-scene {aspect-ratio:auto;width:100%;padding:70px 6vw;box-sizing:border-box;display:flex;flex-direction:column;gap:50px;background:#111}
-  .reference-scene-visual,.reference-scene--reverse .reference-scene-visual {position:relative;left:auto;top:auto;width:100%;height:72vw;max-height:530px}
-  .reference-scene-copy,.reference-scene--reverse .reference-scene-copy {position:relative;left:auto;top:auto;width:100%;gap:24px}
-  .reference-scene-title {font-size:clamp(32px,6vw,52px);letter-spacing:-1px}.reference-scene-copy>.student-eyebrow {font-size:12px}
-  .reference-scene-copy .work-scenes__desc-en p {font-size:22px;color:white}.reference-scene-copy .work-scenes__desc-kr p {font-size:14px}.reference-scene-copy .student-link {font-size:13px}
-  .skill-content__body {position:relative;width:100%;left:auto;top:auto;transform:none}
+
+
+.skill-content__body {position:relative;width:100%;left:auto;top:auto;transform:none}
   .skill-content__carousel {display:block;opacity:1}
   .skill-content__columns {grid-template-columns:1fr;gap:30px!important;padding-inline:70px}
   .reference-skill-group {gap:25px;width:100%}.reference-skill-group .skill-content__column {align-items:center}.reference-skill-group .skill-content__column-title {margin-bottom:15px}.reference-skill-group .skill-content__column-list {align-items:center;gap:8px}.skill-content__column-list li {font-size:15px!important;text-align:center}
-  .student-ai-note {text-align:center}.reference-practice-grid .clone-coding__caption {padding:20px 0}.reference-practice-grid .clone-coding__caption p {margin-bottom:12px}
+  .student-ai-note {text-align:center}
 }
-@media(prefers-reduced-motion:reduce) {.clone-coding__badge-ring {animation:none}.reference-scene .fill-char {color:white!important}}
+
 
 /* Keep the full introduction visible and leave room before the bilingual copy. */
-.intro-reasons__name {white-space:nowrap}
+
 @media(min-width:1024px) {
   .intro-reasons__subtitle {width:calc(46.5 * var(--u))}
   .intro-reasons__text {top:calc(36.25 * var(--u));width:calc(34.0104 * var(--u))}
 }
 /* Original Apple device composition, with the ZARA screens fitted inside. */
-.zara-original-device-set {position:relative;width:100%;aspect-ratio:1502/1200}
-.zara-device-frame {display:block;width:100%;height:auto}
-.zara-device-screen {position:absolute;display:block;object-fit:cover;object-position:top center}
-.zara-device-screen--desktop {left:6.0586%;top:7.8333%;width:66.3116%;height:50.4167%;clip-path:polygon(0 0,100% 0,100% 80.3%,74% 80.3%,72.1% 83.5%,72.1% 100%,0 100%)}
-.zara-device-screen--tablet {left:55.0599%;top:49.9167%;width:25.8322%;height:43.25%;border-radius:1.5%}
-.zara-device-screen--phone {left:85.4194%;top:66.9167%;width:10.1198%;height:27.1667%;border-radius:12%;clip-path:inset(0 round 12%)}
-@media(max-width:1023px) {.reference-zara-mockup {height:auto;max-height:none}}
-.zara-phone-notch {position:absolute;left:87.75%;top:66.9167%;width:4.75%;height:1.2%;background:#080808;border-radius:0 0 8px 8px}
 
-.work-detail__proposal {background:transparent;opacity:1}
 
 /* One MacBook frame for every project cover and detail scene. */
 .portfolio-macbook {position:relative;width:100%;aspect-ratio:4340/2860;isolation:isolate}
 .portfolio-macbook__screen {position:absolute;z-index:1;left:10.2535%;top:13.2867%;width:79.4931%;height:75.6643%;object-fit:cover;object-position:top center;display:block;background:#fff}
 .portfolio-macbook__frame {position:relative;z-index:2;display:block;width:100%;height:auto;pointer-events:none}
 .reference-cover-devices {height:auto}
-@media(max-width:1023px) {.reference-cover-devices {height:auto;max-height:none}.reference-scene-visual,.reference-scene--reverse .reference-scene-visual {height:auto;max-height:none}}
+@media(max-width:1023px) {.reference-cover-devices {height:auto;max-height:none}}
 /* Reference brand scene: screenshot collage behind the MacBook, copy on the right. */
-.zara-brand-scene {background:#666}
-.zara-brand-scene .work-scenes__card img {object-fit:cover;object-position:top center}
-.zara-brand-scene .work-scenes__device-media {inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
+
+
 :root {--photo-position-growth:50% 50%;--photo-position-empathy:50% 50%}
 
 /* Floating ivory capsule navigation. */
@@ -196,16 +128,10 @@ body {overflow-x:clip}
 
 .header {width:calc(100% - 32px);max-width:1400px;left:0;right:0;margin-inline:auto}
 @media(max-width:1023px) {.header {width:calc(100% - 24px)}}
-.zara-typography-scene {background:#4c4c4c}
-.zara-typography-scene video {object-position:top center}
 
-.zara-beforeafter-scene {background:#333}
-.zara-beforeafter-scene .work-scenes__device-media {left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:top center;transform:none}
-.zara-editorial-scene {background:#191919}
-.zara-editorial-scene video {object-position:top center}
 
 /* Keep the continuous scroll-drawn light visible behind every ZARA scene. */
-.zara-brand-scene,.zara-typography-scene,.zara-beforeafter-scene,.zara-editorial-scene {background:transparent}
+
 .header .student-logo {font-size:24px;letter-spacing:-.7px}
 @media(max-width:1023px) {.header .student-logo {font-size:22px}}
 @media(max-width:480px) {.header .student-logo {font-size:20px}}
@@ -216,8 +142,7 @@ body {overflow-x:clip}
 .header,.header__inner,.header .mobile-nav,.header .mobile-nav.is-open {box-shadow:none}
 .header__inner {border:0;background:rgba(248,245,240,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .header .mobile-nav,.header .mobile-nav.is-open {border:0;background:rgba(248,245,240,.88);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.zara-together-scene {background:transparent}
-.zara-together-scene .work-scenes__media img {width:100%;height:100%;object-fit:cover;object-position:center}
+
 
 /* Solid black hero: typography supplies the motion. */
 .hero {background:#000}
@@ -228,18 +153,13 @@ body {overflow-x:clip}
 .hero-word {display:inline-block;overflow:hidden;vertical-align:top;padding:.08em .035em .17em;margin-bottom:-.17em}
 .hero-word>span,.hero-word>em {display:inline-block;transform:translateY(0)}
 .hero.is-typography-ready .hero-word>span,.hero.is-typography-ready .hero-word>em {animation:hero-word-reveal 1050ms cubic-bezier(.16,1,.3,1) both;animation-delay:var(--word-delay)}
-.hero.is-typography-ready .student-hero-desc {animation:hero-description-reveal 900ms ease both;animation-delay:850ms}
+
 @keyframes hero-word-reveal {from{transform:translateY(115%)}to{transform:translateY(0)}}
-@keyframes hero-description-reveal {from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
 @media(max-width:1023px) {.hero__title {font-size:clamp(40px,11.5vw,76px);line-height:1.08;letter-spacing:-.035em;white-space:normal;max-width:calc(100% - 32px)}}
-@media(prefers-reduced-motion:reduce) {.hero .hero-word>span,.hero .hero-word>em,.hero .student-hero-desc {animation:none!important}.hero__title-line {transform:none!important;will-change:auto}}
+@media(prefers-reduced-motion:reduce) {.hero .hero-word>span,
+.hero .hero-word>em {animation:none!important}.hero__title-line {transform:none!important;will-change:auto}}
 /* All three website case studies share the same pacing and device composition. */
-@media(min-width:1024px) {.student-work.work-detail--p2 {height:calc(100vh + 1425vh)}}
-.work-detail--p2 .work-detail__glow-wrap {width:500%}
-.project-brand-scene,.project-typography-scene,.project-beforeafter-scene,.project-editorial-scene,.project-together-scene {background:transparent}
-.project-brand-scene .work-scenes__card img {object-fit:cover;object-position:top center}
-.project-brand-scene .work-scenes__device-media,.project-beforeafter-scene .work-scenes__device-media {left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:top center;transform:none}
-.project-typography-scene video,.project-editorial-scene video {object-position:top center}
-.project-together-scene .work-scenes__media img {width:100%;height:100%;object-fit:cover;object-position:center}
+
+
 .work-scenes__stage[data-project] .work-scenes__desc-en p {white-space:normal;line-height:1.35}
-.work-scenes__stage[data-project] .work-scenes__desc-kr p {word-break:keep-all;line-height:1.6}

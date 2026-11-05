@@ -60,6 +60,9 @@ Chrome 검수 도구는 로컬 서버와 Chrome 설치가 필요합니다.
 
 ```sh
 node tools/guideline-check.mjs
+node tools/full-page-check.mjs
 ```
+
+전체 검수 결과는 `.local-preview/full-page-report.json`, 화면 캡처는 `.local-preview/full-*.png`에 저장합니다. 정리 내역은 `files/cleanup-audit.md`에 기록합니다. 빌드는 파일 참조를 따라가며 누락 파일과 연결되지 않은 배포 파일도 검사합니다.
 
 `.local-preview/`, `dist/`, `.vercel/`, 환경변수 파일은 Git에 포함하지 않습니다.

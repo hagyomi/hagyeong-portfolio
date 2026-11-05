@@ -36,6 +36,6 @@ ONDA와 LUMA 항목은 제거했습니다.
 - 영상 녹화: `node tools/record-project.mjs newera`, `node tools/record-project.mjs touslesjours`
 - 인코딩 도구: `.local-preview/ffmpeg.exe` (로컬 전용, 배포 자산에 포함하지 않음)
 - 영상 자산: 각 프로젝트 이미지 폴더의 `site-recording.webm`
-- 로컬 검수: 서버 실행 후 `node tools/personal-check.mjs`
-- 결과: `.local-preview/personal-report.json`과 PC·모바일 캡처
-- 영상 재생·프레임 크기·목업 화면 박스 검수: `node tools/project-video-check.mjs`
+- 로컬 검수: 서버 실행 후 `node tools/full-page-check.mjs`
+- 결과: `.local-preview/full-page-report.json`과 PC·모바일 캡처
+- 영상 재생·프레임 크기·목업 화면 박스 검수: `node tools/project-cover-check.mjs`

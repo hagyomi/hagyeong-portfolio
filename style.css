@@ -223,14 +223,7 @@ button {
   --color-line: #E7E6E7;
   --color-muted: #B3B3B3;
 
-  /* Per-photo crop focal point (object-position: X% Y%), one variable per
-     subject -- each drives THREE places at once (the inline reason-quote
-     chip, the big cards-reveal card, and the flying clone that animates
-     between them), so tuning framing only ever needs editing this one
-     line instead of three matching ones. 0%/0% = top-left of the photo
-     stays fully visible (crops from the bottom-right); 100%/100% is the
-     opposite corner; 50% 50% (the default below) is a plain center crop.
-     Nudge these to re-frame each photo without touching any other CSS. */
+
   --photo-position-harmony: 30% 40%; /* chipMusic / cardsRevealCard1 / flyingCard1 -- piano (kept from the chip's own already-tuned crop) */
   --photo-position-growth: 50% 80%; /* chipDesign / cardsRevealCard2 / flyingCard2 -- coding */
   --photo-position-empathy: 50% 53%; /* chipExperiences / cardsRevealCard3 / flyingCard3 -- meeting */
@@ -266,11 +259,6 @@ button {
   transition: filter 0.2s ease;
 }
 
-.logo__mark {
-  display: block;
-  height: 32px;
-  width: auto;
-}
 
 /* .header--inverted is toggled by script.js once the scroll-dark overlay
    (see .scroll-dark-overlay) starts covering the screen -- a direct
@@ -392,17 +380,7 @@ button {
   color: #000000;
 }
 
-/* ==========================================================================
-   Scroll dark takeover overlay
-   A full-viewport fixed layer, opacity-driven by script.js (0 -> 1 as the
-   reason-quote section scrolls into place, back to 0 once it's scrolled
-   past). Sits above the page content (z-index above the default/auto
-   stacking of the sections) but below .header (z-index 100), so the whole
-   screen -- not just the reason-quote section's own box -- reads as
-   turning black together, while the fixed header stays on top and inverts
-   its own text to white in sync (see .header color rules driven inline
-   by script.js).
-   ========================================================================== */
+
 .scroll-dark-overlay {
   position: fixed;
   inset: 0;
@@ -412,23 +390,7 @@ button {
   pointer-events: none;
 }
 
-/* ==========================================================================
-   Fixed grid-line background (FIXED-GRID-BACKGROUND.md)
-   A single persistent layer living outside <main> entirely, never
-   transformed/translated by any section's own scroll-scrubbed animation --
-   that's the whole trick to it reading as "fixed" rather than tricks like
-   clip-path or per-frame repositioning. Sits at z-index 0: below
-   .scroll-dark-overlay (40) and every section's own pinned/sticky content
-   (41), so any black cover/dark transition simply paints over it in place,
-   and below whichever section is currently in normal flow -- each white
-   section below has had its own opaque background removed so these lines
-   show through it, while black sections (reason-quote, cards-reveal,
-   work-transition's base layer) keep their own opaque background and
-   simply hide the grid, matching "흰 배경일 땐 항상 회색 선, 검은 배경일
-   땐 없음". --u-fixed mirrors --u's own min(1cqw, 19.2px) scale but in vw,
-   since this element sits outside every section's own container-type:
-   inline-size context, so cqw here wouldn't reliably resolve against the
-   viewport the way it does inside those containers. */
+
 :root {
   --u-fixed: min(1vw, 19.2px);
 }
@@ -496,10 +458,6 @@ button {
   pointer-events: none;
 }
 
-/* Same reasoning as .work-transition__wipe-grid above, just for
-   .about-transition__wipe's own clip-path-constrained surface. */
-
-
 /* ==========================================================================
    Hero
    ========================================================================== */
@@ -516,14 +474,6 @@ button {
   container-type: inline-size;
 }
 
-.hero__staff-canvas {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
 
 .hero__stage {
   position: relative;
@@ -637,36 +587,6 @@ button {
   width: calc(41.4583 * var(--u));
 }
 
-/* Three floating clones (one per reason-quote chip) shown only while
-   .cards-reveal is scrolling into place, top/left/width/height/
-   border-radius all set in real px by script.js as it interpolates each
-   one between its source chip and destination card -- same technique as
-   .flying-title above, just driving box geometry instead of just
-   position. */
-.flying-card {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 42;
-  opacity: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.flying-card--placeholder {
-  background: #d9d9d9;
-}
-
-/* Plain object-fit: cover for every flying clone's photo -- same generic
-   treatment as the cards-reveal cards/chips it flies between. Crop focal
-   point per subject via the shared --photo-position-* vars (see :root). */
-.flying-card--photo img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
 #flyingCard1 img {
   object-position: var(--photo-position-harmony);
@@ -698,19 +618,7 @@ button {
   font-weight: 600;
 }
 
-/* Box that hosts the English -> Korean text swap: both lines sit stacked
-   in the exact same spot (confirmed via getBoundingClientRect ? both boxes
-   share the identical top edge). English fades out in place; Korean fades
-   in while rising up slightly (same opacity+translateY recipe as
-   .intro-reasons__reveal's initial appear), so the swap doesn't read as a
-   flat crossfade but as Korean gently arriving from just below.
-   script.js toggles .is-swapped on this box once the scroll dwell crosses
-   a single threshold -- a real CSS transition then plays the fade/rise out
-   over a fixed duration, the same threshold-triggered-transition pattern
-   used by .intro-reasons__reveal and .reason-quote .word.is-revealed,
-   rather than mapping opacity directly 1:1 to scroll distance (which
-   read as a mechanical wipe tied to scroll speed instead of a genuine
-   eased fade-in). */
+
 .intro-reasons__text {
   position: absolute;
   left: calc(16.6667 * var(--u));
@@ -738,20 +646,11 @@ button {
   transition: opacity 0.6s ease;
 }
 
-.intro-reasons__text-kr {
-  opacity: 0;
-  transform: translateY(calc(1.4583 * var(--u)));
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
 
 .intro-reasons__text.is-swapped .intro-reasons__text-en {
   opacity: 0;
 }
 
-.intro-reasons__text.is-swapped .intro-reasons__text-kr {
-  opacity: 1;
-  transform: translateY(0);
-}
 
 .intro-reasons__photo {
   position: absolute;
@@ -821,76 +720,7 @@ body.js-anim .intro-reasons.is-docked .intro-reasons__reveal {
    section's own background is a static black (not JS-animated) since the
    overlay above it handles the whole-screen fade.
    ========================================================================== */
-.reason-quote {
-  position: relative;
-  height: 450vh; /* 100vh visible + 350vh dwell for the batched word/chip reveal */
-  background: #000000;
-  container-type: inline-size;
-}
 
-.reason-quote__sticky {
-  position: sticky;
-  top: 0;
-  /* Above .scroll-dark-overlay's z-index: 40 -- this section's own text
-     must stay visible on top of the darkening overlay throughout (both
-     while it's approaching, not yet stuck, and once fully pinned/black),
-     since the overlay's job is to dim whatever ELSE is on screen (the
-     outgoing section above it), never this section's own incoming
-     content. */
-  z-index: 41;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.reason-quote__stage {
-  width: min(100cqw, 1920px);
-  margin: 0 auto;
-  padding: 0 calc(16.6667 * var(--u));
-  box-sizing: border-box;
-}
-
-.sentence {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.reason-quote .line {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  /* --word-pad-x is the horizontal mask breathing room added to *each*
-     .word below (see .reason-quote .word) -- since two adjacent words each
-     contribute it on their facing side, the base gap here is shrunk by
-     2x it so the *visible* space between word text ends up matching the
-     original 1.0417u gap exactly (verified against the Figma reference),
-     rather than every word pair drifting wider apart. .media-chip's own
-     collapsed-state margin (below) is derived off this same expression so
-     the two stay in sync if this value ever changes. */
-  --word-pad-x: 0.08em;
-  gap: calc(1.0417 * var(--u) - 2 * var(--word-pad-x));
-  margin: 0;
-  font-family: 'Neue Montreal', 'Helvetica Neue', Arial, sans-serif;
-  font-weight: 400;
-  font-size: calc(6.6667 * var(--u));
-  line-height: 1.08;
-  color: #ffffff;
-  text-align: center;
-}
-
-.reason-quote .line em {
-  font-family: 'Cardinal Fruit', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-}
-
-.reason-quote__mobile-break {
-  display: none;
-}
 
 /* Ghost -> filled mask wipe, triggered per-batch by script.js toggling
    .is-revealed (not scroll-scrubbed) -- the transition's own duration sets
@@ -898,79 +728,6 @@ body.js-anim .intro-reasons.is-docked .intro-reasons__reveal {
    hidden mask stop (0.27 alpha) approximates the design's dim gray (#454545)
    as a fraction of white-on-black rather than an actual gray color, since
    the mask (not color) is what's animating. */
-.reason-quote .word {
-  display: inline-block;
-  /* .word's box is otherwise just tight to its glyphs (height from the
-     1.08 line-height, width from shrink-to-fit) -- almost no slack beyond
-     the font's own advance box. Cardinal Fruit's italic descenders
-     (g, p, y), swash tails, and leading entry-strokes (the "m" in music,
-     "d" in design, "p" in people all start with a small upward flick past
-     their own left edge) extend past that, so mask-clip (border-box,
-     padding included but margin excluded) crops them.
-     .word is a flex item of .line, so its *padding* box (what actually
-     gets masked/painted) and its *margin* box (what flex sizing/gap uses)
-     are independent -- padding alone would grow both the line's height
-     and (via the flex `gap`) every word-to-word space, so the matching
-     negative margin cancels padding's contribution back out of the
-     margin box, leaving line-height and vertical rhythm unchanged.
-     Horizontally the same margin trick can't be used here without also
-     touching flex `gap` math shared with neighbors (a fix that shifted
-     into .line's `gap` expression above, and .media-chip's collapsed
-     margin below, instead), so this side only carries the padding --
-     --word-pad-x is intentionally not mirrored into a horizontal margin
-     on this rule. */
-  padding: 0.15em var(--word-pad-x);
-  margin: -0.15em 0;
-  -webkit-mask-image: linear-gradient(90deg, #fff 33.3%, rgba(255, 255, 255, 0.27) 66.6%);
-  mask-image: linear-gradient(90deg, #fff 33.3%, rgba(255, 255, 255, 0.27) 66.6%);
-  -webkit-mask-position: 100% 100%;
-  mask-position: 100% 100%;
-  -webkit-mask-size: 300% 100%;
-  mask-size: 300% 100%;
-  transition: -webkit-mask-position 1.45s cubic-bezier(0.45, 0, 0.25, 1),
-              mask-position 1.45s cubic-bezier(0.45, 0, 0.25, 1);
-}
-
-.reason-quote .word.is-revealed {
-  -webkit-mask-position: 0 100%;
-  mask-position: 0 100%;
-}
-
-/* Photo/placeholder chips inline between words -- start collapsed and
-   invisible (no card, no photo) and expand into place as their batch
-   reveals, so nothing shows before its word group arrives.
-   Margins are -0.5 * the line's actual flex `gap` (the shrunk expression
-   from .reason-quote .line, not the raw 1.0417u) on each side: with a
-   0-width chip, the flex gap still opens a full gap on *both* sides of
-   it, so the two flanking words would sit two gaps apart instead of one
-   -- reading as a lopsided extra-wide space around the hidden card.
-   Pulling in by exactly half a gap on each side collapses that back down
-   to a single normal gap, matching the spacing between every other word
-   pair (word-to-word, not word-to-chip-when-empty). */
-.media-chip {
-  display: inline-block;
-  width: 0;
-  height: calc(6.09375 * var(--u));
-  border-radius: calc(1.0417 * var(--u));
-  overflow: hidden;
-  opacity: 0;
-  margin-left: calc(-0.5209 * var(--u) + var(--word-pad-x));
-  margin-right: calc(-0.5209 * var(--u) + var(--word-pad-x));
-  vertical-align: middle;
-  transition: width 1s cubic-bezier(0.55, 0, 0.25, 1),
-              opacity 0.65s linear,
-              margin 1s cubic-bezier(0.55, 0, 0.25, 1);
-}
-
-.media-chip--placeholder {
-  background: #d9d9d9;
-}
-
-.media-chip--photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
 #chipMusic img {
   object-position: var(--photo-position-harmony);
@@ -984,311 +741,38 @@ body.js-anim .intro-reasons.is-docked .intro-reasons__reveal {
   object-position: var(--photo-position-empathy);
 }
 
-.media-chip.is-revealed {
-  width: calc(8.5417 * var(--u));
-  opacity: 1;
-  /* A bit more breathing room than the line's own word-to-word gap once
-     the card is actually showing -- the collapsed-state margins above are
-     tuned to *cancel* the gap (so no card == a normal single gap), but a
-     visible card sitting flush at that same distance read as too close to
-     its flanking words. */
-  margin-left: calc(0.35 * var(--u));
-  margin-right: calc(0.35 * var(--u));
-}
-
-/* ==========================================================================
-   Cards Reveal ? scrolls in right after reason-quote. The three cards here
-   are the same three inline chips from reason-quote (the piano photo and
-   two placeholders) landing at full size: as this section scrolls into
-   place, script.js flies three fixed clones (#flyingCard1-3, see
-   .flying-card below) from each chip's resting position/size to its
-   matching big card's resting position/size -- the same flying-clone
-   hand-off technique .flying-title uses for the hero -> intro-reasons
-   title, generalized to three elements. The section keeps the same solid
-   black background reason-quote ends on (no crossfade needed here, unlike
-   reason-quote's own white -> black entrance).
-   ========================================================================== */
-.cards-reveal {
-  position: relative;
-  /* 100vh visible + 100vh for the chip->card flight + 175vh dwell after
-     docking: a short hold, then further scroll flips the three cards
-     (script.js toggling .is-flipped at a fixed vh threshold within that
-     dwell, same FLIP_TRIGGER_VH pattern as reason-quote's fill/swap
-     triggers), then a shorter hold before the pin releases -- shortened
-     from an original 300vh post-dock dwell, which left too much scroll
-     distance after the flip before the next section appeared. Since
-     FLIP_TRIGGER_VH (script.js) is a fixed vh distance, not a fraction of
-     this height, shrinking this only shrinks the *post-flip* hold -- the
-     pre-flip hold stays the same length. */
-  height: 275vh;
-  background: #000000;
-  container-type: inline-size;
-}
-
-.cards-reveal__sticky {
-  position: sticky;
-  top: 0;
-  /* Above .scroll-dark-overlay's z-index: 40, same reasoning as
-     .reason-quote__sticky -- this section's own cards/text must stay
-     visible on top of the overlay, not be hidden behind it. */
-  z-index: 41;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.cards-reveal__stage {
-  position: relative;
-  z-index: 1;
-  width: min(100cqw, 1920px);
-  aspect-ratio: 1920 / 1080;
-  margin: 0 auto;
-}
-
-.cards-reveal__row {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(11.5104 * var(--u));
-  height: calc(23.722 * var(--u));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: calc(3.6458 * var(--u));
-}
-
 /* Hidden by default until script.js docks this section (matches
    .intro-reasons__title's body.js-anim gating) -- the flying clones stand
    in for these until the hand-off completes, so these must not flash
    visible mid-flight. Without JS (no .js-anim on body), skip the gate
    entirely and just show the cards at rest. */
-body.js-anim .cards-reveal__card {
-  opacity: 0;
-}
-
-body.js-anim .cards-reveal.is-docked .cards-reveal__card {
-  opacity: 1;
-}
-
-.cards-reveal__card {
-  width: calc(19.3108 * var(--u));
-  height: calc(23.722 * var(--u));
-  border-radius: calc(0.9003 * var(--u));
-  position: relative;
-  flex-shrink: 0;
-  /* Must live on the flip's ancestor (this box), not on .cards-reveal__card-inner
-     itself, or rotateY below renders flat with no sense of depth. */
-  perspective: calc(83.3333 * var(--u));
-}
-
-/* Further scroll after docking flips each card over (see script.js
-   toggling .cards-reveal.is-flipped) to reveal a title + description on
-   a darkened back face -- a standard 3D card-flip: .cards-reveal__card
-   holds the perspective, this inner box is the actual rotating plane,
-   and each face below is backface-visibility: hidden so only one is ever
-   showing. Cascading transition-delay per nth-child gives the three
-   cards a left-to-right tumble instead of flipping in lockstep. */
-.cards-reveal__card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transform: rotateY(0deg);
-  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-.cards-reveal.is-flipped .cards-reveal__card-inner {
-  transform: rotateY(-180deg);
-}
-
-.cards-reveal__card:nth-child(1) .cards-reveal__card-inner {
-  transition-delay: 0s;
-}
-
-.cards-reveal__card:nth-child(2) .cards-reveal__card-inner {
-  transition-delay: 0.12s;
-}
-
-.cards-reveal__card:nth-child(3) .cards-reveal__card-inner {
-  transition-delay: 0.24s;
-}
-
-.cards-reveal__card-face {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  border-radius: calc(0.9003 * var(--u));
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.cards-reveal__card-face--front {
-  background: #d9d9d9;
-}
-
-.cards-reveal__card--photo .cards-reveal__card-face--front {
-  background: none;
-}
 
 /* The back face is pre-rotated 180deg so it faces away at rest (hidden by
    backface-visibility) and rights itself as the inner box rotates past
    90deg. A black base under the photo/overlay avoids any bright flash of
    the card-face's own background peeking through during the turn. */
-.cards-reveal__card-face--back {
-  transform: rotateY(180deg);
-  background: #000000;
-}
+
 
 /* "카드 배경은 좀 어두워지면서" -- the placeholder cards' back face uses a
    visibly darker gray than the front's #d9d9d9, echoing the photo card's
    own rgba(0,0,0,0.5) overlay (below) so all three cards read as
    "darkening to host text" consistently, even though placeholder cards
    have no photo to actually darken. */
-.cards-reveal__card-face--back-placeholder {
-  background: #9a9a9a;
-}
+
 
 /* Plain object-fit: cover for every card's front/back photo -- safe for
    whatever image gets dropped in without needing custom per-photo crop
    tuning. All three cards (HARMONY/GROWTH/EMPATHY) share this same
    generic treatment. */
-.cards-reveal__card-face--front img,
-.cards-reveal__card-face-photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+
 
 /* Crop focal point per card via the shared --photo-position-* vars (see
    :root) -- covers both the front face (pre-flip) and back face
    (post-flip) img in one go, since both share the selectors above. */
-#cardsRevealCard1 .cards-reveal__card-face--front img,
-#cardsRevealCard1 .cards-reveal__card-face-photo {
-  object-position: var(--photo-position-harmony);
-}
 
-#cardsRevealCard2 .cards-reveal__card-face--front img,
-#cardsRevealCard2 .cards-reveal__card-face-photo {
-  object-position: var(--photo-position-growth);
-}
-
-#cardsRevealCard3 .cards-reveal__card-face--front img,
-#cardsRevealCard3 .cards-reveal__card-face-photo {
-  object-position: var(--photo-position-empathy);
-}
-
-.cards-reveal__card-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.cards-reveal__card-copy {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: calc(11.9792 * var(--u));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: calc(1.8006 * var(--u));
-  text-align: center;
-}
-
-.cards-reveal__card-title {
-  margin: 0;
-  font-family: 'Neue Montreal', 'Helvetica Neue', Arial, sans-serif;
-  font-weight: 500;
-  font-size: calc(2.0833 * var(--u));
-  color: #ffffff;
-  white-space: nowrap;
-}
-
-.cards-reveal__card-desc {
-  margin: 0;
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 400;
-  font-size: calc(0.8333 * var(--u));
-  line-height: 1.4;
-  letter-spacing: calc(-0.0167 * var(--u));
-  color: rgba(255, 255, 255, 0.8);
-  text-align: left;
-}
-
-/* Wrapper handles the fixed centering transform; .cards-reveal__text
-   (nested) carries the separate reveal transform (translateY) below --
-   kept apart so the two transforms don't clobber each other. */
-.cards-reveal__text-position {
-  position: absolute;
-  left: 50%;
-  top: calc(41.1458 * var(--u));
-  transform: translateX(-50%);
-}
-
-.cards-reveal__text {
-  text-align: center;
-  white-space: nowrap;
-}
-
-body.js-anim .cards-reveal__reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  transition-delay: 0.2s;
-}
-
-body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.cards-reveal__text-line {
-  margin: 0;
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 400;
-  font-size: calc(1.2 * var(--u));
-  line-height: 1.4;
-  letter-spacing: calc(-0.025 * var(--u));
-  color: #ffffff;
-}
-
-.cards-reveal__text-line strong {
-  font-weight: 600;
-}
-
-/* ==========================================================================
-   Work transition ? the "WORK selected projects" title screen between
-   cards-reveal and the work-detail cover (Figma node 2804:1882). Sits
-   pinned like every other scroll-driven section here (position: sticky +
-   a tall dwell height, progress read live off getBoundingClientRect() in
-   script.js -- not GSAP/ScrollTrigger, to stay consistent with the rest of
-   the site's hand-rolled scroll math), but the visual technique itself
-   follows SCROLL-INTERACTIONS.md's "B. Color-Invert Wipe": two identical
-   copies of the title sit stacked in the same spot, a black base layer
-   (white text) and a white "wipe" layer (black text) revealed via
-   clip-path. Both copies' horizontal scroll (text wider than the
-   viewport, sliding left as the section is scrolled through) is driven by
-   the *same* x value every frame, so the wipe reads as one continuous
-   title inverting color mid-scroll rather than two separately-scrolling
-   texts. The wipe itself is timed to the *middle* of the section's own
-   scroll range (not near the end, unlike the guide's default demo timing)
-   per the brief: 검은 배경에서 스크롤 -> 가로로 글자가 흐르며 -> 중간에 흰
-   배경/검은 글자로 반전. */
 .work-transition {
   position: relative;
-  /* 440vh, not 350vh: this is purely scroll-linked (no scroll-jack lock),
-     so a fast/aggressive scroll gesture could blow through the fog-char
-     dissolve's whole dwell distance almost too quickly to see it. More
-     dwell height means more physical scroll distance is needed to reach
-     the same visual progress, slowing the felt pace without touching the
-     per-frame animation logic itself. Same reasoning applies to
-     .skill-transition and .about-transition below, which mirror this
-     exact interaction -- keep all three in sync if retuning further. */
+
   height: 440vh;
   background: #ffffff;
   container-type: inline-size;
@@ -1595,24 +1079,9 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    See script.js's updateAboutTransition, a 1:1 mirror of
    updateWorkTransition. */
 
-
-/* ==========================================================================
-   Skill content ? Figma node 3202-702. Black-bg section following
-   .skill-transition's wipe-to-black: one merged, centered block (SKILL
-   title + Korean subtitle, fog-in reveal via IntersectionObserver +
-   wrapChars + --fog-delay, same pattern as .clone-coding__intro -- see
-   script.js) sitting 76px above the DESIGN/FRONTEND/AI three-column
-   list, exactly as grouped in Figma. This whole block pins at
-   viewport-center inside the scroll-jacked .skill-content__pin while a
-   3D icon carousel orbits around it (see .skill-content__stage below).
-   ========================================================================== */
 .skill-content {
   position: relative;
-  /* Above .scroll-dark-overlay's z-index: 40, same convention as every
-     other section that contributes to it (see .reason-quote__sticky) --
-     without this the overlay (opacity driven by skillContentDarkContribution
-     in script.js) paints its own solid black over this section's content
-     instead of just keeping the header inverted behind it. */
+
   z-index: 41;
   background: #000000;
   color: #ffffff;
@@ -1636,10 +1105,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   letter-spacing: calc(-0.1042 * var(--u));
 }
 
-/* Reverse-of-dissolve fog-in, identical mechanics to
-   .clone-coding__title-char: script.js wraps each character, staggers
-   --fog-delay, and toggles .is-revealed on .skill-content__intro via
-   IntersectionObserver so it replays on every re-entry. */
+
 .skill-content__title-char {
   display: inline-block;
   opacity: 0;
@@ -1683,17 +1149,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   }
 }
 
-/* Stage below the intro: a scroll-jacked pin track, same shape as
-   .about-transition/.clone-coding__stage's own sticky-pin sections
-   elsewhere in this file. .skill-content__stage is just the tall
-   in-flow track that reserves scroll budget; .skill-content__pin is the
-   position: sticky child that actually holds still at the top of the
-   viewport (see .about-transition__sticky for the same top: 0 pattern)
-   while script.js intercepts wheel input and spins the carousel instead
-   of letting the page scroll. Once the carousel's rotation hits either
-   end of its range, script.js stops calling preventDefault, so the next
-   bit of scroll drains the track's remaining height and the section
-   un-sticks normally -- see the "engaged" bookkeeping there. */
+
 .skill-content__stage {
   position: relative;
   width: min(100cqw, 1920px);
@@ -1819,9 +1275,6 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   line-height: normal;
 }
 
-.skill-content__column-title--ai {
-  letter-spacing: calc(0.0375 * var(--u));
-}
 
 .skill-content__column-list {
   margin: 0;
@@ -1879,9 +1332,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   top: 0;
   height: 100vh;
   overflow: hidden;
-  /* Same reasoning as cards-reveal__sticky/reason-quote__sticky -- above
-     .scroll-dark-overlay (z-index 40) so both the cover and the incoming
-     panel stay visible on top of the overlay driving their dark crossfade. */
+
   z-index: 41;
 }
 
@@ -1917,9 +1368,6 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   will-change: transform;
 }
 
-.work-detail__panel:first-of-type {
-  will-change: filter;
-}
 
 .work-detail__panel + .work-detail__panel {
   z-index: 3;
@@ -1958,14 +1406,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    matches their combined left-to-right span); height follows from the
    image's own native aspect ratio (1502x1200) via width alone, so it
    can't distort. */
-.work-detail__mockup {
-  position: absolute;
-  left: calc(3.7 * var(--u));
-  top: calc(10.95 * var(--u));
-  width: calc(46.7 * var(--u));
-  height: auto;
-  max-width: none;
-}
+
 
 /* Copy column -- vertically centered (with a slight +20px offset, matching
    Figma exactly) rather than top-anchored, so it holds its center as the
@@ -1998,30 +1439,6 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   gap: calc(1.0417 * var(--u));
 }
 
-.work-detail__index {
-  margin: 0;
-  display: flex;
-  align-items: baseline;
-  gap: calc(1.0417 * var(--u));
-}
-
-.work-detail__index-current {
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 500;
-  font-size: calc(2.2917 * var(--u));
-}
-
-.work-detail__index-total {
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 300;
-  font-size: calc(1.1458 * var(--u));
-}
-
-.work-detail__heading {
-  display: flex;
-  flex-direction: column;
-  width: calc(25.4167 * var(--u));
-}
 
 .work-detail__eyebrow {
   margin: 0;
@@ -2041,25 +1458,6 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   gap: calc(0.35 * var(--u));
 }
 
-.work-detail__eyebrow-badge {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
-  gap: calc(0.25 * var(--u));
-  color: inherit;
-}
-
-.work-detail__eyebrow-badge img {
-  width: 1.2em;
-  height: 1.2em;
-  flex: 0 0 auto;
-  display: block;
-}
-
-.work-detail__eyebrow-badge span {
-  font-size: inherit;
-  line-height: inherit;
-}
 
 .work-detail__title {
   margin: 0;
@@ -2070,8 +1468,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   white-space: nowrap;
 }
 
-.work-detail__title-en,
-.work-detail__title-em {
+.work-detail__title-en {
   font-size: calc(6.25 * var(--u));
   letter-spacing: calc(-0.125 * var(--u));
 }
@@ -2081,31 +1478,6 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   font-weight: 400;
 }
 
-.work-detail__title-em {
-  font-family: 'Cardinal Fruit', serif;
-  font-weight: 400;
-  font-style: italic;
-  /* The space between "ILKW" and "web" used to sit as a bare text node
-     between the two spans, outside both -- inheriting whatever (much
-     smaller) font-size applies above .work-detail__title rather than
-     this 120px title size, so it barely took up any room and the two
-     words read as jammed together. Moving it inside this span (see the
-     HTML) fixes that; this extra margin adds a bit more on top, per
-     "조금 더 띄워줘". */
-  margin-left: calc(0.25 * var(--u));
-}
-
-.work-detail__title-em {
-  color: #f49307;
-}
-
-.work-detail--p2 .work-detail__title-em {
-  color: #d4ff3f;
-}
-
-.work-detail--p3 .work-detail__title-em {
-  color: #8071fc;
-}
 
 .work-detail__links {
   display: flex;
@@ -2134,10 +1506,6 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   transform: translateY(-2px);
 }
 
-.work-detail__link-icon {
-  width: calc(1.0417 * var(--u));
-  height: calc(1.0417 * var(--u));
-}
 
 .work-detail__meta {
   display: flex;
@@ -2145,61 +1513,6 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   gap: calc(1.5625 * var(--u));
 }
 
-.work-detail__meta-group {
-  display: flex;
-  flex-direction: column;
-  gap: calc(0.7813 * var(--u));
-}
-
-.work-detail__meta-group--duration {
-  width: auto;
-  flex-direction: row;
-  align-items: center;
-  gap: calc(0.7813 * var(--u));
-}
-
-.work-detail__meta-label {
-  margin: 0;
-  font-family: 'Neue Montreal', sans-serif;
-  font-weight: 500;
-  font-size: calc(1.0417 * var(--u));
-}
-
-.work-detail__meta-value {
-  margin: 0;
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 400;
-  font-size: calc(0.9375 * var(--u));
-  letter-spacing: calc(-0.0208 * var(--u));
-}
-
-.work-detail__brief p {
-  margin: 0;
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 400;
-  font-size: calc(0.9375 * var(--u));
-  letter-spacing: calc(-0.0208 * var(--u));
-  line-height: 1.4;
-}
-
-.work-detail__brief strong {
-  font-weight: 600;
-}
-
-.work-detail__contributed {
-  display: flex;
-  gap: calc(4.0625 * var(--u));
-}
-
-.work-detail__contributed-col p {
-  margin: 0;
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 400;
-  font-size: calc(0.9375 * var(--u));
-  letter-spacing: calc(-0.0208 * var(--u));
-  line-height: 1.4;
-  white-space: nowrap;
-}
 
 .work-detail__progress {
   display: flex;
@@ -2219,9 +1532,6 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   letter-spacing: calc(-0.025 * var(--u));
 }
 
-.work-detail--p2 .work-detail__progress-item {
-  background: rgba(212, 255, 63, 0.2);
-}
 
 .work-detail--p3 .work-detail__progress-item {
   background: rgba(128, 113, 252, 0.2);
@@ -2248,13 +1558,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    positioned differently than ILKW's). No .work-detail__glow-curve
    override needed -- this project's markup doesn't include that SVG at
    all yet. */
-.work-detail--p2 {
-  /* 100vh for the cover to sit at rest + 1170vh dwell, paced by script.js's
-     initWorkDetailSequence call for #workDetail2 (a five-panel filmstrip:
-     cover -> RETENSION-FOCUSED experience -> COMMUNITY & CREW -> SHARE your
-     RUN -> AI running PARTNER). */
-  height: calc(100vh + 1170vh);
-}
+
 
 .work-detail--p3 {
   height: calc(100vh + 1425vh);
@@ -2266,30 +1570,13 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    reusing Figma's group bounding box directly overshot into the copy
    column. Numbers below place that visible content at the same 8.5u-46.5u
    horizontal / 8.5u-49.6u vertical span Figma's cover uses. */
-.work-detail__mockup--p2 {
-  left: calc(-1 * var(--u));
-  top: calc(5.95 * var(--u));
-  width: calc(52.4 * var(--u));
-}
+
 
 /* ==========================================================================
    Work cover 3 ? project 03/03 (MU:it app). Same static-poster treatment as
    the old work-cover2 used to get, and for the same reason: this project's
    own scenes don't exist yet. */
-.work-cover3 {
-  position: relative;
-  container-type: inline-size;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-}
 
-.work-cover3__stage {
-  position: relative;
-  width: min(100cqw, 1920px);
-  aspect-ratio: 1920 / 1080;
-  margin: 0 auto;
-}
 
 /* Position/size derived from the actual visible (non-transparent) content
    inside work-muit-mockup.png (a tightly-cropped phone fan, unlike
@@ -2299,1346 +1586,33 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    quite match Figma's target span (its crop is a bit shorter top-to-bottom
    relative to its width than Figma's), so top is centered between the
    top- and bottom-matching values rather than hitting both exactly. */
-.work-cover3__mockup {
-  position: absolute;
-  left: calc(-8.65 * var(--u));
-  top: calc(1.25 * var(--u));
-  width: calc(60.1 * var(--u));
-  height: auto;
-  max-width: none;
-}
 
-.work-scenes--user-research {
-  color: #ffffff;
-}
-
-.work-scenes--user-research .work-scenes__eyebrow {
-  left: calc(8.8542 * var(--u));
-  top: calc(9.8958 * var(--u));
-  width: auto;
-  text-align: left;
-}
-
-.work-scenes__research-img {
-  position: absolute;
-  left: calc(8.8542 * var(--u));
-  top: calc(14.6875 * var(--u));
-  width: calc(37.8125 * var(--u));
-  height: calc(33.3333 * var(--u));
-  object-fit: contain;
-}
-
-.work-scenes--user-research .work-scenes__copy {
-  left: calc(57.0313 * var(--u));
-  top: calc(17.5521 * var(--u));
-  width: calc(31.9271 * var(--u));
-  gap: calc(4.4792 * var(--u));
-}
-
-.work-scenes--user-research .work-scenes__title {
-  white-space: nowrap;
-}
-
-.work-scenes--user-research .work-scenes__title-en,
-.work-scenes--user-research .work-scenes__title-em {
-  font-size: calc(3.6458 * var(--u));
-  letter-spacing: calc(-0.0729 * var(--u));
-}
-
-.work-scenes--user-research .work-scenes__desc {
-  gap: calc(2.0833 * var(--u));
-}
-
-.work-scenes--user-research .work-scenes__desc-en {
-  width: 100%;
-  color: rgba(255, 255, 255, 0.2);
-}
-
-.work-scenes--user-research .work-scenes__desc-en p {
-  font-size: calc(2.0833 * var(--u));
-  letter-spacing: calc(-0.0417 * var(--u));
-}
-
-.work-scenes--user-research .work-scenes__desc-kr {
-  width: 100%;
-}
-
-.work-scenes--user-research .work-scenes__desc-kr p {
-  font-size: calc(1.0417 * var(--u));
-  letter-spacing: calc(-0.0208 * var(--u));
-  line-height: 1.4;
-}
-
-.work-scenes--friendly-onboarding {
-  color: #ffffff;
-}
-
-.work-scenes__onboarding-phone {
-  position: absolute;
-  left: calc(17.8125 * var(--u));
-  top: calc(14.375 * var(--u));
-  width: calc(13.125 * var(--u));
-  height: calc(26.7444 * var(--u));
-}
-
-.work-scenes__onboarding-screen {
-  position: absolute;
-  left: 4.6183%;
-  top: 1.9086%;
-  width: 90.644%;
-  height: 96.482%;
-  overflow: hidden;
-  border-radius: calc(1.7543 * var(--u));
-  background: #ffffff;
-}
-
-.work-scenes__onboarding-ui {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #111111;
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-}
-
-.work-scenes__onboarding-status {
-  position: absolute;
-  left: 6.8%;
-  right: 6.8%;
-  top: 2.2%;
-  display: flex;
-  justify-content: space-between;
-  font-size: calc(0.22 * var(--u));
-  font-weight: 600;
-}
-
-.work-scenes__onboarding-top {
-  position: absolute;
-  left: 6.8%;
-  right: 6.8%;
-  top: 6.2%;
-  display: flex;
-  justify-content: space-between;
-  color: rgba(0, 0, 0, 0.45);
-  font-size: calc(0.26 * var(--u));
-}
-
-.work-scenes__onboarding-logo {
-  position: absolute;
-  left: 50%;
-  top: 34.5%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: calc(0.08 * var(--u));
-  color: #7d6cff;
-  font-family: 'Neue Montreal', sans-serif;
-  font-size: calc(2.4 * var(--u));
-  font-weight: 500;
-  line-height: 0.85;
-}
-
-.work-scenes__onboarding-logo small {
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  transform: translateX(-50%);
-  font-size: calc(0.34 * var(--u));
-  line-height: 1;
-}
-
-.work-scenes__onboarding-socials {
-  position: absolute;
-  left: 8%;
-  right: 8%;
-  bottom: 12.3%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.work-scenes__onboarding-social {
-  width: calc(0.8 * var(--u));
-  height: calc(0.8 * var(--u));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-size: calc(0.32 * var(--u));
-  font-weight: 700;
-}
-
-.work-scenes__onboarding-social--k { background: #f4e437; color: #111111; }
-.work-scenes__onboarding-social--n { background: #5fb44b; color: #ffffff; }
-.work-scenes__onboarding-social--f { background: #4867aa; color: #ffffff; }
-.work-scenes__onboarding-social--a { background: #111111; color: #ffffff; }
-.work-scenes__onboarding-social--g { background: #ffffff; color: #4285f4; }
-
-.work-scenes__onboarding-button {
-  position: absolute;
-  left: 8%;
-  right: 8%;
-  bottom: 6.4%;
-  height: calc(1.1 * var(--u));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #d7d7ee;
-  border-radius: calc(0.16 * var(--u));
-  color: #7d6cff;
-  font-size: calc(0.28 * var(--u));
-  font-weight: 600;
-}
-
-.work-scenes__onboarding-home {
-  position: absolute;
-  left: 50%;
-  bottom: 1.9%;
-  width: 35%;
-  height: calc(0.16 * var(--u));
-  transform: translateX(-50%);
-  border-radius: 999px;
-  background: #111111;
-}
-
-.work-scenes__onboarding-bezel {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.work-scenes__onboarding-island {
-  position: absolute;
-  left: 35.359%;
-  top: 3.222%;
-  width: 28.919%;
-  height: 4.114%;
-  z-index: 3;
-  border-radius: 999px;
-  background: #000000;
-  pointer-events: none;
-}
-
-.work-scenes__onboarding-camera {
-  position: absolute;
-  right: 8.6%;
-  top: 24.66%;
-  width: 14.286%;
-  height: 49.274%;
-  border-radius: 50%;
-  opacity: 0.6;
-}
-
-.work-scenes__onboarding-character {
-  position: absolute;
-  left: calc(26.8229 * var(--u));
-  top: calc(10 * var(--u));
-  width: calc(3.4896 * var(--u));
-  height: calc(5.2604 * var(--u));
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 4;
-}
-
-.work-scenes__onboarding-character img {
-  position: absolute;
-  left: -227.56%;
-  top: -24.2%;
-  width: 352.27%;
-  height: 234.4%;
-  max-width: none;
-}
-
-.work-scenes--friendly-onboarding .work-scenes__copy {
-  left: calc(39.6354 * var(--u));
-  top: calc(21.1458 * var(--u));
-  width: calc(42.6042 * var(--u));
-  gap: calc(4.4792 * var(--u));
-}
-
-.work-scenes--friendly-onboarding .work-scenes__title {
-  white-space: nowrap;
-}
-
-.work-scenes--friendly-onboarding .work-scenes__title-en,
-.work-scenes--friendly-onboarding .work-scenes__title-em {
-  font-size: calc(3.6458 * var(--u));
-  letter-spacing: calc(-0.0729 * var(--u));
-}
-
-.work-scenes--friendly-onboarding .work-scenes__desc {
-  gap: calc(2.0833 * var(--u));
-}
-
-.work-scenes--friendly-onboarding .work-scenes__desc-en {
-  width: 100%;
-}
-
-.work-scenes--friendly-onboarding .work-scenes__desc-kr {
-  width: calc(31.9271 * var(--u));
-}
-
-.work-scenes--personalized-matching {
-  color: #ffffff;
-}
-
-.work-scenes__matching-phone {
-  position: absolute;
-  width: calc(13.2245 * var(--u));
-  height: calc(26.9471 * var(--u));
-}
-
-.work-scenes__matching-phone--onboarding {
-  left: calc(13.2292 * var(--u));
-  top: calc(17.9167 * var(--u));
-}
-
-.work-scenes__matching-phone--list {
-  left: calc(29.5313 * var(--u));
-  top: calc(9.1146 * var(--u));
-}
-
-.work-scenes__matching-screen {
-  position: absolute;
-  left: 4.6152%;
-  top: 1.9058%;
-  width: 90.644%;
-  height: 96.482%;
-  overflow: hidden;
-  border-radius: calc(1.7676 * var(--u));
-  background: #ffffff;
-}
-
-.work-scenes__matching-bezel {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.work-scenes__matching-island {
-  position: absolute;
-  left: 35.359%;
-  top: 3.2185%;
-  width: 28.919%;
-  height: 4.115%;
-  z-index: 3;
-  border-radius: 999px;
-  background: #000000;
-  pointer-events: none;
-}
-
-.work-scenes__matching-camera {
-  position: absolute;
-  right: 8.6%;
-  top: 24.66%;
-  width: 14.286%;
-  height: 49.274%;
-  border-radius: 50%;
-  opacity: 0.6;
-}
-
-.work-scenes--personalized-matching .work-scenes__copy {
-  left: calc(47.6563 * var(--u));
-  top: calc(21.4063 * var(--u));
-  width: calc(40.2083 * var(--u));
-  gap: calc(4.4792 * var(--u));
-}
-
-.work-scenes--personalized-matching .work-scenes__title {
-  white-space: nowrap;
-}
-
-.work-scenes--personalized-matching .work-scenes__title-en,
-.work-scenes--personalized-matching .work-scenes__title-em {
-  font-size: calc(3.6458 * var(--u));
-  letter-spacing: calc(-0.0729 * var(--u));
-}
-
-.work-scenes--personalized-matching .work-scenes__desc {
-  gap: calc(2.0833 * var(--u));
-}
-
-.work-scenes--personalized-matching .work-scenes__desc-en {
-  width: 100%;
-}
-
-.work-scenes--personalized-matching .work-scenes__desc-kr {
-  width: calc(24.4271 * var(--u));
-}
-
-.work-scenes--personalized-matching .work-scenes__desc-kr p,
-.work-scenes--beyond-matching .work-scenes__desc-kr p:nth-child(2) {
-  white-space: nowrap;
-}
-
-.work-scenes--beyond-matching {
-  color: #ffffff;
-}
-
-.work-scenes__beyond-phone {
-  position: absolute;
-  width: calc(13.2245 * var(--u));
-  height: calc(26.9471 * var(--u));
-}
-
-.work-scenes__beyond-phone--music {
-  left: calc(10.3125 * var(--u));
-  top: calc(12.2396 * var(--u));
-}
-
-.work-scenes__beyond-phone--lesson {
-  left: calc(26.875 * var(--u));
-  top: calc(20.1563 * var(--u));
-}
-
-.work-scenes__beyond-screen {
-  position: absolute;
-  left: 4.6152%;
-  top: 1.9058%;
-  width: 90.644%;
-  height: 96.482%;
-  overflow: hidden;
-  border-radius: calc(1.7676 * var(--u));
-  background: #ffffff;
-}
-
-.work-scenes__beyond-bezel {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.work-scenes__beyond-island {
-  position: absolute;
-  left: 35.359%;
-  top: 3.2185%;
-  width: 28.919%;
-  height: 4.115%;
-  z-index: 3;
-  border-radius: 999px;
-  background: #000000;
-  pointer-events: none;
-}
-
-.work-scenes__beyond-camera {
-  position: absolute;
-  right: 8.6%;
-  top: 24.66%;
-  width: 14.286%;
-  height: 49.274%;
-  border-radius: 50%;
-  opacity: 0.6;
-}
-
-.work-scenes--beyond-matching .work-scenes__copy {
-  left: calc(46.25 * var(--u));
-  top: calc(13.125 * var(--u));
-  width: calc(39.2188 * var(--u));
-  gap: calc(4.4792 * var(--u));
-}
-
-.work-scenes--beyond-matching .work-scenes__title {
-  white-space: nowrap;
-}
-
-.work-scenes--beyond-matching .work-scenes__title-en,
-.work-scenes--beyond-matching .work-scenes__title-em {
-  font-size: calc(3.6458 * var(--u));
-  letter-spacing: calc(-0.0729 * var(--u));
-}
-
-.work-scenes--beyond-matching .work-scenes__desc {
-  gap: calc(2.0833 * var(--u));
-}
-
-.work-scenes--beyond-matching .work-scenes__desc-en {
-  width: 100%;
-}
-
-.work-scenes--beyond-matching .work-scenes__desc-kr {
-  width: calc(42.5 * var(--u));
-}
-
-.work-scenes--idea-deployment {
-  color: #ffffff;
-}
-
-.work-scenes__deployment-photo {
-  position: absolute;
-  display: block;
-  object-fit: cover;
-  border-radius: calc(1.0417 * var(--u));
-  pointer-events: none;
-}
-
-.work-scenes__deployment-photo--code {
-  left: calc(6.6667 * var(--u));
-  top: calc(13.5417 * var(--u));
-  width: calc(24.8958 * var(--u));
-  height: calc(18.6458 * var(--u));
-  z-index: 2;
-}
-
-.work-scenes__deployment-photo--presentation {
-  left: calc(19.6354 * var(--u));
-  top: calc(29.2708 * var(--u));
-  width: calc(17.8646 * var(--u));
-  height: calc(13.3854 * var(--u));
-  z-index: 1;
-}
-
-.work-scenes--idea-deployment .work-scenes__copy {
-  left: calc(44.7917 * var(--u));
-  top: calc(19.2188 * var(--u));
-  width: calc(48.5417 * var(--u));
-  gap: calc(4.4792 * var(--u));
-}
-
-.work-scenes--idea-deployment .work-scenes__title {
-  white-space: nowrap;
-}
-
-.work-scenes--idea-deployment .work-scenes__title-en,
-.work-scenes--idea-deployment .work-scenes__title-em {
-  font-size: calc(3.6458 * var(--u));
-  letter-spacing: calc(-0.0729 * var(--u));
-}
-
-.work-scenes--idea-deployment .work-scenes__desc {
-  gap: calc(2.0833 * var(--u));
-}
-
-.work-scenes--idea-deployment .work-scenes__desc-en {
-  width: 100%;
-}
-
-.work-scenes--idea-deployment .work-scenes__desc-kr {
-  width: calc(48.5417 * var(--u));
-}
-
-.work-scenes__deployment-links {
-  position: absolute;
-  left: calc(79.7917 * var(--u));
-  top: calc(44.9479 * var(--u));
-  display: flex;
-  align-items: center;
-  gap: calc(1.4583 * var(--u));
-}
-
-.work-scenes__deployment-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: calc(0.3125 * var(--u));
-  height: calc(2.6042 * var(--u));
-  padding: 0 calc(0.8333 * var(--u));
-  border: 1px solid #ffffff;
-  border-radius: calc(2.6042 * var(--u));
-  font-family: 'Neue Montreal', sans-serif;
-  font-weight: 500;
-  font-size: calc(0.8333 * var(--u));
-  color: #ffffff;
-  white-space: nowrap;
-  transition: transform 180ms ease, border-color 180ms ease, color 180ms ease;
-}
-
-.work-scenes__deployment-link:hover,
-.work-scenes__deployment-link:focus-visible {
-  transform: translateY(-2px);
-}
-
-.work-scenes__deployment-link-icon {
-  width: calc(1.0417 * var(--u));
-  height: calc(1.0417 * var(--u));
-}
-
-/* ==========================================================================
-   Clone coding -- gallery of 6 clone-coding projects, each card rising into
-   place as it scrolls into view (script.js toggles .is-revealed via
-   IntersectionObserver). NOT related to .cards-reveal above (that's an
-   unrelated pinned 3D flip-card personal-values narrative) -- kept as a
-   distinct class scheme on purpose so the two aren't confused. Figma's own
-   decorative diagonal-line background behind the cards is skipped, same as
-   all three work covers above which also omit that layer.
-   ========================================================================== */
-.clone-coding {
-  position: relative;
-  container-type: inline-size;
-}
-
-.clone-coding__stage {
-  position: relative;
-  width: min(100cqw, 1920px);
-  height: calc(234 * var(--u));
-  margin: 0 auto;
-}
-
-.clone-coding__chips {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: calc(0.625 * var(--u));
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.clone-coding__chip {
-  padding: calc(0.4167 * var(--u)) calc(0.8333 * var(--u));
-  border: 1px solid #000000;
-  border-radius: 999px;
-  font-family: 'Neue Montreal', sans-serif;
-  font-weight: 400;
-  font-size: calc(0.7292 * var(--u));
-  letter-spacing: calc(-0.0146 * var(--u));
-  white-space: nowrap;
-  opacity: 0;
-  filter: blur(14px);
-  transform: translateY(calc(0.4 * var(--u)));
-  transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s ease;
-  transition-delay: var(--fog-delay, 0s);
-}
-
-.clone-coding__intro.is-revealed .clone-coding__chip {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-}
-
-/* Sticky instead of absolute: this is the only in-flow child of
-   .clone-coding__stage (chips/grid stay position:absolute), so as the
-   page scrolls it travels up normally until its top edge reaches the
-   middle of the viewport, then holds there while the rest of the stage
-   -- the cards -- keeps scrolling past underneath. .clone-coding__grid
-   comes after it in the DOM, so the cards paint above it and visually
-   rise up over the pinned intro. Un-sticks once the stage (its
-   containing block) scrolls past, same as any sticky element. */
-.clone-coding__intro {
-  position: sticky;
-  top: 50vh;
-  transform: translateY(-50%);
-  margin: calc(20 * var(--u)) auto 0;
-  width: calc(55.7813 * var(--u));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: calc(0.8333 * var(--u));
-  text-align: center;
-  z-index: 0;
-}
-
-.clone-coding__title {
-  margin: 0;
-  line-height: normal;
-  white-space: nowrap;
-}
-
-.clone-coding__title-em,
-.clone-coding__title-en {
-  font-size: calc(5.2083 * var(--u));
-  letter-spacing: calc(-0.1042 * var(--u));
-}
-
-.clone-coding__title-em {
-  font-family: 'Cardinal Fruit', serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.clone-coding__title-en {
-  font-family: 'Neue Montreal', sans-serif;
-  font-weight: 400;
-}
-
-/* Reverse of .work-transition__title .fog-char: instead of scrubbing
-   dissolve-away with scroll, each character starts already "fogged"
-   (blurred/faded/dropped) and condenses into place via a plain CSS
-   transition, staggered across the whole .clone-coding__intro (chips,
-   then title chars, then subtitle) whenever the intro gets .is-revealed.
-   Unlike the one-time card reveal, script.js toggles .is-revealed on and
-   off as the sticky intro enters/leaves the viewport, so scrolling away
-   and back re-plays the fog-in every time. A plain transition-delay per
-   element is enough for this replay-on-reentry behavior -- no need for
-   the scroll-scrubbed getBoundingClientRect machinery the original
-   dissolve effect uses. */
-.clone-coding__title-char {
-  display: inline-block;
-  opacity: 0;
-  filter: blur(18px);
-  transform: translateY(calc(0.6 * var(--u)));
-  transition: opacity 0.45s ease, filter 0.45s ease, transform 0.45s ease;
-  transition-delay: var(--fog-delay, 0s);
-}
-
-.clone-coding__intro.is-revealed .clone-coding__title-char {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .clone-coding__chip,
-  .clone-coding__title-char,
-  .clone-coding__subtitle {
-    transition: none;
-  }
-}
-
-.clone-coding__subtitle {
-  margin: 0;
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 400;
-  font-size: calc(0.8333 * var(--u));
-  letter-spacing: calc(-0.0167 * var(--u));
-  line-height: 1.4;
-  opacity: 0;
-  filter: blur(16px);
-  transform: translateY(calc(0.5 * var(--u)));
-  transition: opacity 0.9s ease, filter 0.9s ease, transform 0.9s ease;
-  transition-delay: var(--fog-delay, 0s);
-}
-
-.clone-coding__intro.is-revealed .clone-coding__subtitle {
-  opacity: 0.7;
-  filter: blur(0);
-  transform: translateY(0);
-}
-
-/* overflow-x: hidden used to sit on .clone-coding itself (clipping
-   .clone-coding__card::before's intentional -100cqw/100cqw overhang below
-   so it doesn't create a page-wide horizontal scrollbar) -- but that made
-   .clone-coding a scroll container, and since .clone-coding__intro (a
-   *sibling* of this grid, sitting right next to it, not inside it) is
-   position: sticky, that container became the nearest scrolling ancestor
-   sticky resolves against instead of the real page viewport. .clone-coding
-   itself never actually scrolls internally (its own box is exactly as
-   tall as its content), so sticky had nothing to stick within and just
-   tracked scroll 1:1 like a plain relatively-positioned element instead
-   ("고정되고 그 위로 카드들이 올라와야 되는데 풀려있"). Moving the clip to
-   this grid instead -- a sibling of .clone-coding__intro, not an ancestor
-   -- keeps the same visual clipping without being in intro's sticky
-   containing-block chain at all. */
-.clone-coding__grid {
-  position: absolute;
-  inset: 0;
-  overflow-x: hidden;
-}
 
 /* Cards start translated down + faded out; script.js adds .is-revealed
    once each card scrolls into view, animating it up into its resting
    position ("스크롤하면 밑에 카드들이 위로 올라오는 형식"). */
-.clone-coding__card {
-  position: absolute;
-  width: calc(37.8125 * var(--u));
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: calc(1.5625 * var(--u));
-  opacity: 0;
-  transform: translateY(calc(4 * var(--u)));
-  transition: opacity 0.4s ease, transform 0.8s ease;
-}
 
-.clone-coding__card::before {
-  content: "";
-  position: absolute;
-  left: -100cqw;
-  right: -100cqw;
-  top: calc(-0.75 * var(--u));
-  bottom: calc(-0.75 * var(--u));
-  z-index: 0;
-  background: rgba(255, 255, 255, 0);
-  pointer-events: auto;
-}
-
-.clone-coding__card.is-revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.clone-coding__card--1 { left: calc(8.8542 * var(--u)); top: calc(38.9063 * var(--u)); }
-.clone-coding__card--2 { left: calc(53.3333 * var(--u)); top: calc(71.6667 * var(--u)); }
-.clone-coding__card--3 { left: calc(8.8542 * var(--u)); top: calc(104.4271 * var(--u)); }
-.clone-coding__card--4 { left: calc(53.3333 * var(--u)); top: calc(137.1875 * var(--u)); }
-.clone-coding__card--5 { left: calc(8.8542 * var(--u)); top: calc(170.1563 * var(--u)); }
-.clone-coding__card--6 { left: calc(53.3333 * var(--u)); top: calc(202.7083 * var(--u)); }
-
-.clone-coding__frame {
-  position: relative;
-  z-index: 1;
-  display: block;
-  width: 100%;
-  height: calc(23.6979 * var(--u));
-  border-radius: calc(2.6042 * var(--u));
-  overflow: hidden;
-}
-
-.clone-coding__img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: filter 0.35s ease, transform 0.35s ease;
-}
 
 /* As each card rises into place, the photo settles in slightly zoomed
    in rather than at rest -- a small "this is hoverable" affordance on
    top of the bigger hover zoom below. */
-.clone-coding__card.is-revealed .clone-coding__img {
-  transform: scale(1.02);
-}
+
 
 /* Hover: the whole card triggers the photo treatment, while the badge
    stays fixed in the center of the shot and only its circular text spins. */
-.clone-coding__card:hover .clone-coding__img {
-  filter: brightness(0.55);
-  transform: scale(1.06);
-}
 
-.clone-coding__frame {
-  cursor: pointer;
-}
-
-.clone-coding__badge {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: calc(5.8854 * var(--u));
-  height: calc(5.8854 * var(--u));
-  transform: translate(-50%, -50%);
-  scale: 0.85;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: calc(0.3125 * var(--u));
-  border: 1px solid #ffffff;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  opacity: 0;
-  transition: opacity 0.2s ease, scale 0.2s ease;
-  pointer-events: none;
-}
-
-.clone-coding__card:hover .clone-coding__badge {
-  opacity: 1;
-  scale: 1;
-}
-
-.clone-coding__badge-icon {
-  position: relative;
-  width: calc(1.25 * var(--u));
-  height: calc(1.25 * var(--u));
-}
 
 /* "VIEW WEBSITE" spins slowly around the badge ring's border while
    hovering, riding an SVG textPath so the letters curve with the
    circle instead of sitting on a straight baseline. Paused by default
    and only spun up on card hover so idle cards cost nothing. */
-.clone-coding__badge-ring {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  animation: clone-badge-spin 9s linear infinite;
-  animation-play-state: paused;
-  transform-origin: 50% 50%;
-}
 
-.clone-coding__card:hover .clone-coding__badge-ring {
-  animation-play-state: running;
-}
-
-.clone-coding__badge-ring text {
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 500;
-  font-size: 8.2px;
-  fill: #ffffff;
-}
-
-@keyframes clone-badge-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .clone-coding__badge-ring {
-    animation: none;
-  }
-}
-
-.clone-coding__caption {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 400;
-  font-size: calc(0.9375 * var(--u));
-  letter-spacing: calc(-0.0188 * var(--u));
-  text-align: center;
-}
 
 /* ==========================================================================
    AI Lab -- embedded hands-on project, placed after clone coding and before
    the SKILL transition so the user can try the AI-built feature in context.
    ========================================================================== */
-.ai-lab {
-  position: relative;
-  container-type: inline-size;
-  padding: calc(26 * var(--u)) 0 calc(9.375 * var(--u));
-}
 
-.ai-lab.is-cursor-active {
-  cursor: pointer;
-}
-
-.ai-lab.is-cursor-hidden,
-.ai-lab iframe {
-  cursor: auto;
-}
-
-.ai-lab a,
-.ai-lab button {
-  cursor: pointer;
-}
-
-.ai-lab__stage {
-  width: min(calc(100cqw - 96px), 1600px);
-  margin: 0 auto;
-}
-
-.ai-lab__head {
-  display: flex;
-  flex-direction: column;
-  gap: calc(1.25 * var(--u));
-  margin-bottom: calc(9.5 * var(--u));
-}
-
-.ai-lab__title-row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: calc(2 * var(--u));
-}
-
-.ai-lab__title {
-  margin: 0;
-  line-height: normal;
-  white-space: nowrap;
-}
-
-.ai-lab__title-en,
-.ai-lab__title-em {
-  font-size: calc(5.2083 * var(--u));
-  letter-spacing: calc(-0.1042 * var(--u));
-}
-
-.ai-lab__title-en {
-  font-family: 'Neue Montreal', sans-serif;
-  font-weight: 400;
-}
-
-.ai-lab__title-em {
-  font-family: 'Cardinal Fruit', serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.ai-lab__title-char {
-  display: inline-block;
-  opacity: 0;
-  filter: blur(18px);
-  transform: translateY(calc(0.6 * var(--u)));
-  transition: opacity 0.45s ease, filter 0.45s ease, transform 0.45s ease;
-  transition-delay: var(--fog-delay, 0s);
-}
-
-.ai-lab__head.is-revealed .ai-lab__title-char {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ai-lab__title-char,
-  .ai-lab__summary,
-  .ai-lab__links {
-    transition: none;
-  }
-}
-
-.ai-lab__summary {
-  display: flex;
-  flex-direction: column;
-  gap: calc(0.4167 * var(--u));
-  width: min(680px, 100%);
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  letter-spacing: calc(-0.0167 * var(--u));
-  line-height: 1.4;
-  color: rgba(0, 0, 0, 0.72);
-  opacity: 0;
-  filter: blur(16px);
-  transform: translateY(calc(0.5 * var(--u)));
-  transition: opacity 0.45s ease, filter 0.45s ease, transform 0.45s ease;
-  transition-delay: var(--fog-delay, 0s);
-}
-
-.ai-lab__head.is-revealed .ai-lab__summary {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-}
-
-.ai-lab__summary p {
-  margin: 0;
-}
-
-.ai-lab__links {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: calc(1.4583 * var(--u));
-  opacity: 0;
-  filter: blur(16px);
-  transform: translateY(calc(0.5 * var(--u)));
-  transition: opacity 0.45s ease, filter 0.45s ease, transform 0.45s ease;
-  transition-delay: var(--fog-delay, 0s);
-}
-
-.ai-lab__head.is-revealed .ai-lab__links {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-}
-
-.ai-lab__link {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: calc(0.3125 * var(--u));
-  height: calc(2.6042 * var(--u));
-  min-height: 44px;
-  padding: 0 calc(0.8333 * var(--u));
-  border: 1px solid #000000;
-  border-radius: 999px;
-  font-family: 'Neue Montreal', sans-serif;
-  font-weight: 500;
-  font-size: clamp(14px, calc(0.8333 * var(--u)), 16px);
-  color: #000000;
-  white-space: nowrap;
-  transition: transform 180ms ease, border-color 180ms ease, color 180ms ease;
-}
-
-.ai-lab__link:hover,
-.ai-lab__link:focus-visible {
-  transform: translateY(-2px);
-}
-
-.ai-lab__link-icon {
-  width: calc(1.0417 * var(--u));
-  min-width: 18px;
-  height: calc(1.0417 * var(--u));
-  min-height: 18px;
-}
-
-.ai-lab__cursor-card {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 80;
-  display: block;
-  width: clamp(118px, calc(9.2 * var(--u)), 176px);
-  aspect-ratio: 892 / 1189;
-  opacity: 0;
-  transform: translate3d(-999px, -999px, 0) translate(-50%, -50%) rotate(-5deg);
-  transform-origin: 50% 50%;
-  pointer-events: none;
-  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.24));
-  will-change: transform, opacity;
-  transition: opacity 140ms ease, filter 140ms ease;
-}
-
-.ai-lab__cursor-image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  object-fit: cover;
-  filter: brightness(0.82) contrast(1.08) saturate(0.92);
-  transform-origin: 50% 50%;
-  transition: transform 140ms ease, filter 140ms ease;
-}
-
-.ai-lab__cursor-card.is-pressed .ai-lab__cursor-image {
-  filter: brightness(0.68) contrast(1.12) saturate(0.92);
-  transform: scale(0.92);
-}
-
-.ai-lab__cursor-copy {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 81;
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
-  opacity: 0;
-  pointer-events: none;
-  will-change: transform, opacity;
-  transition: opacity 140ms ease;
-}
-
-.ai-lab__cursor-copy-char {
-  display: inline-block;
-  color: #90C7EA;
-  font-family: 'Cardinal Fruit', serif;
-  font-weight: 400;
-  font-style: italic;
-  font-size: clamp(18px, calc(1.2 * var(--u)), 24px);
-  letter-spacing: 0;
-  white-space: pre;
-  animation: ai-lab-copy-wave 1100ms ease-in-out infinite;
-  animation-delay: calc(var(--trail-index) * 42ms);
-}
-
-@keyframes ai-lab-copy-wave {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate3d(0, -4px, 0) rotate(-2deg);
-  }
-}
-
-.ai-lab.is-cursor-active .ai-lab__cursor-card,
-.ai-lab.is-cursor-active .ai-lab__cursor-copy {
-  opacity: 1;
-}
-
-.ai-lab.is-cursor-hidden .ai-lab__cursor-card,
-.ai-lab.is-cursor-hidden .ai-lab__cursor-copy {
-  opacity: 0;
-}
-
-.ai-lab__mockups {
-  --ai-lab-macbook-x: -2%;
-  --ai-lab-macbook-y:-11%;
-  --ai-lab-macbook-width: 60%;
-  --ai-lab-ipad-x: 58.5%;
-  --ai-lab-ipad-y: 36.8%;
-  --ai-lab-ipad-width: 31%;
-  --ai-lab-mobile-x: 91.5%;
-  --ai-lab-mobile-y: 59%;
-  --ai-lab-mobile-width: 7%;
-  position: relative;
-  width: min(100%, calc(82 * var(--u)));
-  aspect-ratio: 1600 / 560;
-  margin: 0 auto;
-}
-
-.ai-lab__device {
-  position: absolute;
-  max-width: none;
-}
-
-.ai-lab__browser {
-  left: var(--ai-lab-macbook-x);
-  top: var(--ai-lab-macbook-y);
-  width: var(--ai-lab-macbook-width);
-  aspect-ratio: 4340 / 2860;
-}
-
-.ai-lab__device--ipad {
-  left: var(--ai-lab-ipad-x);
-  top: var(--ai-lab-ipad-y);
-  width: var(--ai-lab-ipad-width);
-  aspect-ratio: 2610 / 1890;
-}
-
-.ai-lab__device--mobile {
-  left: var(--ai-lab-mobile-x);
-  top: var(--ai-lab-mobile-y);
-  width: var(--ai-lab-mobile-width);
-  aspect-ratio: 201 / 410;
-}
-
-.ai-lab__ipad-bezel,
-.ai-lab__ipad-device,
-.ai-lab__phone-screen,
-.ai-lab__phone-bezel,
-.ai-lab__phone-island,
-.ai-lab__phone-camera {
-  position: absolute;
-  display: block;
-  max-width: none;
-  pointer-events: none;
-}
-
-.ai-lab__ipad-bezel {
-  inset: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-}
-
-.ai-lab__ipad-device {
-  z-index: 2;
-  left: 3.6%;
-  top: 5.05%;
-  width: 92.8%;
-  height: 89.9%;
-  border-radius: 2.8%;
-  object-fit: cover;
-  object-position: center center;
-}
-
-.ai-lab__phone-screen {
-  z-index: 1;
-  left: 1.8%;
-  top: 1%;
-  width: 96.4%;
-  height: 98%;
-  border-radius: 11.8%;
-  object-fit: cover;
-  object-position: center top;
-}
-
-.ai-lab__phone-bezel {
-  inset: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-}
-
-.ai-lab__phone-island {
-  z-index: 3;
-  left: 35.3%;
-  top: 3.22%;
-  width: 28.92%;
-  height: 4.11%;
-  border-radius: 999px;
-  background: #000000;
-}
-
-.ai-lab__phone-camera {
-  right: 7.1%;
-  top: 24.7%;
-  width: 14.29%;
-  height: 49.25%;
-  border-radius: 50%;
-  opacity: 0.6;
-  object-fit: cover;
-}
-
-.ai-lab__screen {
-  position: absolute;
-  left: 10%;
-  top: 10.5555%;
-  width: 80%;
-  height: 80.5594%;
-  z-index: 1;
-  overflow: hidden;
-  background: #171511;
-}
-
-.ai-lab__iframe {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  background: #171511;
-  color-scheme: dark;
-}
-
-.ai-lab__browser:not(.is-unlocked) .ai-lab__iframe {
-  pointer-events: none;
-}
-
-.ai-lab__try-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(12, 11, 9, 0.32);
-  backdrop-filter: blur(0.8px);
-  -webkit-backdrop-filter: blur(1.5px);
-  transition: opacity 260ms ease, visibility 260ms ease;
-}
-
-.ai-lab__browser.is-unlocked .ai-lab__try-overlay {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.ai-lab__try-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: calc(8.3333 * var(--u));
-  min-height: 48px;
-  padding: 0 calc(1.4583 * var(--u));
-  border: 1px solid #ffffff;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 600;
-  font-size: clamp(14px, calc(0.9375 * var(--u)), 18px);
-  letter-spacing: 0;
-  box-shadow: none;
-  transition: transform 180ms ease, border-color 180ms ease, color 180ms ease;
-}
-
-.ai-lab__try-button:hover {
-  transform: translateY(-2px);
-  border-color: #ffffff;
-  color: #ffffff;
-}
-
-.ai-lab__try-button:focus-visible {
-  outline: 2px solid rgba(212, 255, 63, 0.95);
-  outline-offset: 4px;
-}
-
-.ai-lab__bezel {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  max-width: none;
-  pointer-events: none;
-}
-
-/* ==========================================================================
-   Work scenes -- the "next screen" that sits beside work-detail's cover in
-   the shared .work-detail__track (see .work-detail__panel above). Once
-   .work-detail is pinned, further scroll slides that whole track left to
-   carry this panel into view, while the background crossfades white ->
-   black independently (script.js's shared applyCombinedDarkState, same
-   overlay reason-quote/cards-reveal use). Once docked, further scroll
-   fills .work-scenes__desc-en gray -> white.
-   ========================================================================== */
 .work-scenes__stage {
   position: relative;
   width: min(100cqw, 1920px);
@@ -3706,13 +1680,6 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   stroke-linecap: round;
 }
 
-.work-detail--p2 .work-detail__glow-wrap {
-  width: 400%;
-}
-
-.work-detail--p2 .work-detail__glow-curve path {
-  stroke: rgba(212, 255, 63, 0.5);
-}
 
 .work-detail--p3 .work-detail__glow-curve path {
   stroke: rgba(128, 113, 252, 0.5);
@@ -3737,84 +1704,26 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    cutout's own ratio instead (keeping Figma's width/left/top) keeps the
    bezel artwork undistorted. drop-shadow value is Figma's own stated
    7.969px blur for this scene's device instance. */
-.work-scenes--crafting .work-scenes__device {
-  --crafting-device-left: 15.9896;
-  --crafting-device-top: 29.1146;
-  --crafting-device-width: 26.7708;
-  --crafting-device-height: 16.8062;
-  --crafting-screen-left: 0%;
-  --crafting-screen-top: -3.8%;
-  --crafting-screen-width: 100%;
-  --crafting-screen-height: 111.2%;
-  --crafting-media-left: 0%;
-  --crafting-media-top: 0%;
-  --crafting-media-width: 100%;
-  --crafting-media-height: 100%;
-  left: calc(var(--crafting-device-left) * var(--u));
-  top: calc(var(--crafting-device-top) * var(--u));
-  width: calc(var(--crafting-device-width) * var(--u));
-  height: calc(var(--crafting-device-height) * var(--u));
-  --macbook-screen-left: var(--crafting-screen-left);
-  --macbook-screen-top: var(--crafting-screen-top);
-  --macbook-screen-width: var(--crafting-screen-width);
-  --macbook-screen-height: var(--crafting-screen-height);
-  --macbook-media-left: var(--crafting-media-left);
-  --macbook-media-top: var(--crafting-media-top);
-  --macbook-media-width: var(--crafting-media-width);
-  --macbook-media-height: var(--crafting-media-height);
-  filter: drop-shadow(0 0 calc(0.4151 * var(--u)) rgba(255, 255, 255, 0.3));
-}
 
-.work-scenes--typo .work-scenes__device {
-  left: calc(10.46875 * var(--u));
-  top: calc(17.1875 * var(--u));
-  width: calc(31.5179 * var(--u));
-  height: calc(17.7288 * var(--u));
-  filter: drop-shadow(0 0 calc(0.4577 * var(--u)) rgba(255, 255, 255, 0.3));
-}
 
 /* Figma's box here is ~0.751:1 vs the iPad bezel's alpha-measured cutout
    at ~0.7496:1 -- close enough (<0.2%) that, unlike the MacBook scenes,
    no height correction is needed to keep the bezel artwork undistorted. */
-.work-scenes--beforeafter .work-scenes__device {
-  left: calc(19.17 * var(--u));
-  top: calc(19.0631 * var(--u));
-  width: calc(21.14 * var(--u));
-  height: calc(28.1419 * var(--u));
-  filter: drop-shadow(0 0 calc(0.5221 * var(--u)) rgba(0, 0, 0, 0.3));
-}
+
 
 /* Same MacBook bezel asset as .work-scenes--crafting (confirmed
    byte-identical), so it needs the same height correction for the same
    reason -- keeping Figma's own 30.37u width but deriving height from
    the bezel's own cutout aspect (not Figma's stated 19.6256u) to avoid
    distorting the bezel artwork. */
-.work-scenes--editorial .work-scenes__device {
-  left: calc(12.03 * var(--u));
-  top: calc(22.35 * var(--u));
-  width: calc(30.37 * var(--u));
-  height: calc(21.196 * var(--u));
-  filter: drop-shadow(0 0 calc(0.4708 * var(--u)) rgba(255, 255, 255, 0.3));
-}
+
 
 /* RETENTION is the only scene with two devices side by side (an iPad and
    an iPhone) instead of one -- both boxes' aspect ratios already match
    their own bezel's alpha-measured cutout within a fraction of a percent,
    so (unlike crafting/editorial's MacBook) neither needs a height
    correction away from Figma's own stated box. */
-.work-scenes--retention .work-scenes__device--ipad {
-  left: calc(10.2604 * var(--u));
-  top: calc(14.5519 * var(--u));
-  width: calc(19.427 * var(--u));
-  height: calc(13.567 * var(--u));
-}
 
-.work-scenes--retention .work-scenes__device--phone {
-  left: calc(24.395 * var(--u));
-  top: calc(27.3302 * var(--u));
-  width: calc(10.6224 * var(--u));
-  height: calc(23.0388 * var(--u));
-}
 
 /* COMMUNITY & CREW is the only scene with two of the *same* device side by
    side (two iPhones sharing one bezel asset) instead of two different ones
@@ -3826,70 +1735,18 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    alpha-measured cutout aspect (458/997 = 0.4594) within a fraction of a
    percent, same reasoning as RETENTION's own device boxes above, while the
    placeholder box's aspect (253.91/517.384 = 0.4907) is off by ~7%. */
-.work-scenes--community .work-scenes__device--phone-1,
-.work-scenes--community .work-scenes__device--phone-2,
-.work-scenes--sharerun .work-scenes__device--phone-1,
-.work-scenes--sharerun .work-scenes__device--phone-2,
-.work-scenes--ai-partner .work-scenes__device--phone {
-  width: calc(11.9872 * var(--u));
-  height: calc(25.999 * var(--u));
-}
 
-.work-scenes--community .work-scenes__device--phone-1 {
-  left: calc(15.663 * var(--u));
-  top: calc(10.3057 * var(--u));
-}
-
-.work-scenes--community .work-scenes__device--phone-2 {
-  left: calc(26.2359 * var(--u));
-  top: calc(21.6078 * var(--u));
-}
-
-.work-scenes--sharerun .work-scenes__device--phone-1 {
-  left: calc(15.7672 * var(--u));
-  top: calc(11.1391 * var(--u));
-}
-
-.work-scenes--sharerun .work-scenes__device--phone-2 {
-  left: calc(31.6526 * var(--u));
-  top: calc(23.4828 * var(--u));
-}
-
-.work-scenes--ai-partner .work-scenes__device--phone {
-  left: calc(18.4234 * var(--u));
-  top: calc(14.0036 * var(--u));
-}
-
-.work-scenes__device-screen {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-.work-scenes--crafting .work-scenes__device-screen {
-  left: var(--macbook-screen-left, 0);
-  top: var(--macbook-screen-top, 0);
-  width: var(--macbook-screen-width, 100%);
-  height: var(--macbook-screen-height, 100%);
-}
 
 /* Only RETENTION's phone screen has rounded corners of its own (Figma:
    30.073px) -- every other scene's screen rect is either a plain rect
    (MacBook/iPad bezels crop it anyway) or already handled via
    .work-scenes__media's border-radius. */
-.work-scenes__device-screen--phone {
-  border-radius: calc(1.5663 * var(--u));
-  background: #141414;
-}
+
 
 /* COMMUNITY & CREW's iPhone mockup is a different Figma export than
    RETENTION's own iPhone (33.937px screen radius vs 30.073px there), so it
    needs its own radius rather than inheriting the shared rule above. */
-.work-scenes--community .work-scenes__device-screen--phone,
-.work-scenes--sharerun .work-scenes__device-screen--phone,
-.work-scenes--ai-partner .work-scenes__device-screen--phone {
-  border-radius: calc(1.7676 * var(--u));
-}
+
 
 .work-scenes__device-media {
   display: block;
@@ -3920,10 +1777,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    proportionally narrower than 16:9 -- cover already center-crops ~7.4%
    off *each* side to fill it, nearly 10x more than the scrollbar needs,
    so that scene needs no extra scale trick here. */
-.work-scenes--typo .work-scenes__device-media {
-  transform: scale(1.02);
-  transform-origin: left center;
-}
+
 
 /* The BEFORE & AFTER recording is a full 2560x1388 capture of Chrome
    DevTools' responsive-mode window (browser tabs, the device-size
@@ -3941,13 +1795,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    directly so the screen feels less zoomed-in:
      width:  2560/684 = 374.269%   left: -938/684  = -137.1345%
      height: 1388/912 = 152.193%   top:  -251/912  = -27.522% */
-.work-scenes--beforeafter .work-scenes__device-media {
-  position: absolute;
-  top: -27.522%;
-  left: -137.1345%;
-  width: 374.269%;
-  height: 152.193%;
-}
+
 
 /* The EDITORIAL recording is a plain full browser window (tabs, address
    bar, bookmarks bar on top; a page-native vertical scrollbar on the
@@ -3964,12 +1812,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    match the content rect's own (~1.657, a ~4% difference) -- the bezel
    artwork's own fidelity was prioritized over the video's, so this one
    carries a small, likely unnoticeable stretch instead. */
-.work-scenes--crafting .work-scenes__device-media {
-  top: var(--macbook-media-top, -14.25%);
-  left: var(--macbook-media-left, -0.5%);
-  width: var(--macbook-media-width, 101%);
-  height: var(--macbook-media-height, 114.75%);
-}
+
 
 /* work-typo-imac27.png is 5640x4540 with its screen cut out (alpha 0) as
    a 5120x2880 (16:9) rect starting at (260, 250); work-light-macbook.png
@@ -3987,20 +1830,11 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    together over-constrains the box, silently discarding left/top in
    favor of a same-size, wrongly-offset one. Anchoring on
    top+left+width+height (no right/bottom at all) sidesteps both traps. */
-.work-scenes__device-bezel {
-  position: absolute;
-  max-width: none;
-  pointer-events: none;
-}
+
 
 /* width: 5640/5120 = 110.1563%   left: -260/5120 = -5.0781% */
 /* height: 4540/2880 = 157.6389%   top:  -250/2880 = -8.6806% */
-.work-scenes--typo .work-scenes__device-bezel {
-  top: -8.6806%;
-  left: -5.0781%;
-  width: 110.1563%;
-  height: 157.6389%;
-}
+
 
 /* work-light-macbook.png: cutout 3454x2168 at (443, 378). The alpha
    channel isn't a hard 0/255 cut right at that boundary though -- canvas
@@ -4017,12 +1851,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    crops past all four transition pixels instead of aligning with them:
    width: 4340/3450 = 125.7971%   left: -445/3450  = -12.8986%
    height: 2860/2164 = 132.1627%   top:  -380/2164  = -17.5601% */
-.work-scenes--crafting .work-scenes__device-bezel {
-  top: -17.5601%;
-  left: -12.8986%;
-  width: 125.7971%;
-  height: 132.1627%;
-}
+
 
 /* Reuses the same iPad Pro 12.9 bezel asset as the cover panel
    (images/work-ilkw-ipad-screen.webp -- confirmed byte-identical to this
@@ -4031,12 +1860,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    other two bezels above. */
 /* width: 2290/2048 = 111.8164%   left: -121/2048 = -5.9082% */
 /* height: 2960/2732 = 108.3455%   top:  -114/2732 = -4.1727% */
-.work-scenes--beforeafter .work-scenes__device-bezel {
-  top: -4.1727%;
-  left: -5.9082%;
-  width: 111.8164%;
-  height: 108.3455%;
-}
+
 
 /* Same asset + cutout as .work-scenes--crafting's bezel (confirmed
    byte-identical) -- identical percentages, just applied under this
@@ -4050,24 +1874,13 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    transition ring):
    width: 2610/2384 = 109.4799%   left: -113/2384 = -4.7399%
    height: 1890/1664 = 113.5817%  top:  -113/1664 = -6.7909% */
-.work-scenes--retention .work-scenes__device-bezel--ipad,
-.work-scenes--editorial .work-scenes__device-bezel {
-  top: -6.7909%;
-  left: -4.7399%;
-  width: 109.4799%;
-  height: 113.5817%;
-}
+
 
 /* work-retention-iphone-bezel.png: cutout 408x885 at (21, 17) out of
    450x917, same 2px-inset treatment:
    width: 450/404 = 111.3861%   left: -23/404 = -5.6931%
    height: 917/881 = 104.0863%  top:  -19/881 = -2.1567% */
-.work-scenes--retention .work-scenes__device-bezel--phone {
-  top: -2.1567%;
-  left: -5.6931%;
-  width: 111.3861%;
-  height: 104.0863%;
-}
+
 
 /* work-community-iphone-bezel.png: cutout 458x997 at (24, 20) out of
    508x1035. Unlike the bezels above, this one's alpha-scanned directly
@@ -4086,29 +1899,13 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    Both iPhones in this scene share this one asset/rule -- no --phone-1/
    --phone-2 split needed here, unlike the device-box rule above, since the
    bezel itself doesn't differ between them. */
-.work-scenes--community .work-scenes__device-bezel,
-.work-scenes--sharerun .work-scenes__device-bezel,
-.work-scenes--ai-partner .work-scenes__device-bezel {
-  top: -2.0060%;
-  left: -5.2402%;
-  width: 110.9170%;
-  height: 103.8114%;
-}
+
 
 /* Dynamic-island cutout on the phone bezel -- a plain filled pill drawn
    on top of the video screen underneath it (not a bezel PNG detail,
    since the bezel's own alpha cutout is a single full-screen rect).
    Percentages are relative to .work-scenes__device--phone's own box. */
-.work-scenes__device-island {
-  position: absolute;
-  left: 33.912%;
-  top: 1.3585%;
-  width: 31.902%;
-  height: 4.2645%;
-  background: #000000;
-  border-radius: 999px;
-  pointer-events: none;
-}
+
 
 /* The phone screen plays a real recording of the actual W:RUN app (a
    Chrome DevTools responsive-mode capture at 430x932, the same
@@ -4125,13 +1922,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    single-device scene) since RETENTION is the only scene with two
    .work-scenes__device-media elements in one panel -- the iPad's own
    screen image must keep its plain 100%/100% cover sizing. */
-.work-scenes--retention .work-scenes__device--phone .work-scenes__device-media {
-  position: absolute;
-  top: -22.8054%;
-  left: -201.1765%;
-  width: 501.9608%;
-  height: 125.6109%;
-}
+
 
 /* Both COMMUNITY & CREW videos (werun-2.mp4, werun-2-1.mp4) are the exact
    same Chrome DevTools responsive-mode capture setup as RETENTION's own
@@ -4142,83 +1933,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    .work-scenes__device--phone-N descendant like RETENTION needed) since
    both of this scene's media elements are videos needing the same crop --
    there's no sibling image at a different aspect to avoid clobbering. */
-.work-scenes--community .work-scenes__device-media,
-.work-scenes--sharerun .work-scenes__device-media,
-.work-scenes--ai-partner .work-scenes__device-media {
-  position: absolute;
-  top: -22.8054%;
-  left: -201.1765%;
-  width: 501.9608%;
-  height: 125.6109%;
-}
 
-.work-scenes__copy {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  gap: calc(4.4792 * var(--u));
-}
-
-.work-scenes--crafting .work-scenes__copy {
-  left: calc(49.375 * var(--u));
-  top: calc(16.4167 * var(--u));
-  width: calc(43.4375 * var(--u));
-}
-
-.work-scenes--typo .work-scenes__copy {
-  left: calc(54.16667 * var(--u));
-  top: calc(23.75 * var(--u));
-  width: calc(36.5104 * var(--u));
-}
-
-.work-scenes--beforeafter .work-scenes__copy {
-  left: calc(51.6146 * var(--u));
-  top: calc(12.2396 * var(--u));
-  width: calc(35.6771 * var(--u));
-}
-
-.work-scenes--editorial .work-scenes__copy {
-  left: calc(51.7448 * var(--u));
-  top: calc(12.7604 * var(--u));
-  width: calc(38.75 * var(--u));
-}
-
-.work-scenes--together .work-scenes__copy {
-  left: calc(43.3854 * var(--u));
-  top: calc(14.9479 * var(--u));
-  width: calc(48.3854 * var(--u));
-}
-
-.work-scenes--retention .work-scenes__copy {
-  left: calc(40.99 * var(--u));
-  top: calc(25 * var(--u));
-  width: calc(48.75 * var(--u));
-}
-
-.work-scenes--community .work-scenes__copy {
-  left: calc(50.4167 * var(--u));
-  top: calc(13.6979 * var(--u));
-  width: calc(34.5833 * var(--u));
-}
-
-.work-scenes--sharerun .work-scenes__copy {
-  left: calc(55 * var(--u));
-  top: calc(13.4896 * var(--u));
-  width: calc(29.8958 * var(--u));
-  gap: calc(4.4792 * var(--u));
-}
-
-.work-scenes--ai-partner .work-scenes__copy {
-  left: calc(46.6667 * var(--u));
-  top: calc(12.7083 * var(--u));
-  width: calc(35.5208 * var(--u));
-  gap: calc(4.4792 * var(--u));
-}
-
-.work-scenes--ai-partner .work-scenes__links {
-  left: calc(66.6146 * var(--u));
-  top: calc(40.9375 * var(--u));
-}
 
 /* Figma wraps this title in a flex items-center box, but that wrapper
    sizes itself to the title's own content width (not stretched to the
@@ -4231,29 +1946,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
 /* Figma sizes this scene's desc-en narrower (823px) than the copy column
    it sits in (929px) -- every other scene's desc-en just stretches to
    match its copy column, so this needs its own explicit width. */
-.work-scenes--together .work-scenes__desc-en {
-  width: calc(42.8646 * var(--u));
-}
 
-.work-scenes__title {
-  margin: 0;
-  line-height: normal;
-  font-size: calc(3.6458 * var(--u));
-  letter-spacing: calc(-0.0729 * var(--u));
-  color: #ffffff;
-  white-space: nowrap;
-}
-
-.work-scenes__title-en {
-  font-family: 'Neue Montreal', sans-serif;
-  font-weight: 400;
-}
-
-.work-scenes__title-em {
-  font-family: 'Cardinal Fruit', serif;
-  font-weight: 400;
-  font-style: italic;
-}
 
 .work-scenes__desc {
   display: flex;
@@ -4286,43 +1979,14 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   }
 }
 
-.work-scenes__desc-kr {
-  margin: 0;
-  font-family: 'Pretendard', 'Neue Montreal', sans-serif;
-  font-weight: 400;
-  font-size: calc(1.0417 * var(--u));
-  letter-spacing: calc(-0.0208 * var(--u));
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.work-scenes__desc-kr p {
-  margin: 0;
-}
 
 /* TEAM PROJECT 1 label -- unique to the CRAFTING scene, no analog on any
    other scene. */
-.work-scenes__eyebrow {
-  position: absolute;
-  left: calc(8.8542 * var(--u));
-  top: calc(9.8958 * var(--u));
-  width: calc(6.5625 * var(--u));
-  margin: 0;
-  font-family: 'Neue Montreal', sans-serif;
-  font-weight: 400;
-  font-size: calc(0.8333 * var(--u));
-  color: #ffffff;
-  text-align: center;
-  white-space: nowrap;
-}
+
 
 /* TEAM PROJECT 2 label -- RETENTION scene's own equivalent, same
    typography as the shared rule above, just repositioned. */
-.work-scenes--retention .work-scenes__eyebrow {
-  left: calc(8.85 * var(--u));
-  top: calc(9.8944 * var(--u));
-  width: calc(6.77 * var(--u));
-}
+
 
 /* Three blurred, angled screenshots of ILKW's own site (an archive log
    entry, the brand-story page, a product manual page) fanned out above/
@@ -4330,41 +1994,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    Figma's own layer stacking (painted in listed order, so --card--3 sits
    on top of --card--2 on top of --card--1, with the MacBook bezel drawn
    after all three, covering their lower portion). */
-.work-scenes__card {
-  position: absolute;
-  border-radius: calc(0.5208 * var(--u));
 
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.work-scenes__card img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.work-scenes__card--1 {
-  left: calc(7.7083 * var(--u));
-  top: calc(23.3333 * var(--u));
-  width: calc(16.5625 * var(--u));
-  height: calc(7.9688 * var(--u));
-}
-
-.work-scenes__card--2 {
-  left: calc(15.46875 * var(--u));
-  top: calc(16.25 * var(--u));
-  width: calc(16.5104 * var(--u));
-  height: calc(7.9688 * var(--u));
-}
-
-.work-scenes__card--3 {
-  left: calc(22.7083 * var(--u));
-  top: calc(21.71875 * var(--u));
-  width: calc(16.5104 * var(--u));
-  height: calc(7.9167 * var(--u));
-}
 
 /* better TOGETHER's two photo/video rects -- unlike every other scene,
    there's no device bezel here, just plain rounded-rect frames placed
@@ -4372,73 +2002,14 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
    0.6722:1) already matches --together's video rect (18.3854:27.34375 =
    0.6722:1) exactly, so it needs no crop -- .work-scenes__device-media's
    shared width/height:100% + object-fit: cover is enough on its own. */
-.work-scenes__media {
-  position: absolute;
-  border-radius: calc(1.0417 * var(--u));
-  overflow: hidden;
-}
 
-.work-scenes__media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.work-scenes--together .work-scenes__media--video {
-  left: calc(8.28125 * var(--u));
-  top: calc(19.8958 * var(--u));
-  width: calc(18.3854 * var(--u));
-  height: calc(27.34375 * var(--u));
-}
-
-.work-scenes--together .work-scenes__media--photo {
-  left: calc(16.5104 * var(--u));
-  top: calc(11.1458 * var(--u));
-  width: calc(17.3958 * var(--u));
-  height: calc(13.0729 * var(--u));
-}
 
 /* WEBSITE/PROPOSAL links -- same sizing as .work-detail__link on the
    cover (same Figma values: 50px height, 16px h-padding, 50px radius,
    6px icon gap, 16px font, 28px gap between the two), just recolored
    white for this section's black background instead of reusing that
    class directly. */
-.work-scenes__links {
-  position: absolute;
-  left: calc(75.8854 * var(--u));
-  top: calc(44.6354 * var(--u));
-  display: flex;
-  align-items: center;
-  gap: calc(1.4583 * var(--u));
-}
 
-.work-scenes__link {
-  display: inline-flex;
-  align-items: center;
-  gap: calc(0.3125 * var(--u));
-  height: calc(2.6042 * var(--u));
-  padding: 0 calc(0.8333 * var(--u));
-  border: 1px solid #ffffff;
-  border-radius: calc(2.6042 * var(--u));
-  font-family: 'Neue Montreal', sans-serif;
-  font-weight: 500;
-  font-size: calc(0.8333 * var(--u));
-  color: #ffffff;
-  white-space: nowrap;
-  transition: transform 180ms ease, border-color 180ms ease, color 180ms ease;
-}
-
-.work-scenes__link:hover,
-.work-scenes__link:focus-visible {
-  transform: translateY(-2px);
-}
-
-.work-scenes__link-icon {
-  width: calc(1.0417 * var(--u));
-  height: calc(1.0417 * var(--u));
-  filter: invert(1);
-}
 
 /* ==========================================================================
    Quick Q&A ? Figma node 2832-1509
@@ -4447,22 +2018,14 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   position: relative;
   z-index: 40;
   min-height: 100vh;
-  /* Horizontal padding lives on .quick-qa__inner instead -- see its own
-     comment (same reasoning/pattern as .ready-cta__inner). */
+
   padding: calc(12.5 * var(--u)) 0 calc(10.4167 * var(--u));
   background: #000000;
   color: #ffffff;
   container-type: inline-size;
 }
 
-/* Capped at the same 1920px design width as .reason-quote__stage/.site-footer__inner
-   and centered, with its own container-type so every --u below it stays
-   pinned to that cap instead of continuing to grow on viewports wider than
-   1920px (e.g. a 3840px 4K display at 150% OS scaling reports a 2560px CSS
-   viewport). Before this wrapper existed, the horizontal padding lived
-   directly on .quick-qa -- since .quick-qa had no width cap, that padding
-   only shrank var(--u) to the *design* scale at exactly 1920px, and the
-   shrink amount (thus the effective scale) drifted at any other width. */
+
 .quick-qa__inner {
   width: min(100cqw, 1920px);
   margin: 0 auto;
@@ -4949,9 +2512,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   .nav {
     gap: 76px;
   }
-  .logo__mark {
-    height: 26px;
-  }
+
   .nav__link {
     font-size: 16px;
   }
@@ -4965,9 +2526,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   .nav {
     gap: 56px;
   }
-  .logo__mark {
-    height: 24px;
-  }
+
   .nav__link {
     font-size: 15px;
   }
@@ -4987,9 +2546,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   .mobile-nav {
     display: flex;
   }
-  .logo__mark {
-    height: 22px;
-  }
+
 
   /* .mobile-nav was hardcoded white, so opening it over a section that's
      already scrolled dark (.header--inverted/.header--surface-dark, same
@@ -5065,11 +2622,8 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     transform: none;
   }
 
-  .intro-reasons__text-kr {
-    display: none;
-  }
 
-  .intro-reasons__title {
+.intro-reasons__title {
     margin-bottom: 24px;
   }
 
@@ -5099,154 +2653,26 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
      drop the pinned poster/scroll-batch reveal for a plain static black
      block with everything already shown, until a dedicated mobile frame
      exists. */
-  .reason-quote {
-    height: auto;
-    background: #000000;
-  }
 
-  .reason-quote__sticky {
-    position: static;
-    height: auto;
-  }
 
-  .reason-quote__stage {
-    width: 100%;
-    padding: 64px 24px;
-  }
-
-  .reason-quote .line {
-    font-size: 32px;
-    gap: 12px;
-  }
-
-  .reason-quote .word {
-    mask-image: none;
-    -webkit-mask-image: none;
-  }
-
-  .media-chip {
-    width: 0;
-    height: 51px;
-    opacity: 0;
-    margin: 0;
-    transition: width 0.72s cubic-bezier(0.55, 0, 0.25, 1),
-                opacity 0.45s linear,
-                margin 0.72s cubic-bezier(0.55, 0, 0.25, 1);
-  }
-
-  .media-chip.is-revealed {
-    width: 68px;
-    opacity: 1;
-    margin: 0 4px;
-  }
-
-  /* Cards-reveal: same temporary mobile treatment -- drop the pinned
+/* Cards-reveal: same temporary mobile treatment -- drop the pinned
      poster/chip-flight hand-off for a plain static block with the three
      cards already shown stacked, until a dedicated mobile frame exists.
      The flying clones are only ever relevant to the desktop hand-off, so
      hide them outright here rather than leaving them to be positioned by
      script.js's (also mobile-skipped) flight math. */
-  .cards-reveal {
-    height: auto;
-    background: #000000;
-  }
 
-  .cards-reveal__sticky {
-    position: static;
-    height: auto;
-  }
 
-  .cards-reveal__stage {
-    aspect-ratio: unset;
-    width: 100%;
-    padding: 64px 24px;
-    box-sizing: border-box;
-  }
-
-  .cards-reveal__row {
-    position: static;
-    height: auto;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  body.js-anim .cards-reveal__card {
-    opacity: 1;
-  }
-
-  .cards-reveal__card {
-    width: 100%;
-    max-width: 320px;
-    height: 60vw;
-    max-height: 380px;
-    margin: 0 auto;
-    perspective: none;
-  }
-
-  /* No scroll-scrubbed flip on mobile (there's no pinned dwell to scrub
+/* No scroll-scrubbed flip on mobile (there's no pinned dwell to scrub
      against) -- instead each card starts front-facing and flips to its
      back face in one quick shot as the section enters the viewport, via
      .is-mobile-flipped (toggled by an IntersectionObserver in script.js).
      Faster + tighter stagger than the desktop 0.9s/0.12s version since
      this plays as a single scroll-triggered beat rather than something
      scrubbed by hand. */
-  .cards-reveal__card-inner {
-    transform: rotateY(0deg);
-    transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
-  }
 
-  .cards-reveal__card:nth-child(1) .cards-reveal__card-inner {
-    transition-delay: 0s;
-  }
 
-  .cards-reveal__card:nth-child(2) .cards-reveal__card-inner {
-    transition-delay: 0.06s;
-  }
-
-  .cards-reveal__card:nth-child(3) .cards-reveal__card-inner {
-    transition-delay: 0.12s;
-  }
-
-  .cards-reveal.is-mobile-flipped .cards-reveal__card-inner {
-    transform: rotateY(-180deg);
-  }
-
-  .cards-reveal__card-copy {
-    width: 85%;
-  }
-
-  .cards-reveal__card-title {
-    font-size: 28px;
-  }
-
-  .cards-reveal__card-desc {
-    font-size: 14px;
-  }
-
-  .cards-reveal__text-position {
-    position: static;
-    transform: none;
-    margin-top: 32px;
-  }
-
-  body.js-anim .cards-reveal__reveal {
-    opacity: 1;
-    transform: none;
-  }
-
-  .cards-reveal__text {
-    white-space: normal;
-  }
-
-  .cards-reveal__text-line {
-    font-size: 16px;
-  }
-
-  .flying-card {
-    display: none;
-  }
-
-  /* Work detail: same temporary mobile treatment as the sections above --
+/* Work detail: same temporary mobile treatment as the sections above --
      drop the fixed 1920x1080 poster for a plain stacked flow. Only the iMac
      screenshot is kept (the iPad/iPhone insets are too small to read at
      this width once unpinned from their poster-relative sizing), until a
@@ -5300,17 +2726,8 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     gap: 24px;
   }
 
-  .work-detail__mockup {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
-    filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.1));
-  }
 
-  .work-detail__info {
+.work-detail__info {
     position: static;
     left: auto;
     top: auto;
@@ -5319,24 +2736,12 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     gap: 32px;
   }
 
-  .work-detail__heading {
-    width: auto;
-  }
 
-  .work-detail__index-current {
-    font-size: 32px;
-  }
-
-  .work-detail__index-total {
-    font-size: 16px;
-  }
-
-  .work-detail__eyebrow {
+.work-detail__eyebrow {
     font-size: 15px;
   }
 
-  .work-detail__title-en,
-  .work-detail__title-em {
+  .work-detail__title-en {
     font-size: 56px;
   }
 
@@ -5351,32 +2756,8 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     font-size: 13px;
   }
 
-  .work-detail__link-icon {
-    width: 16px;
-    height: 16px;
-  }
 
-  .work-detail__meta-group--duration {
-    width: auto;
-  }
-
-  .work-detail__meta-label {
-    font-size: 18px;
-  }
-
-  .work-detail__meta-value,
-  .work-detail__brief p,
-  .work-detail__contributed-col p {
-    font-size: 15px;
-    white-space: normal;
-  }
-
-  .work-detail__contributed {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .work-detail__progress {
+.work-detail__progress {
     flex-wrap: wrap;
     row-gap: 16px;
     column-gap: 32px;
@@ -5403,45 +2784,16 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
      (rather than the bare one-class .work-scenes__device/__copy) is what
      lets this mobile override actually win over them, the same as it did
      before that scoping existed. */
-  .work-scenes--typo .work-scenes__device,
-  .work-scenes--crafting .work-scenes__device {
-    position: static;
-    transform: none;
-    width: 100%;
-    max-width: 420px;
-    height: auto;
-    filter: drop-shadow(0 4px 16px rgba(255, 255, 255, 0.15));
-  }
 
 
-.work-scenes--typo .work-scenes__copy,
-  .work-scenes--crafting .work-scenes__copy {
-    position: static;
-    width: 100%;
-    gap: 24px;
-  }
-
-  /* Eyebrow/cards are CRAFTING-only decoration positioned in absolute
+/* Eyebrow/cards are CRAFTING-only decoration positioned in absolute
      Figma-canvas coordinates -- meaningless once .work-scenes__device
      above collapses to a static, full-width block, so drop the cards
      entirely and let the eyebrow sit as a plain static line above the
      title instead of floating at its desktop coordinates. */
-  .work-scenes__eyebrow {
-    position: static;
-    width: auto;
-    text-align: left;
-  }
 
-  .work-scenes__card {
-    display: none;
-  }
 
-  .work-scenes__title {
-    font-size: 40px;
-    white-space: normal;
-  }
-
-  .work-scenes__desc-en {
+.work-scenes__desc-en {
     font-size: 20px;
     /* Skip the interaction, show the end state -- same reasoning as the
        other mobile fallbacks above (script.js's own mobile guard never
@@ -5449,412 +2801,29 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     color: #ffffff;
   }
 
-  .work-scenes__desc-kr {
-    font-size: 14px;
-  }
 
-  /* RETENTION has two devices in one scene (iPad + iPhone) rather than
+/* RETENTION has two devices in one scene (iPad + iPhone) rather than
      typo/crafting's one each, so both collapse to static, centered,
      max-width blocks stacked in DOM order by .work-scenes__stage's own
      mobile flex-column above, instead of sharing a single rule with
      those two scenes' one-device shape. */
-  .work-scenes--retention .work-scenes__device--ipad,
-  .work-scenes--retention .work-scenes__device--phone {
-    position: static;
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
-  }
 
-  .work-scenes--retention .work-scenes__device--ipad {
-    max-width: 420px;
-    aspect-ratio: 19.427 / 13.567;
-  }
 
-  .work-scenes--retention .work-scenes__device--phone {
-    max-width: 220px;
-    aspect-ratio: 10.6224 / 23.0388;
-  }
-
-  .work-scenes--retention .work-scenes__copy {
-    position: static;
-    width: 100%;
-    gap: 24px;
-  }
-
-  /* COMMUNITY & CREW's two iPhones (same shared bezel/aspect) collapse the
+/* COMMUNITY & CREW's two iPhones (same shared bezel/aspect) collapse the
      same way as RETENTION's own devices above -- static, centered,
      max-width blocks stacked in DOM order. */
-  .work-scenes--community .work-scenes__device--phone-1,
-  .work-scenes--community .work-scenes__device--phone-2,
-  .work-scenes--sharerun .work-scenes__device--phone-1,
-  .work-scenes--sharerun .work-scenes__device--phone-2,
-  .work-scenes--ai-partner .work-scenes__device--phone {
-    position: static;
-    width: 100%;
-    max-width: 220px;
-    height: auto;
-    aspect-ratio: 11.9872 / 25.999;
-    margin: 0 auto;
-  }
 
-  .work-scenes--community .work-scenes__copy {
-    position: static;
-    width: 100%;
-    gap: 24px;
-  }
 
-  .work-scenes--sharerun .work-scenes__copy {
-    position: static;
-    width: 100%;
-    gap: 24px;
-  }
-
-  .work-scenes--ai-partner .work-scenes__copy {
-    position: static;
-    width: 100%;
-    gap: 24px;
-  }
-
-  .work-scenes--ai-partner .work-scenes__links {
-    position: static;
-    gap: 12px;
-  }
-
-  .work-scenes__research-img {
-    position: static;
-    width: 100%;
-    height: auto;
-  }
-
-  .work-scenes--user-research .work-scenes__copy {
-    position: static;
-    width: 100%;
-    gap: 24px;
-  }
-
-  .work-scenes--user-research .work-scenes__title {
-    white-space: normal;
-  }
-
-  .work-scenes--user-research .work-scenes__title-en,
-  .work-scenes--user-research .work-scenes__title-em {
-    font-size: 40px;
-    letter-spacing: 0;
-  }
-
-  .work-scenes--user-research .work-scenes__desc {
-    gap: 20px;
-  }
-
-  .work-scenes--user-research .work-scenes__desc-en p {
-    font-size: 22px;
-    letter-spacing: 0;
-  }
-
-  .work-scenes--user-research .work-scenes__desc-kr p {
-    font-size: 15px;
-    letter-spacing: 0;
-  }
-
-  .work-scenes__onboarding-phone {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: min(252px, 72vw);
-    height: auto;
-    aspect-ratio: 252 / 513.492;
-  }
-
-  .work-scenes__onboarding-character {
-    position: absolute;
-    left: calc(50% + 70px);
-    top: 28px;
-    width: 54px;
-    height: 82px;
-  }
-
-  .work-scenes--friendly-onboarding .work-scenes__copy {
-    position: static;
-    width: 100%;
-    gap: 24px;
-  }
-
-  .work-scenes--friendly-onboarding .work-scenes__title {
-    white-space: normal;
-  }
-
-  .work-scenes--friendly-onboarding .work-scenes__title-en,
-  .work-scenes--friendly-onboarding .work-scenes__title-em {
-    font-size: 40px;
-    letter-spacing: 0;
-  }
-
-  .work-scenes--friendly-onboarding .work-scenes__desc {
-    gap: 20px;
-  }
-
-  .work-scenes--friendly-onboarding .work-scenes__desc-kr {
-    width: 100%;
-  }
-
-  .work-scenes__matching-phone {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: min(254px, 72vw);
-    height: auto;
-    aspect-ratio: 253.91 / 517.384;
-  }
-
-  .work-scenes--personalized-matching .work-scenes__copy {
-    position: static;
-    width: 100%;
-    gap: 24px;
-  }
-
-  .work-scenes--personalized-matching .work-scenes__title {
-    white-space: normal;
-  }
-
-  .work-scenes--personalized-matching .work-scenes__title-en,
-  .work-scenes--personalized-matching .work-scenes__title-em {
-    font-size: 40px;
-    letter-spacing: 0;
-  }
-
-  .work-scenes--personalized-matching .work-scenes__desc {
-    gap: 20px;
-  }
-
-  .work-scenes--personalized-matching .work-scenes__desc-kr {
-    width: 100%;
-  }
-
-  .work-scenes--personalized-matching .work-scenes__desc-kr p,
-  .work-scenes--beyond-matching .work-scenes__desc-kr p:nth-child(2) {
-    white-space: normal;
-  }
-
-  .work-scenes__beyond-phone {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: min(254px, 72vw);
-    height: auto;
-    aspect-ratio: 253.91 / 517.384;
-  }
-
-  .work-scenes--beyond-matching .work-scenes__copy {
-    position: static;
-    width: 100%;
-    gap: 24px;
-  }
-
-  .work-scenes--beyond-matching .work-scenes__title {
-    white-space: normal;
-  }
-
-  .work-scenes--beyond-matching .work-scenes__title-en,
-  .work-scenes--beyond-matching .work-scenes__title-em {
-    font-size: 40px;
-    letter-spacing: 0;
-  }
-
-  .work-scenes--beyond-matching .work-scenes__desc {
-    gap: 20px;
-  }
-
-  .work-scenes--beyond-matching .work-scenes__desc-kr {
-    width: 100%;
-  }
-
-  .work-scenes__deployment-photo {
-    position: static;
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-  }
-
-  .work-scenes--idea-deployment .work-scenes__copy {
-    position: static;
-    width: 100%;
-    gap: 24px;
-  }
-
-  .work-scenes--idea-deployment .work-scenes__title {
-    white-space: normal;
-  }
-
-  .work-scenes--idea-deployment .work-scenes__title-en,
-  .work-scenes--idea-deployment .work-scenes__title-em {
-    font-size: 40px;
-    letter-spacing: 0;
-  }
-
-  .work-scenes--idea-deployment .work-scenes__desc {
-    gap: 20px;
-  }
-
-  .work-scenes--idea-deployment .work-scenes__desc-kr {
-    width: 100%;
-  }
-
-  .work-scenes__deployment-links {
-    position: static;
-    gap: 12px;
-  }
-
-  .work-scenes__deployment-link {
-    height: 40px;
-    padding: 0 14px;
-    gap: 6px;
-    font-size: 13px;
-  }
-
-  .work-scenes__deployment-link-icon {
-    width: 16px;
-    height: 16px;
-  }
-
-  /* Work cover 3: same static-stack treatment as .work-detail's own mobile
+/* Work cover 3: same static-stack treatment as .work-detail's own mobile
      fallback above. */
-  .work-cover3 {
-    min-height: auto;
-  }
 
-  .work-cover3__stage {
-    aspect-ratio: unset;
-    width: 100%;
-    padding: 64px 24px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-  }
 
-  .work-cover3__mockup {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
-    filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.1));
-  }
-
-  /* Clone coding: same static-stack treatment as the work covers' own
+/* Clone coding: same static-stack treatment as the work covers' own
      mobile fallback above -- drop the absolute-positioned poster for a
      plain centered column, single card per row. */
-  .clone-coding__stage {
-    width: 100%;
-    height: auto;
-    padding: 70px 24px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 48px;
-  }
 
-  .clone-coding__intro {
-    position: static;
-    left: auto;
-    top: auto;
-    width: auto;
-    margin: 0;
-    transform: none;
-  }
 
-  .clone-coding__grid {
-    position: static;
-    inset: auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-    /* .clone-coding__grid's base (desktop) rule sets overflow-x: hidden
-       for the pinned filmstrip and never sets overflow-y -- per the CSS
-       overflow spec, one axis set to a non-visible value forces the other
-       to compute as auto instead of visible, so without this reset the
-       stacked column here silently grew its own ~40px scrollable overflow
-       and a nested scrollbar, independent of the page's own scroll. */
-    overflow: visible;
-  }
-
-  .clone-coding__card {
-    position: static;
-    width: min(88%, 380px);
-  }
-
-  .clone-coding__frame {
-    height: auto;
-    aspect-ratio: 726 / 455;
-  }
-
-  .ai-lab {
-    padding: 64px 0;
-  }
-
-  .ai-lab__stage {
-    width: 100%;
-    padding: 0 24px;
-    box-sizing: border-box;
-  }
-
-  .ai-lab__head {
-    gap: 18px;
-    margin-bottom: 28px;
-  }
-
-  .ai-lab__title-row {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  .ai-lab__title {
-    white-space: normal;
-  }
-
-  .ai-lab__title-en,
-  .ai-lab__title-em {
-    font-size: clamp(42px, 13vw, 58px);
-  }
-
-  .ai-lab__link {
-    height: 44px;
-    padding: 0 14px;
-    font-size: 14px;
-  }
-
-  .ai-lab__links {
-    gap: 12px;
-  }
-
-  .ai-lab__mockups {
-    --ai-lab-macbook-x: 0%;
-    --ai-lab-macbook-y: 0%;
-    --ai-lab-macbook-width: 100%;
-    --ai-lab-ipad-x: 8%;
-    --ai-lab-ipad-y: 58%;
-    --ai-lab-ipad-width: 48%;
-    --ai-lab-mobile-x: 72%;
-    --ai-lab-mobile-y: 51%;
-    --ai-lab-mobile-width: 24%;
-    width: 100%;
-    aspect-ratio: 1 / 1.12;
-  }
-
-  .ai-lab__cursor-card,
-  .ai-lab__cursor-copy {
-    display: none;
-  }
-
-  /* Skill content: same static-stack treatment -- drop the sticky pin
+/* Skill content: same static-stack treatment -- drop the sticky pin
      (no scroll-jacking on mobile) and the 3D icon carousel (purely
      decorative, aria-hidden), stacking title/subtitle/columns in a
      plain centered column instead. */
@@ -5912,9 +2881,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   .header__inner {
     padding: 16px 20px;
   }
-  .logo__mark {
-    height: 19px;
-  }
+
   .hamburger {
     width: 28px;
     height: 28px;
@@ -5929,17 +2896,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     font-size: 13px;
   }
 
-  .reason-quote .line {
-    font-size: clamp(34px, 10.8vw, 48px);
-    gap: 10px;
-    line-height: 1.02;
-  }
 
-  .media-chip {
-    width: 82px;
-    height: 54px;
-    border-radius: 8px;
-  }
 }
 
 /* Small Mobile 375 */
@@ -5947,19 +2904,8 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   .header__inner {
     padding: 14px 16px;
   }
-  .logo__mark {
-    height: 17px;
-  }
 
-  .reason-quote .line {
-    font-size: clamp(31px, 10.2vw, 40px);
-    gap: 8px;
-  }
 
-  .media-chip {
-    width: 72px;
-    height: 48px;
-  }
 }
 
 /* ==========================================================================
@@ -5997,12 +2943,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
 
   .hero,
 .intro-reasons,
-.reason-quote,
-.cards-reveal,
 .work-detail,
-.work-cover3,
-.clone-coding,
-.ai-lab,
 .skill-content,
 .site-footer {
     max-width: 100%;
@@ -6065,22 +3006,13 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     display: none;
   }
 
-  .intro-reasons__text-kr {
-    display: block;
-    opacity: 1;
-    transform: none;
-  }
 
-  .intro-reasons__text.is-swapped .intro-reasons__text-en {
+.intro-reasons__text.is-swapped .intro-reasons__text-en {
     display: none;
   }
 
-  .intro-reasons__text.is-swapped .intro-reasons__text-kr {
-    opacity: 1;
-    transform: translateY(0);
-  }
 
-  .intro-reasons {
+.intro-reasons {
     height: auto;
     min-height: auto;
   }
@@ -6110,13 +3042,10 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   }
 
   .work-detail__track,
-  .work-detail__panel,
-  .work-scenes,
-  .work-scenes__stage,
-  .work-cover3__stage,
-  .clone-coding__stage,
-  .skill-content__stage,
-  .ai-lab__stage {
+.work-detail__panel,
+.work-scenes,
+.work-scenes__stage,
+.skill-content__stage {
     width: 100%;
     max-width: 100%;
   }
@@ -6129,16 +3058,12 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     gap: calc(4.9 * var(--u));
   }
 
-  .work-detail__mockup,
-  .work-cover3__mockup {
-    width: min(92%, 320px);
-  }
 
-  .work-detail__info {
+.work-detail__info {
     width: min(100%, 560px);
   }
 
-  .work-detail__panel:first-of-type {
+  #workTouslesjours .work-detail__panel {
     background-image: var(--mobile-grid-images);
     background-position: var(--mobile-grid-positions);
     background-size: var(--mobile-grid-sizes);
@@ -6160,44 +3085,8 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     background: #000000;
   }
 
-  .work-scenes__copy,
-  .work-scenes--crafting .work-scenes__copy,
-  .work-scenes--typo .work-scenes__copy,
-  .work-scenes--beforeafter .work-scenes__copy,
-  .work-scenes--editorial .work-scenes__copy,
-  .work-scenes--together .work-scenes__copy,
-  .work-scenes--retention .work-scenes__copy,
-  .work-scenes--community .work-scenes__copy,
-  .work-scenes--sharerun .work-scenes__copy,
-  .work-scenes--ai-partner .work-scenes__copy,
-  .work-scenes--user-research .work-scenes__copy,
-  .work-scenes--friendly-onboarding .work-scenes__copy,
-  .work-scenes--personalized-matching .work-scenes__copy,
-  .work-scenes--beyond-matching .work-scenes__copy,
-  .work-scenes--idea-deployment .work-scenes__copy {
-    position: static;
-    left: auto;
-    top: auto;
-    width: min(100%, 560px);
-    gap: 22px;
-    display: flex;
-    opacity: 1;
-    transform: none;
-    visibility: visible;
-  }
 
-  .work-scenes__device,
-  .work-scenes--crafting .work-scenes__device,
-  .work-scenes--typo .work-scenes__device,
-  .work-scenes--beforeafter .work-scenes__device,
-  .work-scenes--editorial .work-scenes__device,
-  .work-scenes--retention .work-scenes__device--ipad,
-  .work-scenes--retention .work-scenes__device--phone,
-  .work-scenes--community .work-scenes__device--phone-1,
-  .work-scenes--community .work-scenes__device--phone-2,
-  .work-scenes--sharerun .work-scenes__device--phone-1,
-  .work-scenes--sharerun .work-scenes__device--phone-2,
-  .work-scenes--ai-partner .work-scenes__device--phone {
+.work-scenes__device {
     position: relative;
     left: auto;
     top: auto;
@@ -6207,279 +3096,45 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     filter: drop-shadow(0 4px 16px rgba(255, 255, 255, 0.15));
   }
 
-  .work-scenes--crafting .work-scenes__device,
-  .work-scenes--typo .work-scenes__device,
-  .work-scenes--editorial .work-scenes__device {
-    width: min(92%, 320px);
-  }
 
-  .work-scenes--crafting .work-scenes__device {
-    aspect-ratio: 26.7708 / 16.8062;
-  }
-
-  .work-scenes--typo .work-scenes__device {
-    aspect-ratio: 605.145 / 340.394;
-  }
-
-  .work-scenes--editorial .work-scenes__device {
-    aspect-ratio: 30.37 / 21.196;
-  }
-
-  .work-scenes--beforeafter .work-scenes__device,
-  .work-scenes--retention .work-scenes__device--ipad {
-    width: min(78%, 290px);
-  }
-
-  .work-scenes--beforeafter .work-scenes__device {
-    aspect-ratio: 21.14 / 28.1419;
-    width: min(62%, 220px);
-  }
-
-  .work-scenes--retention .work-scenes__device--ipad {
-    aspect-ratio: 19.427 / 13.567;
-  }
-
-  .work-scenes--retention .work-scenes__device--phone,
-  .work-scenes--community .work-scenes__device--phone-1,
-  .work-scenes--community .work-scenes__device--phone-2,
-  .work-scenes--sharerun .work-scenes__device--phone-1,
-  .work-scenes--sharerun .work-scenes__device--phone-2,
-  .work-scenes--ai-partner .work-scenes__device--phone,
-  .work-scenes__onboarding-phone,
-  .work-scenes__matching-phone,
-  .work-scenes__beyond-phone {
-    width: min(42%, 158px);
-  }
-
-  .work-scenes--retention .work-scenes__device--phone {
-    aspect-ratio: 10.6224 / 23.0388;
-  }
-
-  .work-scenes--community .work-scenes__device--phone-1,
-  .work-scenes--community .work-scenes__device--phone-2,
-  .work-scenes--sharerun .work-scenes__device--phone-1,
-  .work-scenes--sharerun .work-scenes__device--phone-2,
-  .work-scenes--ai-partner .work-scenes__device--phone {
-    aspect-ratio: 11.9872 / 25.999;
-  }
-
-  .work-detail--p2 .work-scenes--retention,
-  .work-detail--p2 .work-scenes--community,
-  .work-detail--p2 .work-scenes--sharerun {
-    display: grid;
-    grid-template-columns: minmax(0, 168px) minmax(0, 118px);
-    align-items: center;
-    justify-items: center;
-    justify-content: center;
-    column-gap: 14px;
-    row-gap: 30px;
-  }
-
-  .work-detail--p2 .work-scenes--retention .work-scenes__eyebrow,
-  .work-detail--p2 .work-scenes--retention .work-scenes__copy,
-  .work-detail--p2 .work-scenes--community .work-scenes__copy,
-  .work-detail--p2 .work-scenes--sharerun .work-scenes__copy {
-    grid-column: 1 / -1;
-    width: min(calc(100vw - 48px), 560px);
-    justify-self: center;
-  }
-
-  .work-detail--p2 .work-scenes--retention .work-scenes__eyebrow {
-    width: 100%;
-    text-align: center;
-    justify-self: center;
-  }
-
-  .work-scenes--retention .work-scenes__device--ipad {
-    width: min(100%, 168px);
-  }
-
-  .work-scenes--retention .work-scenes__device--phone,
-  .work-scenes--community .work-scenes__device--phone-1,
-  .work-scenes--community .work-scenes__device--phone-2,
-  .work-scenes--sharerun .work-scenes__device--phone-1,
-  .work-scenes--sharerun .work-scenes__device--phone-2 {
-    width: min(72%, 108px);
-  }
-
-  .work-detail--p3 .work-scenes--personalized-matching,
-  .work-detail--p3 .work-scenes--beyond-matching {
-    display: grid;
-    grid-template-columns: minmax(0, 108px) minmax(0, 108px);
-    align-items: center;
-    justify-items: center;
-    justify-content: center;
-    column-gap: 14px;
-    row-gap: 30px;
-  }
-
-  .work-detail--p3 .work-scenes--personalized-matching .work-scenes__copy,
-  .work-detail--p3 .work-scenes--beyond-matching .work-scenes__copy {
-    grid-column: 1 / -1;
-    width: min(calc(100vw - 48px), 560px);
-    justify-self: center;
-  }
-
-  .work-detail--p3 .work-scenes__matching-phone,
-  .work-detail--p3 .work-scenes__beyond-phone {
-    width: min(72%, 108px);
-  }
-
-  .work-scenes__copy {
-    margin-top: 18px;
-  }
-
-  .work-scenes__media,
-  .work-scenes--together .work-scenes__media--video,
-  .work-scenes--together .work-scenes__media--photo,
-  .work-scenes__research-img,
-  .work-scenes__deployment-photo {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: min(92%, 320px);
-    height: auto;
-    margin: 0 auto;
-  }
-
-  .work-scenes__onboarding-character {
-    display: none;
-  }
-
-  .work-scenes--together .work-scenes__media--video {
-    aspect-ratio: 726 / 1080;
-  }
-
-  .work-scenes--together .work-scenes__media--photo,
-  .work-scenes__research-img,
-  .work-scenes__deployment-photo {
-    aspect-ratio: 4 / 3;
-  }
-
-  .work-scenes--typo .work-scenes__device {
-    margin-bottom: 42px;
-  }
-
-  .work-scenes--together {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: center;
-    column-gap: 8px;
-    row-gap: 30px;
-  }
-
-  .work-scenes--together .work-scenes__media--video,
-  .work-scenes--together .work-scenes__media--photo {
-    width: 100%;
-    max-width: 190px;
-    margin: 0;
-  }
-
-  /* Each column here is much wider than the 190px photo it holds, so
+/* Each column here is much wider than the 190px photo it holds, so
      centering both within their own column (justify-self: center) left a
      large gap at the shared boundary. Pushing the left one to its
      column's end and the right one to its column's start instead pulls
      them together against that boundary, so the visual gap between the
      two photos is just column-gap. */
-  .work-scenes--together .work-scenes__media--video {
-    justify-self: end;
-  }
 
-  .work-scenes--together .work-scenes__media--photo {
-    justify-self: start;
-  }
 
-  .work-scenes--together .work-scenes__copy,
-  .work-scenes--together .work-scenes__links {
-    grid-column: 1 / -1;
-  }
-
-  .work-scenes--together .work-scenes__copy {
-    align-items: center;
-    justify-self: center;
-    margin: 0 auto;
-  }
-
-  .work-scenes--together .work-scenes__links {
-    justify-content: flex-start;
-    justify-self: center;
-    margin: 0 auto;
-  }
-
-  .work-scenes__title,
-  .work-scenes--user-research .work-scenes__title,
-  .work-scenes--friendly-onboarding .work-scenes__title,
-  .work-scenes--personalized-matching .work-scenes__title,
-  .work-scenes--beyond-matching .work-scenes__title,
-  .work-scenes--idea-deployment .work-scenes__title {
-    width: 100%;
-    font-size: clamp(34px, 7.2vw, 46px);
-    letter-spacing: 0;
-    white-space: normal;
-  }
-
-  .work-scenes__desc {
+.work-scenes__desc {
     gap: 18px;
   }
 
-  .work-scenes__desc-en,
-  .work-scenes--user-research .work-scenes__desc-en p {
+  .work-scenes__desc-en {
     color: #ffffff;
     font-size: clamp(21px, 4.2vw, 28px);
     line-height: 1.18;
     letter-spacing: 0;
   }
 
-  .work-scenes--together .work-scenes__desc-en {
-    width: 100%;
-  }
 
-  .work-scenes__desc-en .fill-char {
+.work-scenes__desc-en .fill-char {
     color: #ffffff !important;
     opacity: 1 !important;
     filter: none !important;
     transform: none !important;
   }
 
-  .work-scenes__title,
-  .work-scenes__title *,
   .work-scenes__desc-en,
-  .work-scenes__desc-en *,
-  .work-scenes__desc-kr,
-  .work-scenes__desc-kr * {
+.work-scenes__desc-en * {
     opacity: 1 !important;
     filter: none !important;
     transform: none !important;
     visibility: visible !important;
   }
 
-  .work-scenes__desc-kr,
-  .work-scenes--user-research .work-scenes__desc-kr p,
-  .work-scenes--together .work-scenes__desc-kr,
-  .work-scenes--friendly-onboarding .work-scenes__desc-kr,
-  .work-scenes--personalized-matching .work-scenes__desc-kr,
-  .work-scenes--beyond-matching .work-scenes__desc-kr,
-  .work-scenes--idea-deployment .work-scenes__desc-kr {
-    width: 100%;
-    color: rgba(255, 255, 255, 0.74);
-    font-size: 15px;
-    line-height: 1.55;
-    letter-spacing: 0;
-  }
 
-  .work-scenes__desc-en p,
-  .work-scenes__desc-kr p {
+.work-scenes__desc-en p {
     white-space: normal;
-  }
-
-  .work-scenes__links,
-  .work-scenes--ai-partner .work-scenes__links,
-  .work-scenes__deployment-links {
-    position: static;
-    left: auto;
-    top: auto;
-    justify-content: flex-start;
-    width: min(100%, 560px);
   }
 
 
@@ -6503,19 +3158,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
 
   .work-transition__wipe,
 .skill-transition__wipe {
-    /* position:relative (not static) + z-index:41 -- same convention as
-       .skill-content/.reason-quote__sticky/.cards-reveal__sticky: without
-       an explicit stacking context here, #scrollDarkOverlay's z-index:40
-       paints over this content instead of staying behind it, since the
-       desktop .work-transition__sticky/.skill-transition__sticky/
-       .about-transition__sticky wrapper's own z-index:41 stops taking
-       effect once position:sticky is reset to static on mobile (z-index is
-       inert on statically positioned elements). This was the actual cause
-       of skill-transition's title reading as washed-out gray instead of
-       white on mobile -- the overlay (opacity driven by
-       skillTransitionDarkContribution, which stays near its peak for the
-       section's entire dwell, not just its edges) was compositing on top
-       of it the whole time it was on screen. */
+
     position: relative;
     z-index: 41;
     display: flex;
@@ -6570,12 +3213,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     letter-spacing: -0.03em;
   }
 
-  /* work-transition/skill-transition/about-transition reveal as one whole
-     block (no per-char JS driver on mobile -- see updateWorkTransition/
-     updateSkillTransition/updateAboutTransition's mobile branch, which just
-     clears fog-char inline styles and leaves this transition in charge),
-     triggered once by mobileTransitionFogObserver toggling
-     .is-mobile-fog-visible. */
+
   .work-transition__title,
 .skill-transition__title {
     opacity: 0;
@@ -6612,173 +3250,25 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     transform: none;
   }
 
-  .work-detail__links,
-  .work-scenes__links,
-  .work-scenes__deployment-links,
-  .ai-lab__links {
+  .work-detail__links {
     flex-wrap: wrap;
   }
 
-  .work-detail__link,
-  .work-scenes__link,
-  .work-scenes__deployment-link,
-  .ai-lab__link {
+  .work-detail__link {
     max-width: 100%;
   }
 
-  .work-scenes__link,
-  .work-scenes__deployment-link {
-    min-height: 44px;
-    padding: 0 16px;
-    border-width: 1px;
-    gap: 8px;
-    font-size: 14px;
-  }
 
-
-.clone-coding__chips {
-    gap: 10px;
-  }
-
-
-.clone-coding__title-em,
-  .clone-coding__title-en {
-    font-size: clamp(42px, 13vw, 58px);
-    letter-spacing: 0;
-  }
-
-  .work-detail__eyebrow,
-  .work-detail__title,
-  .work-scenes__title,
-  .clone-coding__title,
-  .skill-content__title,
-  .ai-lab__title {
+.work-detail__eyebrow,
+.work-detail__title,
+.skill-content__title {
     max-width: 100%;
     white-space: normal;
     overflow-wrap: anywhere;
   }
 
-  .reason-quote__stage {
-    padding: 70px 20px;
-  }
 
-  .sentence {
-    gap: 8px;
-  }
-
-  .reason-quote .line {
-    column-gap: 12px;
-    row-gap: 4px;
-    font-size: clamp(42px, 8.5vw, 68px);
-    line-height: 1.03;
-  }
-
-  .reason-quote__mobile-break {
-    display: block;
-    flex: 0 0 100%;
-    width: 100%;
-    height: 0;
-  }
-
-  .media-chip {
-    width: 0;
-    height: 62px;
-    border-radius: 10px;
-    opacity: 0;
-    margin: 0;
-  }
-
-  .media-chip.is-revealed {
-    width: 96px;
-    opacity: 1;
-    margin: 0 5px;
-  }
-
-  .cards-reveal__row {
-    gap: 28px;
-  }
-
-  .cards-reveal__card {
-    width: min(100%, 360px);
-    max-width: none;
-    height: auto;
-    max-height: none;
-    aspect-ratio: 1.18 / 1;
-  }
-
-  .cards-reveal__card-face {
-    border-radius: 8px;
-  }
-
-  .cards-reveal__card-face--front img,
-  .cards-reveal__card-face-photo {
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    object-fit: cover;
-    object-position: center center;
-  }
-
-  .cards-reveal__card-copy {
-    width: min(82%, 280px);
-    gap: 18px;
-  }
-
-  .cards-reveal__card-title {
-    font-size: 30px;
-  }
-
-  .cards-reveal__card-desc {
-    font-size: 15px;
-    line-height: 1.55;
-  }
-
-  .ai-lab__mockups {
-    display: grid;
-    grid-template-columns: max-content max-content;
-    align-items: center;
-    justify-items: center;
-    justify-content: center;
-    column-gap: 18px;
-    row-gap: 30px;
-    width: 100%;
-    aspect-ratio: auto;
-    margin: 0 auto;
-  }
-
-  .ai-lab {
-    background-image: var(--mobile-grid-images), linear-gradient(#ffffff, #ffffff);
-    background-position: var(--mobile-grid-positions), 0 0;
-    background-size: var(--mobile-grid-sizes), 100% 100%;
-    background-repeat: no-repeat;
-    background-attachment: fixed, scroll;
-  }
-
-  .ai-lab__device {
-    position: relative;
-    left: auto;
-    top: auto;
-    max-width: 100%;
-    transform: none;
-  }
-
-  .ai-lab__browser {
-    grid-column: 1 / -1;
-    width: min(100%, 640px);
-  }
-
-  .ai-lab__device--ipad {
-    width: min(58vw, 250px);
-    justify-self: center;
-  }
-
-  .ai-lab__device--mobile {
-    width: min(24vw, 106px);
-    justify-self: center;
-  }
-
-  .quick-qa__arrow {
+.quick-qa__arrow {
     width: 34px;
     height: 34px;
   }
@@ -6877,117 +3367,19 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     font-size: clamp(66px, 18.4vw, 82px);
   }
 
-  .work-detail__mockup,
-  .work-cover3__mockup,
-  .work-scenes--crafting .work-scenes__device,
-  .work-scenes--typo .work-scenes__device,
-  .work-scenes--editorial .work-scenes__device,
-  .work-scenes__media,
-  .work-scenes--together .work-scenes__media--photo,
-  .work-scenes__research-img,
-  .work-scenes__deployment-photo {
-    width: min(92%, 335px);
-  }
 
-  .work-scenes--beforeafter .work-scenes__device,
-  .work-scenes--retention .work-scenes__device--ipad {
-    width: min(76%, 260px);
-  }
-
-  .work-scenes--beforeafter .work-scenes__device {
-    width: min(58%, 198px);
-  }
-
-  .work-scenes--retention .work-scenes__device--phone,
-  .work-scenes--community .work-scenes__device--phone-1,
-  .work-scenes--community .work-scenes__device--phone-2,
-  .work-scenes--sharerun .work-scenes__device--phone-1,
-  .work-scenes--sharerun .work-scenes__device--phone-2,
-  .work-scenes--ai-partner .work-scenes__device--phone,
-  .work-scenes__onboarding-phone,
-  .work-scenes__matching-phone,
-  .work-scenes__beyond-phone {
-    width: min(48%, 148px);
-  }
-
-  .work-scenes__stage {
+.work-scenes__stage {
     gap: 24px;
     padding: 60px 20px;
   }
 
-  .work-scenes--typo .work-scenes__device {
-    margin-bottom: 42px;
-  }
 
-  .work-scenes--together {
-    column-gap: 12px;
-    row-gap: 26px;
-  }
-
-  .work-scenes--together .work-scenes__media--video,
-  .work-scenes--together .work-scenes__media--photo {
-    max-width: 126px;
-  }
-
-  .work-detail--p2 .work-scenes--retention,
-  .work-detail--p2 .work-scenes--community,
-  .work-detail--p2 .work-scenes--sharerun,
-  .work-detail--p3 .work-scenes--personalized-matching,
-  .work-detail--p3 .work-scenes--beyond-matching {
-    column-gap: 12px;
-    row-gap: 26px;
-  }
-
-  .work-detail--p2 .work-scenes--retention,
-  .work-detail--p2 .work-scenes--community,
-  .work-detail--p2 .work-scenes--sharerun {
-    grid-template-columns: minmax(0, 154px) minmax(0, 104px);
-  }
-
-  .work-detail--p3 .work-scenes--personalized-matching,
-  .work-detail--p3 .work-scenes--beyond-matching {
-    grid-template-columns: minmax(0, 98px) minmax(0, 98px);
-  }
-
-  .work-scenes--retention .work-scenes__device--ipad {
-    width: min(100%, 154px);
-  }
-
-  .work-scenes--retention .work-scenes__device--phone,
-  .work-scenes--community .work-scenes__device--phone-1,
-  .work-scenes--community .work-scenes__device--phone-2,
-  .work-scenes--sharerun .work-scenes__device--phone-1,
-  .work-scenes--sharerun .work-scenes__device--phone-2,
-  .work-detail--p3 .work-scenes__matching-phone,
-  .work-detail--p3 .work-scenes__beyond-phone {
-    width: min(70%, 98px);
-  }
-
-  .work-scenes__title,
-  .work-scenes--user-research .work-scenes__title-en,
-  .work-scenes--user-research .work-scenes__title-em,
-  .work-scenes--friendly-onboarding .work-scenes__title-en,
-  .work-scenes--friendly-onboarding .work-scenes__title-em,
-  .work-scenes--personalized-matching .work-scenes__title-en,
-  .work-scenes--personalized-matching .work-scenes__title-em,
-  .work-scenes--beyond-matching .work-scenes__title-en,
-  .work-scenes--beyond-matching .work-scenes__title-em,
-  .work-scenes--idea-deployment .work-scenes__title-en,
-  .work-scenes--idea-deployment .work-scenes__title-em {
-    font-size: 34px;
-  }
-
-  .work-scenes__desc-en,
-  .work-scenes--user-research .work-scenes__desc-en p {
+.work-scenes__desc-en {
     font-size: 21px;
   }
 
-  .work-scenes__desc-kr,
-  .work-scenes--user-research .work-scenes__desc-kr p {
-    font-size: 14px;
-  }
 
-  .intro-reasons__stage {
+.intro-reasons__stage {
     padding-top: 82px;
     padding-bottom: 64px;
   }
@@ -7005,86 +3397,12 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   }
 
   .work-detail__stage,
-  .work-cover3__stage,
-  .clone-coding__stage,
-  .skill-content__stage,
-  .ai-lab__stage {
+.skill-content__stage {
     padding-left: 20px;
     padding-right: 20px;
   }
 
-  .ai-lab__stage {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
 
-  .ai-lab__head {
-    margin-bottom: 24px;
-  }
-
-  .ai-lab__links {
-    gap: 10px;
-  }
-
-  .reason-quote .line {
-    column-gap: 10px;
-    row-gap: 3px;
-    font-size: clamp(34px, 10.8vw, 48px);
-    line-height: 1.02;
-  }
-
-  .media-chip {
-    width: 0;
-    height: 50px;
-    border-radius: 8px;
-    opacity: 0;
-    margin: 0;
-  }
-
-  .media-chip.is-revealed {
-    width: 76px;
-    opacity: 1;
-    margin: 0 4px;
-  }
-
-  .cards-reveal__stage {
-    padding: 56px 20px;
-  }
-
-  .cards-reveal__row {
-    gap: 24px;
-  }
-
-  .cards-reveal__card {
-    width: 100%;
-    aspect-ratio: 1.12 / 1;
-  }
-
-  .cards-reveal__card-copy {
-    width: 84%;
-    gap: 16px;
-  }
-
-  .cards-reveal__card-title {
-    font-size: 27px;
-  }
-
-  .cards-reveal__card-desc {
-    font-size: 14px;
-  }
-
-  .ai-lab__mockups {
-    column-gap: 16px;
-    row-gap: 26px;
-  }
-
-  .ai-lab__device--ipad {
-    width: min(58vw, 230px);
-  }
-
-  .ai-lab__device--mobile {
-    width: min(24vw, 102px);
-  }
 }
 
 @media (max-width: 375px) {
@@ -7099,108 +3417,14 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     font-size: 62px;
   }
 
-  .work-detail__mockup,
-  .work-cover3__mockup,
-  .work-scenes--crafting .work-scenes__device,
-  .work-scenes--typo .work-scenes__device,
-  .work-scenes--editorial .work-scenes__device,
-  .work-scenes__media,
-  .work-scenes--together .work-scenes__media--photo,
-  .work-scenes__research-img,
-  .work-scenes__deployment-photo {
-    width: min(92%, 270px);
-  }
 
-  .work-scenes--beforeafter .work-scenes__device,
-  .work-scenes--retention .work-scenes__device--ipad {
-    width: min(76%, 240px);
-  }
-
-  .work-scenes--beforeafter .work-scenes__device {
-    width: min(56%, 184px);
-  }
-
-  .work-scenes--retention .work-scenes__device--phone,
-  .work-scenes--community .work-scenes__device--phone-1,
-  .work-scenes--community .work-scenes__device--phone-2,
-  .work-scenes--sharerun .work-scenes__device--phone-1,
-  .work-scenes--sharerun .work-scenes__device--phone-2,
-  .work-scenes--ai-partner .work-scenes__device--phone,
-  .work-scenes__onboarding-phone,
-  .work-scenes__matching-phone,
-  .work-scenes__beyond-phone {
-    width: min(50%, 138px);
-  }
-
-  .work-scenes__stage {
+.work-scenes__stage {
     gap: 22px;
     padding: 50px 16px;
   }
 
-  .work-scenes--typo .work-scenes__device {
-    margin-bottom: 42px;
-  }
 
-  .work-scenes--together {
-    column-gap: 10px;
-    row-gap: 24px;
-  }
-
-  .work-scenes--together .work-scenes__media--video,
-  .work-scenes--together .work-scenes__media--photo {
-    max-width: 114px;
-  }
-
-  .work-detail--p2 .work-scenes--retention,
-  .work-detail--p2 .work-scenes--community,
-  .work-detail--p2 .work-scenes--sharerun,
-  .work-detail--p3 .work-scenes--personalized-matching,
-  .work-detail--p3 .work-scenes--beyond-matching {
-    column-gap: 10px;
-    row-gap: 24px;
-  }
-
-  .work-detail--p2 .work-scenes--retention,
-  .work-detail--p2 .work-scenes--community,
-  .work-detail--p2 .work-scenes--sharerun {
-    grid-template-columns: minmax(0, 140px) minmax(0, 96px);
-  }
-
-  .work-detail--p3 .work-scenes--personalized-matching,
-  .work-detail--p3 .work-scenes--beyond-matching {
-    grid-template-columns: minmax(0, 90px) minmax(0, 90px);
-  }
-
-  .work-scenes--retention .work-scenes__device--ipad {
-    width: min(100%, 140px);
-  }
-
-  .work-scenes--retention .work-scenes__device--phone,
-  .work-scenes--community .work-scenes__device--phone-1,
-  .work-scenes--community .work-scenes__device--phone-2,
-  .work-scenes--sharerun .work-scenes__device--phone-1,
-  .work-scenes--sharerun .work-scenes__device--phone-2,
-  .work-detail--p3 .work-scenes__matching-phone,
-  .work-detail--p3 .work-scenes__beyond-phone {
-    width: min(68%, 90px);
-  }
-
-  .work-scenes__title,
-  .work-scenes--user-research .work-scenes__title-en,
-  .work-scenes--user-research .work-scenes__title-em,
-  .work-scenes--friendly-onboarding .work-scenes__title-en,
-  .work-scenes--friendly-onboarding .work-scenes__title-em,
-  .work-scenes--personalized-matching .work-scenes__title-en,
-  .work-scenes--personalized-matching .work-scenes__title-em,
-  .work-scenes--beyond-matching .work-scenes__title-en,
-  .work-scenes--beyond-matching .work-scenes__title-em,
-  .work-scenes--idea-deployment .work-scenes__title-en,
-  .work-scenes--idea-deployment .work-scenes__title-em {
-    font-size: 31px;
-  }
-
-  .work-scenes__desc-en,
-  .work-scenes--user-research .work-scenes__desc-en p {
+.work-scenes__desc-en {
     font-size: 19px;
   }
 
@@ -7221,98 +3445,17 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   }
 
   .work-detail__stage,
-  .work-cover3__stage,
-  .clone-coding__stage,
-  .skill-content__stage,
-  .ai-lab__stage {
+.skill-content__stage {
     padding-left: 16px;
     padding-right: 16px;
   }
 
-  .ai-lab__title-en,
-  .ai-lab__title-em,
-  .clone-coding__title-em,
-  .clone-coding__title-en {
-    font-size: 40px;
-  }
 
-  .ai-lab__link {
-    height: 40px;
-    min-height: 40px;
-    padding: 0 12px;
-    font-size: 13px;
-  }
-
-  .reason-quote .line {
-    column-gap: 8px;
-    row-gap: 2px;
-    font-size: clamp(31px, 10.2vw, 40px);
-  }
-
-  .media-chip {
-    width: 0;
-    height: 44px;
-    opacity: 0;
-    margin: 0;
-  }
-
-  .media-chip.is-revealed {
-    width: 66px;
-    opacity: 1;
-    margin: 0 4px;
-  }
-
-  .cards-reveal__stage {
-    padding: 52px 16px;
-  }
-
-  .cards-reveal__row {
-    gap: 22px;
-  }
-
-  .cards-reveal__card-copy {
-    gap: 14px;
-  }
-
-  .cards-reveal__card-title {
-    font-size: 25px;
-  }
-
-  .cards-reveal__card-desc {
-    font-size: 13px;
-  }
-
-  .ai-lab__device--mobile {
-    width: min(50%, 148px);
-  }
-
-  .ai-lab__device--ipad {
-    width: min(100%, 210px);
-  }
-
-  .ai-lab__device--mobile {
-    width: min(58%, 94px);
-  }
 }
 
 @media (max-width: 1023px) {
   .work-detail__link,
-.work-scenes__link,
-.work-scenes__deployment-link,
-.work-detail__meta-value,
-.work-detail__brief p,
-.work-detail__contributed-col p,
-.work-scenes__eyebrow,
-.cards-reveal__card-desc,
-.cards-reveal__text-line,
 .intro-reasons__text-line,
-.work-scenes__desc-kr,
-.work-scenes__desc-kr p,
-.ai-lab__link,
-.ai-lab__summary,
-.clone-coding__subtitle,
-.clone-coding__chip,
-.clone-coding__caption,
 .quick-qa__subtitle,
 .quick-qa__answer,
 .site-footer__nav a,
@@ -7321,129 +3464,22 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     font-size: max(14px, 1em);
   }
 
-  .work-detail__link,
-  .work-scenes__link,
-  .work-scenes__deployment-link {
+  .work-detail__link {
     border-radius: 999px;
   }
 
-  .work-scenes__link,
-  .work-scenes__deployment-link {
-    min-height: 44px;
-    padding: 0 16px;
-    gap: 8px;
-    font-size: 14px;
-  }
 
-  .work-scenes__link-icon,
-  .work-scenes__deployment-link-icon {
-    width: 18px;
-    height: 18px;
-  }
-
-  .clone-coding__chip {
-    min-height: 34px;
-    padding: 8px 14px;
-    font-size: 14px;
-    letter-spacing: 0;
-  }
-
-  .clone-coding__title {
-    white-space: normal;
-  }
-
-  .clone-coding__badge {
-    width: calc(7.5 * var(--u));
-    height: calc(7.5 * var(--u));
-    gap: calc(0.4 * var(--u));
-  }
-
-  .clone-coding__badge-icon {
-    width: calc(1.6 * var(--u));
-    height: calc(1.6 * var(--u));
-  }
-
-  .work-detail--p3 .work-detail__progress-item, .work-detail--p2 .work-detail__progress-item, .work-detail__progress-item {
+.work-detail--p3 .work-detail__progress-item,
+.work-detail__progress-item {
     padding-left: 12px;
     padding-right: 12px;
   }
 }
 
 @media (max-width: 1023px) {
-  .work-scenes--crafting .work-scenes__device {
-    margin-top: 26px;
-  }
 
-  .work-detail--p2 .work-scenes--community,
-  .work-detail--p2 .work-scenes--sharerun {
-    grid-template-columns: repeat(2, minmax(0, 150px));
-  }
 
-  .work-scenes--community .work-scenes__device--phone-1,
-  .work-scenes--community .work-scenes__device--phone-2,
-  .work-scenes--sharerun .work-scenes__device--phone-1,
-  .work-scenes--sharerun .work-scenes__device--phone-2 {
-    width: 130px;
-    max-width: 100%;
-    aspect-ratio: 11.9872 / 25.999;
-  }
-
-  .work-detail--p3 .work-scenes--personalized-matching,
-  .work-detail--p3 .work-scenes--beyond-matching {
-    grid-template-columns: repeat(2, minmax(0, 150px));
-  }
-
-  .work-scenes__onboarding-phone,
-  .work-detail--p3 .work-scenes__matching-phone,
-  .work-detail--p3 .work-scenes__beyond-phone {
-    width: 150px;
-    max-width: 100%;
-  }
-
-  .work-scenes--idea-deployment {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 150px));
-    align-items: stretch;
-    justify-content: center;
-    justify-items: center;
-    column-gap: 18px;
-    row-gap: 30px;
-  }
-
-  .work-scenes--idea-deployment .work-scenes__deployment-photo {
-    width: 100%;
-    max-width: none;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    margin: 0;
-  }
-
-  .work-scenes--idea-deployment .work-scenes__deployment-photo--presentation {
-    object-position: 75% center;
-  }
-
-  .work-scenes--idea-deployment .work-scenes__copy,
-  .work-scenes--idea-deployment .work-scenes__deployment-links {
-    grid-column: 1 / -1;
-    width: min(calc(100vw - 48px), 560px);
-    justify-self: center;
-  }
-
-  .ai-lab__mockups {
-    display: block;
-  }
-
-  .ai-lab__browser {
-    width: min(100%, 640px);
-    margin: 0 auto;
-  }
-
-  .ai-lab__device--ipad,
-  .ai-lab__device--mobile {
-    display: none;
-  }
-
-  .skill-transition__title,
+.skill-transition__title,
   .skill-transition__wipe .skill-transition__title {
     color: #ffffff;
   }
@@ -7452,16 +3488,10 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     transition-duration: 450ms;
   }
 
-  .clone-coding__chip,
-  .clone-coding__title-char,
-  .clone-coding__subtitle,
   .skill-content__title-char,
-  .skill-content__subtitle,
-  .quick-qa__title-char,
-  .quick-qa__subtitle,
-  .ai-lab__title-char,
-  .ai-lab__summary,
-  .ai-lab__links {
+.skill-content__subtitle,
+.quick-qa__title-char,
+.quick-qa__subtitle {
     transition-duration: 450ms;
   }
 
@@ -7552,15 +3582,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
   }
 
 
-.ai-lab {
-    padding-bottom: 104px;
-  }
-
-  .clone-coding__stage {
-    padding-top: 110px;
-  }
-
-  .quick-qa__question {
+.quick-qa__question {
     align-items: center;
     gap: 14px;
   }
@@ -7581,40 +3603,9 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
 }
 
 @media (max-width: 430px) {
-  .work-scenes--crafting .work-scenes__device {
-    margin-top: 34px;
-  }
 
-  .work-scenes--together {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: 14px;
-  }
 
-  .work-detail--p2 .work-scenes--community,
-  .work-detail--p2 .work-scenes--sharerun {
-    grid-template-columns: repeat(2, minmax(0, 140px));
-  }
-
-  .work-scenes--community .work-scenes__device--phone-1,
-  .work-scenes--community .work-scenes__device--phone-2,
-  .work-scenes--sharerun .work-scenes__device--phone-1,
-  .work-scenes--sharerun .work-scenes__device--phone-2 {
-    width: 115px;
-  }
-
-  .work-detail--p3 .work-scenes--personalized-matching,
-  .work-detail--p3 .work-scenes--beyond-matching,
-  .work-scenes--idea-deployment {
-    grid-template-columns: repeat(2, minmax(0, 140px));
-  }
-
-  .work-scenes__onboarding-phone,
-  .work-detail--p3 .work-scenes__matching-phone,
-  .work-detail--p3 .work-scenes__beyond-phone {
-    width: 140px;
-  }
-
-  .skill-content__carousel-card {
+.skill-content__carousel-card {
     width: 42px;
     height: 42px;
   }
@@ -7626,9 +3617,7 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
 }
 
 @media (max-width: 375px) {
-  .work-scenes--crafting .work-scenes__device {
-    margin-top: 38px;
-  }
+
 
   .skill-content__carousel-card {
     width: 36px;
@@ -7647,27 +3636,5 @@ body.js-anim .cards-reveal.is-docked .cards-reveal__reveal {
     font-size: 9px;
   }
 
-  .work-detail--p2 .work-scenes--community,
-  .work-detail--p2 .work-scenes--sharerun {
-    grid-template-columns: repeat(2, minmax(0, 128px));
-  }
 
-  .work-scenes--community .work-scenes__device--phone-1,
-  .work-scenes--community .work-scenes__device--phone-2,
-  .work-scenes--sharerun .work-scenes__device--phone-1,
-  .work-scenes--sharerun .work-scenes__device--phone-2 {
-    width: 110px;
-  }
-
-  .work-detail--p3 .work-scenes--personalized-matching,
-  .work-detail--p3 .work-scenes--beyond-matching,
-  .work-scenes--idea-deployment {
-    grid-template-columns: repeat(2, minmax(0, 128px));
-  }
-
-  .work-scenes__onboarding-phone,
-  .work-detail--p3 .work-scenes__matching-phone,
-  .work-detail--p3 .work-scenes__beyond-phone {
-    width: 128px;
-  }
 }

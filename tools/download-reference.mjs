@@ -28,10 +28,6 @@ function discover(source, url, relative) {
     const value = match[1];
     enqueue(relative.endsWith('.js') && !value.includes('/') && /\.(png|webp|jpe?g|svg)$/.test(value) ? `images/${value}` : value, relative.endsWith('.json') ? origin : url);
   }
-  // Material preview paths are assembled from data attributes at runtime.
-  if (relative === 'index.html') {
-    for (const match of text.matchAll(/data-material="([\w-]+)"/g)) enqueue(`images/zara-methodology/${match[1]}.png`);
-  }
 }
 enqueue(origin);
 while (queue.size) {
