@@ -9,12 +9,19 @@
         <link rel="stylesheet" href="../portfolio-tokens.css" />
         <link rel="stylesheet" href="event-page.css" />
     </head>
-    <body id="top">
-        <nav class="event-detail-nav" aria-label="작품 내비게이션"><a href="../index.html#practice">← EVENT PAGE</a><a href="https://www.figma.com/design/VgDn8TpEInUTj3PxseLwwY/?node-id=69-186" target="_blank" rel="noopener noreferrer">FIGMA 원본 ↗</a></nav>
+    <body id="top" class="event-image-viewer">
+        <button class="event-viewer-close" type="button" aria-label="디자인 페이지 닫기">×</button>
         <main>
-            <header class="event-detail-intro"><p>EVENT PAGE · 콤부차</p><h1>TEAZEN</h1><p>할인과 쿠폰, 사은품을 한눈에 확인하도록 구성한 티젠 콤부차 이벤트 페이지입니다. 제품 패키지와 오렌지 컬러를 중심으로 첫 구매 할인, 친구 추천, 랜덤 쿠폰과 증정 혜택을 카드로 정리했습니다.</p></header>
             <div class="event-detail-art"><img src="../images/event-pages/kombucha.png" alt="티젠 콤부차 이벤트 할인 전체 디자인" width="1070" height="3318" /></div>
         </main>
-        <footer class="event-detail-footer"><a href="../index.html#practice">← 포트폴리오로 돌아가기</a><a href="#top">위로 ↑</a></footer>
+        <script>
+            document.querySelector('.event-viewer-close').addEventListener('click', () => {
+                window.close();
+                // 직접 접속한 탭처럼 닫기가 제한된 경우 포트폴리오로 돌아갑니다.
+                window.setTimeout(() => {
+                    window.location.replace('../index.html#practice');
+                }, 150);
+            });
+        </script>
     </body>
 </html>

@@ -9,10 +9,9 @@
         <link rel="stylesheet" href="../portfolio-tokens.css" />
         <link rel="stylesheet" href="event-page.css" />
     </head>
-    <body id="top">
-        <nav class="event-detail-nav" aria-label="작품 내비게이션"><a href="../index.html#practice">← EVENT PAGE</a><a href="https://www.figma.com/design/VgDn8TpEInUTj3PxseLwwY/?node-id=272-699" target="_blank" rel="noopener noreferrer">FIGMA 원본 ↗</a></nav>
+    <body id="top" class="event-image-viewer">
+        <button class="event-viewer-close" type="button" aria-label="디자인 페이지 닫기">×</button>
         <main>
-            <header class="event-detail-intro"><p>EVENT PAGE · 카밀</p><h1>Kamill</h1><p>캐모마일과 독일 핸드케어의 브랜드 이미지를 제품과 구매 혜택으로 연결한 카밀 이벤트 페이지입니다. 성분·향·제품 라인업을 소개하고 할인, 증정과 세트 구성을 순서대로 안내합니다.</p></header>
             <div class="event-detail-art"><div class="event-artboard" style="--art-ratio:1200/29446" role="img" aria-label="카밀 이벤트 페이지 전체 디자인">
                     <img src="../images/event-pages/sections/kamill-132-695.png" alt="" aria-hidden="true" loading="lazy" style="left:0%;top:9.070841540446919%;width:100%;height:0.48903076818583174%" />
                     <img src="../images/event-pages/sections/kamill-132-697.png" alt="" aria-hidden="true" loading="lazy" style="left:0%;top:9.559872308632752%;width:100%;height:5.0159614209060654%" />
@@ -46,6 +45,14 @@
                     <img src="../images/event-pages/sections/kamill-272-684.png" alt="" aria-hidden="true" loading="lazy" style="left:0%;top:98.49215513142701%;width:100%;height:1.494260680567819%" />
                 </div></div>
         </main>
-        <footer class="event-detail-footer"><a href="../index.html#practice">← 포트폴리오로 돌아가기</a><a href="#top">위로 ↑</a></footer>
+        <script>
+            document.querySelector('.event-viewer-close').addEventListener('click', () => {
+                window.close();
+                // 직접 접속한 탭처럼 닫기가 제한된 경우 포트폴리오로 돌아갑니다.
+                window.setTimeout(() => {
+                    window.location.replace('../index.html#practice');
+                }, 150);
+            });
+        </script>
     </body>
 </html>

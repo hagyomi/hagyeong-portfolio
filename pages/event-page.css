@@ -8,3 +8,27 @@ body { background: var(--pf-paper); color: var(--pf-ink); font-family: var(--pf-
 .event-detail-nav a, .event-detail-footer a { min-height: var(--pf-target-min); display: inline-flex; align-items: center; }
 .event-detail-intro h1 { font-family: var(--pf-font-sans); font-weight: var(--pf-weight-regular); }
 .event-detail-intro > p:last-child { font-size: var(--pf-text-body); line-height: var(--pf-leading-body); }
+
+.event-image-viewer { background: #fff; }
+.event-image-viewer .event-detail-art { box-shadow: none; }
+.event-viewer-close {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: #fff;
+    color: #27221e;
+    box-shadow: 0 2px 12px #0002;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+}
+.event-viewer-close:hover { background: #f0f0f0; }
+.event-viewer-close:focus-visible { outline: 2px solid #27221e; outline-offset: 4px; }

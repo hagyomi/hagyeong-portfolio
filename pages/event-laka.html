@@ -9,10 +9,9 @@
         <link rel="stylesheet" href="../portfolio-tokens.css" />
         <link rel="stylesheet" href="event-page.css" />
     </head>
-    <body id="top">
-        <nav class="event-detail-nav" aria-label="작품 내비게이션"><a href="../index.html#practice">← EVENT PAGE</a><a href="https://www.figma.com/design/VgDn8TpEInUTj3PxseLwwY/?node-id=363-787" target="_blank" rel="noopener noreferrer">FIGMA 원본 ↗</a></nav>
+    <body id="top" class="event-image-viewer">
+        <button class="event-viewer-close" type="button" aria-label="디자인 페이지 닫기">×</button>
         <main>
-            <header class="event-detail-intro"><p>EVENT PAGE · 라카</p><h1>Laka</h1><p>맑은 광택과 생기 있는 컬러를 제품 비주얼로 전달하는 라카 이벤트·상세 페이지입니다. 모델 이미지에서 제형과 컬러 가이드, 제품 라인업으로 이어지는 흐름을 구성했습니다.</p></header>
             <div class="event-detail-art"><div class="event-artboard" style="--art-ratio:1200/14048" role="img" aria-label="라카 이벤트 페이지 전체 디자인">
                     <img src="../images/event-pages/sections/laka-363-788.png" alt="" aria-hidden="true" loading="lazy" style="left:0%;top:10.784453302961277%;width:100%;height:4.861902050113896%" />
                     <img src="../images/event-pages/sections/laka-363-791.png" alt="" aria-hidden="true" loading="lazy" style="left:0%;top:29.52733485193622%;width:100%;height:6.513382687927106%" />
@@ -26,6 +25,14 @@
                     <img src="../images/event-pages/sections/laka-363-889.png" alt="" aria-hidden="true" loading="lazy" style="left:0%;top:90.18365603644646%;width:100%;height:9.816343963553532%" />
                 </div></div>
         </main>
-        <footer class="event-detail-footer"><a href="../index.html#practice">← 포트폴리오로 돌아가기</a><a href="#top">위로 ↑</a></footer>
+        <script>
+            document.querySelector('.event-viewer-close').addEventListener('click', () => {
+                window.close();
+                // 직접 접속한 탭처럼 닫기가 제한된 경우 포트폴리오로 돌아갑니다.
+                window.setTimeout(() => {
+                    window.location.replace('../index.html#practice');
+                }, 150);
+            });
+        </script>
     </body>
 </html>
